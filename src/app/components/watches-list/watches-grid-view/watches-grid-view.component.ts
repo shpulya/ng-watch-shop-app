@@ -15,4 +15,8 @@ export class WatchesGridViewComponent implements OnInit {
     public ngOnInit(): void {
     }
 
+    public addWatchToCart(id: number): void {
+
+    }
+
 }

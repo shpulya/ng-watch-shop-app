@@ -1,0 +1,22 @@
+.grid_item {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin: 20px;
+
+    >img {
+        height: 150px;
+    }
+
+    .footer {
+        display: flex;
+        align-items: center;
+        margin-top: 15px;
+        >img {
+            width: 28px;
+            margin-left: 20px;
+        }
+    }
+}

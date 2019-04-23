@@ -8,11 +8,16 @@ import {IWatch} from '../../../app.models';
 })
 export class WatchesListViewComponent implements OnInit {
     @Input() public readonly watch!: IWatch;
+    public orderByVal!: string;
 
 
     constructor() {
     }
 
     public ngOnInit(): void {
+    }
+
+    public addWatchToCart(id: number): void {
+
     }
 }

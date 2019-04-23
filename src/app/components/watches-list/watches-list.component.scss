@@ -3,10 +3,10 @@
     padding-left: 10px;
 }
 
-.list_view i, .grid_view i, #sorting{
-        border: 1px solid #979797;
-        border-radius: 5px;
-        padding: 5px;
+.list_view i, .grid_view i, #sorting {
+    border: 1px solid #979797;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 .mode-view-panel {
@@ -22,3 +22,22 @@
         border: 2px solid #939393;
     }
 }
+
+.container {
+    display: flex;
+    align-items: stretch;
+    align-content: flex-start;
+    width: calc(100% - 100px);
+    padding: 20px 50px;
+}
+
+.list {
+    flex-direction: column;
+}
+
+.grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+

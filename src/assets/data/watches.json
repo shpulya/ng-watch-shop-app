@@ -27,7 +27,7 @@
     },
     {
         "id": 3,
-        "image": "lg-watch-sport.webp",
+        "image": "samsung-gear-s3-classic.jpg",
         "name": "LG Watch Sport",
         "description": "The LG Watch Sport is the brawny and brainy smartwatch that’s able to keep up with all of your gym workouts, and smart enough to make calls and use Google Assistant with or without your phone in tow. It has the best specs of any Google watch so far and runs Android Wear 2.0. We’d only like it better if it had longer battery life and more apps.",
         "manufacturer": "LG",
@@ -118,7 +118,7 @@
     },
     {
         "id": 10,
-        "image": "asus-zenwatch-2.webp",
+        "image": "asus-zenwatch-3.jpg",
         "name": "Asus ZenWatch 2",
         "description": "View timely information at a glance and get things done with a simple touch or voice command.",
         "manufacturer": "Asus",

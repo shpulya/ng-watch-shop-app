@@ -1,12 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import {IWatch} from '../app.models';
 
 @Pipe({
   name: 'orderBy'
 })
 export class OrderByPipe implements PipeTransform {
 
-  transform(value: any, args?: any): any {
-    return null;
+  public transform(watches: Array<IWatch>, orderBy: string): any {
+    if (!watches) { return []; }
+
+
   }
 
 }

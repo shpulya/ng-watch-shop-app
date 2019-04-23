@@ -1,6 +1,7 @@
 export interface IWatch {
     id: number;
     image: string;
+    name: string;
     description: string;
     manufacturer: string;
     screenSize: number;

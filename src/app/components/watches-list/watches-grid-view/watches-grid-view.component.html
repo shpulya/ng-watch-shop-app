@@ -1,3 +1,9 @@
-<p>
-  watches-grid-view works!
-</p>
+<div class="grid_item">
+    <img src="../../../../assets/img/watches/{{watch.image}}" alt="{{watch.image}}">
+    <a routerLink="'watch/'+watch.id">{{watch.name}}</a>
+    <div class="description">{{watch.os}}, {{watch.ramSize}} RAM, {{watch.romSize}} ROM</div>
+    <div class="footer">
+        <app-price-tag [price]="watch.price"></app-price-tag>
+        <img src="../../../../assets/img/cart.png" alt="Add to cart" (click)="addWatchToCart(watch.id)">
+    </div>
+</div>

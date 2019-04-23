@@ -10,6 +10,8 @@ import { WatchesGridViewComponent } from './components/watches-list/watches-grid
 import { WatchesListViewComponent } from './components/watches-list/watches-list-view/watches-list-view.component';
 import {HttpClientModule} from '@angular/common/http';
 import { OrderByPipe } from './pipes/order-by.pipe';
+import { WatchDetailComponent } from './components/watch-detail/watch-detail.component';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -20,12 +22,14 @@ import { OrderByPipe } from './pipes/order-by.pipe';
         WatchesListComponent,
         WatchesGridViewComponent,
         WatchesListViewComponent,
-        OrderByPipe
+        OrderByPipe,
+        WatchDetailComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
-        HttpClientModule
+        HttpClientModule,
+        FormsModule
     ],
     providers: [],
     bootstrap: [AppComponent]

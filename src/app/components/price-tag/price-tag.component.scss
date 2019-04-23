@@ -1,0 +1,42 @@
+.price-tag {
+    display: flex;
+    font-size: 18px;
+    color: #ffffff;
+    padding: 5px 20px;
+    position: relative;
+    background-color: #84bfbd;
+    grid-area: price;
+    align-items: center;
+
+    &__hole {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #ffffff;
+        margin-left: 10px;
+    }
+
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #ffffff;
+    }
+
+    &:before {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #ffffff;
+    }
+}
