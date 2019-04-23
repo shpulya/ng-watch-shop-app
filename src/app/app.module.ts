@@ -13,6 +13,8 @@ import { OrderByPipe } from './pipes/order-by.pipe';
 import { WatchDetailComponent } from './components/watch-detail/watch-detail.component';
 import {FormsModule} from '@angular/forms';
 import { CartComponent } from './components/cart/cart.component';
+import { PaginationPipe } from './pipes/pagination.pipe';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { CartComponent } from './components/cart/cart.component';
         WatchesListViewComponent,
         OrderByPipe,
         WatchDetailComponent,
-        CartComponent
+        CartComponent,
+        PaginationPipe,
+        PaginationComponent
     ],
     imports: [
         BrowserModule,

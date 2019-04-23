@@ -9,8 +9,12 @@ import {IWatch} from '../../app.models';
 })
 export class WatchesComponent implements OnInit {
   public viewMode: string = 'grid';
-  public watches: Array<IWatch> = [];
+
+  public watches!: Array<IWatch>;
+
   public orderBy: string = 'asc';
+
+  public countOnPage: number = 10;
 
   constructor(private watchesService: WatchesService) { }
 

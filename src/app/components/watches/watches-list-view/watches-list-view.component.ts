@@ -8,6 +8,7 @@ import {IWatch} from '../../../app.models';
 })
 export class WatchesListViewComponent implements OnInit {
     @Input() public readonly watch!: IWatch;
+
     public orderByVal!: string;
 
 

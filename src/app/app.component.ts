@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public showCart: boolean = true;
+  public showCart: boolean = false;
 
 }

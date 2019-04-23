@@ -16,6 +16,16 @@
         display: flex;
         justify-content: space-between;
         flex-direction: column;
+
+        >a {
+            color: #0082b3;
+            font-size: 18px;
+        }
+
+        .specifications, .description {
+            color: #666666;
+            font-size: 12px;
+        }
     }
 
     .price-col {

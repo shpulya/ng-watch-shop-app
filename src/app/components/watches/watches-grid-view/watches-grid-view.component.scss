@@ -7,8 +7,20 @@
     align-content: space-between;
     justify-content: space-between;
 
+    >a {
+        color: #0082b3;
+        font-size: 14px;
+        padding-top: 10px;
+    }
+
     >img {
         height: 150px;
+    }
+
+    .description {
+        color: #666666;
+        font-size: 12px;
+        padding: 10px 0;
     }
 
     .footer {
