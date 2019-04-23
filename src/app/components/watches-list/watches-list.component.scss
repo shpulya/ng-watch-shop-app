@@ -1,0 +1,24 @@
+.mode-view-header, .mode-view-panel, .list_view, .grid_view {
+    display: inline-block;
+    padding-left: 10px;
+}
+
+.list_view i, .grid_view i, #sorting{
+        border: 1px solid #979797;
+        border-radius: 5px;
+        padding: 5px;
+}
+
+.mode-view-panel {
+    float: right;
+    line-height: 80px;
+    vertical-align: middle;
+
+    label {
+        margin-right: 10px;
+    }
+
+    .active {
+        border: 2px solid #939393;
+    }
+}

@@ -1,0 +1,34 @@
+<div class="mode-view">
+    <h1 class="mode-view-header" >Smartwatches</h1>
+    <div class="mode-view-panel">
+        <label for="sorting">Sorting</label>
+        <select name="sorting" id="sorting">
+            <option value="asc">Lowest Price</option>
+            <option value="desk">Highest Price</option>
+        </select>
+        <div
+            class="list_view"
+            (click)="changeViewMode()">
+            <i class="fas fa-list {{(viewMode === 'list') ? 'active' : ''}}"></i>
+        </div>
+        <div
+            class="grid_view"
+            (click)="changeViewMode()">
+            <i class="fas fa-th {{(viewMode === 'grid') ? 'active' : ''}}"></i>
+        </div>
+    </div>
+</div>
+
+<ng-container *ngIf="viewMode === 'grid'">
+    <app-watches-grid-view
+        *ngFor="let watch of watches"
+        [watch]="watch">
+    </app-watches-grid-view>
+</ng-container>
+
+<ng-container *ngIf="viewMode === 'list'">
+    <app-watches-grid-view
+        *ngFor="let watch of watches"
+        [watch]="watch">
+    </app-watches-grid-view>
+</ng-container>

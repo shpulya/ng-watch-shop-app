@@ -3,32 +3,31 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {WatchesService} from './services/watches.service';
-import {IWatch} from './app.models';
 import { HeaderComponent } from './components/header/header.component';
 import { PriceTagComponent } from './components/price-tag/price-tag.component';
+import { WatchesListComponent } from './components/watches-list/watches-list.component';
+import { WatchesGridViewComponent } from './components/watches-list/watches-grid-view/watches-grid-view.component';
+import { WatchesListViewComponent } from './components/watches-list/watches-list-view/watches-list-view.component';
+import {HttpClientModule} from '@angular/common/http';
+import { OrderByPipe } from './pipes/order-by.pipe';
+
 
 @NgModule({
     declarations: [
         AppComponent,
         HeaderComponent,
-        PriceTagComponent
+        PriceTagComponent,
+        WatchesListComponent,
+        WatchesGridViewComponent,
+        WatchesListViewComponent,
+        OrderByPipe
     ],
     imports: [
         BrowserModule,
-        AppRoutingModule
+        AppRoutingModule,
+        HttpClientModule
     ],
     providers: [],
     bootstrap: [AppComponent]
 })
-export class AppModule {
-
-    constructor(
-        private watchesService: WatchesService,
-    ) {
-
-        watchesService.getWatchById('some_id').subscribe((watch: IWatch) => {
-            console.log(watch.id);
-        });
-    }
-}
+export class AppModule {}
