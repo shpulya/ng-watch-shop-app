@@ -1,21 +1,29 @@
 .container {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: stretch;
     margin: 30px 10px;
 
     .watch-img-col {
+        width: 12%;
         >img {
-            width: 150px;
+            width: 70%;
         }
     }
 
+    .details-col {
+        width: 76%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+
     .price-col {
-        width: 17%;
+        width: 12%;
         display: flex;
         align-items: flex-start;
         flex-direction: column;
+        justify-content: space-between;
 
         .cart {
             display: flex;

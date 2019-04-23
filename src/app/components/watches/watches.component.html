@@ -2,7 +2,7 @@
     <h1 class="mode-view-header" >Smartwatches</h1>
     <div class="mode-view-panel">
         <label for="sorting">Sorting</label>
-        <select name="sorting" id="sorting" [(ngModel)]="orderByVal">
+        <select name="sorting" id="sorting" [(ngModel)]="orderBy">
             <option value="asc">Lowest Price</option>
             <option value="desk">Highest Price</option>
         </select>
@@ -22,14 +22,14 @@
 
 <div class="container grid" *ngIf="viewMode === 'grid'">
     <app-watches-grid-view
-        *ngFor="let watch of watches | orderBy : orderByVal"
+        *ngFor="let watch of watches | orderBy : orderBy"
         [watch]="watch">
     </app-watches-grid-view>
 </div>
 
 <div class="container list" *ngIf="viewMode === 'list'">
     <app-watches-list-view
-        *ngFor="let watch of watches"
+        *ngFor="let watch of watches | orderBy : orderBy"
         [watch]="watch">
     </app-watches-list-view>
 </div>

@@ -4,12 +4,13 @@ import {IWatch} from '../../app.models';
 
 @Component({
   selector: 'app-watches-list',
-  templateUrl: './watches-list.component.html',
-  styleUrls: ['./watches-list.component.scss']
+  templateUrl: './watches.component.html',
+  styleUrls: ['./watches.component.scss']
 })
-export class WatchesListComponent implements OnInit {
+export class WatchesComponent implements OnInit {
   public viewMode: string = 'grid';
   public watches: Array<IWatch> = [];
+  public orderBy: string = 'asc';
 
   constructor(private watchesService: WatchesService) { }
 
