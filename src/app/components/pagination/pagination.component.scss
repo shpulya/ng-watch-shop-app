@@ -1,0 +1,19 @@
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.page {
+    text-align: center;
+    margin: 10px;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    vertical-align: middle;
+}
+
+.active {
+    background: #84bfbd;
+    border-radius: 3px;
+}

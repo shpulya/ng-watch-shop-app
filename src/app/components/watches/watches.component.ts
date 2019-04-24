@@ -8,15 +8,19 @@ import {IWatch} from '../../app.models';
   styleUrls: ['./watches.component.scss']
 })
 export class WatchesComponent implements OnInit {
+
   public viewMode: string = 'grid';
 
   public watches!: Array<IWatch>;
 
   public orderBy: string = 'asc';
 
-  public countOnPage: number = 10;
+  public countOnPage: number = 8;
 
-  constructor(private watchesService: WatchesService) { }
+  public currentPage: number = 1;
+
+  constructor(private watchesService: WatchesService) {
+  }
 
   public ngOnInit(): void {
       this.getWatches();
@@ -34,5 +38,9 @@ export class WatchesComponent implements OnInit {
       } else {
           this.viewMode = 'grid';
       }
+  }
+
+  public receiveCurrentPage($event: any): void {
+      this.currentPage = $event;
   }
 }
