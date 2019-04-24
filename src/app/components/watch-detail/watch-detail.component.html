@@ -1,3 +1,23 @@
-<p>
-  watch-detail works!
-</p>
+<div class="watch">
+    <div class="watch__img">
+        <img src="../../../../assets/img/watches/{{watch!.image}}" alt="{{watch!.image}}">
+    </div>
+    <div class="watch__data">
+        <h1>{{watch!.name}}</h1>
+        <div class="specifications">
+            {{watch!.os}}, Screen size: {{watch!.screenSize}}, Screen type: {{watch!.screenType}}, {{watch!.ramSize}} RAM, {{watch!.romSize}} ROM
+        </div>
+        <div class="watch__description">
+            {{watch!.description}}
+        </div>
+        <hr>
+    </div>
+    <div class="watch__price">
+        <app-price-tag [price]="watch!.price"></app-price-tag>
+    </div>
+    <div class="watch__cart">
+        <img src="../../../../assets/img/cart.png" alt="Add to cart" id="cart" (click)="addWatchToCart(watch)">
+        <label for="cart">Add to cart</label>
+    </div>
+
+</div>

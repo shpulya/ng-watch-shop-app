@@ -31,6 +31,41 @@
             font-size: 30px;
         }
     }
+
+    &__list {
+        padding: 30px;
+
+        &__item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            &__img {
+                padding: 0 10px;
+
+                >img {
+                    object-fit: fill;
+                    width: 50px;
+                }
+            }
+
+            &__name {
+                width: calc(100% - 350px);
+            }
+
+            &__price, &__acc-price {
+                padding: 0 30px;
+                font-size: 2em;
+            }
+
+            &__counter {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                width: 80px;
+            }
+        }
+    }
 }
 
 .overlay {

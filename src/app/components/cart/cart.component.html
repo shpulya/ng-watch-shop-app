@@ -5,5 +5,20 @@
             <i class="fas fa-times"></i>
         </div>
     </div>
+    <div class="cart__list">
+        <div class="cart__list__item" *ngFor="let watch of watches | async | groupBy">
+            <div class="cart__list__item__img">
+                <img src="../../../../assets/img/watches/{{watch!.item.image}}" alt="{{watch!.item.image}}">
+            </div>
+            <div class="cart__list__item__name">{{watch!.item.name}}</div>
+            <div class="cart__list__item__price">${{watch.item.price}}</div>
+            <div class="cart__list__item__counter">
+                <div class="cart__list__item__counter__reduce" (click)="reduceWatchesCount(watch.item)">-</div>
+                <div class="cart__list__item__counter__number">{{watch.count}}</div>
+                <div class="cart__list__item__counter__increase" (click)="increaseWatchesCount(watch.item)">+</div>
+            </div>
+            <div class="cart__list__item__acc-price">${{watch.count * watch.item.price}}</div>
+        </div>
+    </div>
 </div>
 <div class="overlay" (click)="closeCart()"></div>

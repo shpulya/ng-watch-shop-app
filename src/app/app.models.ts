@@ -21,3 +21,9 @@ export interface IWatch {
 
     price: number;
 }
+
+export interface IGroupWatch {
+    count: number;
+
+    item: IWatch;
+}

@@ -1,0 +1,36 @@
+.watch {
+    display: flex;
+    flex-direction: row;
+    padding: 50px 60px;
+    align-items: center;
+
+    &__data {
+        display: flex;
+        flex-direction: column;
+        align-content: space-between;
+        padding-left: 30px;
+
+        .specifications {
+            padding: 30px 0;
+        }
+    }
+
+    &__img {
+        >img {
+            width: 300px;
+        }
+    }
+
+    &__price {
+        width: 100px;
+        padding: 20px;
+
+    }
+
+    #cart {
+        width: 50px;
+        display: block;
+    }
+
+}
+

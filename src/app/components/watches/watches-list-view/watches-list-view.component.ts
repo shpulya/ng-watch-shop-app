@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IWatch} from '../../../app.models';
+import {CartService} from '../../../services/cart.service';
 
 @Component({
     selector: 'app-watches-list-view',
@@ -12,13 +13,13 @@ export class WatchesListViewComponent implements OnInit {
     public orderByVal!: string;
 
 
-    constructor() {
+    constructor(private cartService: CartService) {
     }
 
     public ngOnInit(): void {
     }
 
-    public addWatchToCart(id: number): void {
-
+    public addWatchToCart(watch: IWatch): void {
+        this.cartService.addWatchToCart(watch);
     }
 }

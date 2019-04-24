@@ -1,15 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {WatchesService} from '../../services/watches.service';
+import {IWatch} from '../../app.models';
+import {CartService} from '../../services/cart.service';
 
 @Component({
-  selector: 'app-watch-detail',
-  templateUrl: './watch-detail.component.html',
-  styleUrls: ['./watch-detail.component.scss']
+    selector: 'app-watch-detail',
+    templateUrl: './watch-detail.component.html',
+    styleUrls: ['./watch-detail.component.scss']
 })
 export class WatchDetailComponent implements OnInit {
+    private routeSubscription: Subscription;
+    private watchId!: number;
+    public watch!: IWatch | null;
 
-  constructor() { }
+    constructor(
+        private route: ActivatedRoute,
+        private watchesService: WatchesService,
+        private cartService: CartService) {
+        this.routeSubscription = route.params.subscribe((params: any) => this.watchId = parseInt(params['watchId'], 10));
+    }
 
-  public ngOnInit(): void {
-  }
+    public ngOnInit(): void {
+        this.watch = this.watchesService.getWatchById(this.watchId);
+    }
+
+    public addWatchToCart(watch: IWatch): void {
+        this.cartService.addWatchToCart(watch);
+    }
 
 }

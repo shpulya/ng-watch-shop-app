@@ -1,5 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {IWatch} from '../../../app.models';
+import {CartService} from '../../../services/cart.service';
 
 @Component({
     selector: 'app-watches-grid-view',
@@ -9,14 +10,14 @@ import {IWatch} from '../../../app.models';
 export class WatchesGridViewComponent implements OnInit {
     @Input() public readonly watch!: IWatch;
 
-    constructor() {
+    constructor(private cartService: CartService) {
     }
 
     public ngOnInit(): void {
     }
 
-    public addWatchToCart(id: number): void {
-
+    public addWatchToCart(watch: IWatch): void {
+        this.cartService.addWatchToCart(watch);
     }
 
 }

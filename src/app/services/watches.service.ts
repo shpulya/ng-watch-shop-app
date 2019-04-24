@@ -34,24 +34,20 @@ export class WatchesService {
 
     }
 
-    public getWatchById(id: number): Observable<IWatch> {
+    public getWatchById(id: number): IWatch | null {
+        const watches = this.watches$.getValue();
 
-        const watch$ = new Subject<IWatch>();
+        if (!watches || !watches.length) {
+            return null;
+        }
 
-        this.getWatches()
-            .pipe(first())
-            .subscribe((watches: Array<IWatch>) => {
-                for (const watch of watches) {
-                    if (watch.id === id) {
-                         watch$.next(watch);
-                         break;
-                    }
-                }
-            })
-        ;
+        for (const watch of watches) {
+            if (watch.id === id) {
+                return watch;
+            }
+        }
 
-        return watch$;
+        return null;
     }
-
 
 }

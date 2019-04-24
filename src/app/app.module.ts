@@ -15,6 +15,7 @@ import {FormsModule} from '@angular/forms';
 import { CartComponent } from './components/cart/cart.component';
 import { PaginationPipe } from './pipes/pagination.pipe';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { GroupByPipe } from './pipes/group-by.pipe';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { PaginationComponent } from './components/pagination/pagination.componen
         WatchDetailComponent,
         CartComponent,
         PaginationPipe,
-        PaginationComponent
+        PaginationComponent,
+        GroupByPipe
     ],
     imports: [
         BrowserModule,
