@@ -10,13 +10,13 @@ import {IWatch} from '../../app.models';
 export class CartComponent implements OnInit {
     @Output() public $showCartEmit: any = new EventEmitter<boolean>();
 
-    public watches!: any;
+    public cartList: any;
 
     constructor(private cartService: CartService) {
     }
 
     public ngOnInit(): void {
-        this.watches = this.cartService.cartList$;
+        this.cartList = this.cartService.getCartList();
     }
 
     public closeCart(): void {
@@ -29,5 +29,9 @@ export class CartComponent implements OnInit {
 
     public increaseWatchesCount(watch: IWatch): void {
         this.cartService.addWatchToCart(watch);
+    }
+
+    public getItemsCount(watch: IWatch): any {
+        return this.cartList[1][this.cartList[0].indexOf(watch)];
     }
 }

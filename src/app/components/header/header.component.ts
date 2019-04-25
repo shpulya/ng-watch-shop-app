@@ -9,13 +9,18 @@ import {CartService} from '../../services/cart.service';
 export class HeaderComponent implements OnInit {
     @Output() public $showCartEmit: any = new EventEmitter<boolean>();
 
-    public counter!: number;
+    public counter: number = 0;
 
     constructor(private cartService: CartService) {
     }
 
     public ngOnInit(): void {
+
+    }
+
+    public getCounter(): number {
         this.counter = this.cartService.countWatchesItemInList();
+        return this.counter;
     }
 
     public showCart(): void {

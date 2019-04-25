@@ -1,37 +1,51 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
 import {IWatch} from '../app.models';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CartService {
-    public cartList$: BehaviorSubject<Array<IWatch>> = new BehaviorSubject<Array<IWatch>>([]);
+
+    public cartList: any [][] = [[], []];
 
     constructor() {
     }
 
     public addWatchToCart(watch: IWatch): void {
-        let cartList = this.cartList$.getValue();
 
-        cartList.push(watch);
-        this.cartList$.next(cartList);
+        if (this.cartList[0].includes(watch)) {
+            this.cartList[1][this.cartList[0].indexOf(watch)] =  this.cartList[1][this.cartList[0].indexOf(watch)] + 1;
+        } else {
+            this.cartList[0].push(watch);
+            this.cartList[1].push(1);
+        }
+
+        this.countWatchesItemInList();
     }
 
-    public deleteWatchFromCart(watch: IWatch): void {
-        let cartList = this.cartList$.getValue();
 
-        if (cartList.includes(watch)) {
-            cartList.splice(cartList.indexOf(watch), 1);
+
+    public deleteWatchFromCart(watch: IWatch): void {
+
+        if (this.cartList[0].includes(watch)) {
+           if (this.cartList[1][this.cartList[0].indexOf(watch)] === 1) {
+               this.cartList[0].splice(this.cartList[0].indexOf(watch), 1);
+               this.cartList[1].splice(this.cartList[0].indexOf(watch), 1);
+           } else {
+               this.cartList[1][this.cartList[0].indexOf(watch)] =  this.cartList[1][this.cartList[0].indexOf(watch)] - 1;
+           }
         }
-        this.cartList$.next(cartList);
     }
 
 
     public countWatchesItemInList(): number {
-        if () {
-            return this.cartList$.getValue().length;
-        }
+
+        return (this.cartList[1].reduce((acc: number, currentVal: number) => acc + currentVal, 0));
+    }
+
+    public getCartList(): any {
+
+        return this.cartList;
     }
 
 }

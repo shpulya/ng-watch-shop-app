@@ -4,6 +4,6 @@
     </div>
     <div class="header__cart" (click)="showCart()">
         <img src="../../../assets/img/cart.png" alt="">
-        <div class="header__cart__counter"  *ngIf="counter">{{counter}}</div>
+        <div class="header__cart__counter" *ngIf="getCounter()">{{getCounter()}}</div>
     </div>
 </div>
