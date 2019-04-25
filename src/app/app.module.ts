@@ -15,6 +15,7 @@ import {FormsModule} from '@angular/forms';
 import { CartComponent } from './components/cart/cart.component';
 import { PaginationPipe } from './pipes/pagination.pipe';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import { PaginationComponent } from './components/pagination/pagination.componen
         WatchDetailComponent,
         CartComponent,
         PaginationPipe,
-        PaginationComponent
+        PaginationComponent,
+        SidenavComponent
     ],
     imports: [
         BrowserModule,

@@ -1,15 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {IWatch} from '../app.models';
-import {first} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
 })
 export class WatchesService {
 
-    private watches$: BehaviorSubject<Array<IWatch>> = new BehaviorSubject<Array<IWatch>>([]);
+    private FILTERS: Array<string> = ['manufacturer', 'screenSize', 'screenType', 'os', 'ramSize', 'romSize'];
+
+    private watches$: BehaviorSubject<Array<any>> = new BehaviorSubject<Array<IWatch>>([]);
 
     constructor(
         private http: HttpClient
@@ -48,6 +49,33 @@ export class WatchesService {
         }
 
         return null;
+    }
+
+
+    private getFiltersMap(): any {
+        const watches = this.watches$.getValue();
+        const filtersMap = new Map();
+
+        if (!watches || !watches.length) {
+            return null;
+        }
+
+        for (const filter of this.FILTERS) {
+
+            const setPropsByFilter = new Set();
+
+            for (const watch of watches) {
+
+                if (watch.hasOwnProperty(filter)) {
+                    setPropsByFilter.add(watch[filter]);
+                }
+            }
+
+            filtersMap.set(filter, setPropsByFilter);
+
+        }
+
+        return filtersMap;
     }
 
 }
