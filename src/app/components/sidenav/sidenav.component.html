@@ -1,0 +1,21 @@
+<div class="sidenav">
+    Filters
+
+    <ul>
+      <li *ngFor="let filter of filtersMapKeys">{{filter!}}
+          <div class="sidenav__price" *ngIf="filter === 'price'">
+              <input type="number" value="{{filtersMap!.get(filter)['from']}}">
+              -
+              <input type="number" value="{{filtersMap!.get(filter)['to']}}">
+              $
+          </div>
+
+          <ng-container *ngIf="filter !== 'price'">
+              <label *ngFor="let property of filtersMap!.get(filter)">
+                  <input type="checkbox" name="{{filter}}" value="{{property}}" (change)="changeFilterToMap(filter, property)"/>
+                    {{property}}
+              </label>
+          </ng-container>
+      </li>
+    </ul>
+</div>
