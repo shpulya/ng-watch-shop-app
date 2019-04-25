@@ -3,7 +3,7 @@ import {WatchesService} from '../../services/watches.service';
 import {IWatch} from '../../app.models';
 
 @Component({
-  selector: 'app-watches-list',
+  selector: 'app-watches',
   templateUrl: './watches.component.html',
   styleUrls: ['./watches.component.scss']
 })

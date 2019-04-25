@@ -1,3 +1,8 @@
+.body {
+    display: flex;
+    flex-direction: row;
+}
+
 .mode-view-header, .mode-view-panel, .list_view, .grid_view {
     display: inline-block;
 }
@@ -21,6 +26,7 @@
     float: right;
     line-height: 80px;
     vertical-align: middle;
+    padding-right: 80px;
 
     label {
         margin-right: 10px;
