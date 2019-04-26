@@ -1,29 +1,40 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'app-pagination',
     templateUrl: './pagination.component.html',
     styleUrls: ['./pagination.component.scss']
 })
-export class PaginationComponent implements OnInit {
+export class PaginationComponent implements OnChanges {
 
-    @Input() public watchesCount!: number;
+    @Input()
+    public itemsCount!: number;
 
-    @Input() public readonly countOnPage!: number;
+    @Input()
+    public readonly countOnPage!: number;
 
-    @Input() public currentPage!: number;
+    @Input()
+    public currentPage: number = 1;
 
-    @Output() public $activePageEvent: any = new EventEmitter<number>();
+    @Output()
+    public $activePageEvent: any = new EventEmitter<number>();
 
     public countPages: number = 0;
 
     public pages: Array<number> = [];
 
-    constructor() {
-    }
+    // constructor() {
+    // }
 
-    public ngOnInit(): void {
-        this.countPages = Math.ceil(this.watchesCount / this.countOnPage);
+    public ngOnChanges(changes: SimpleChanges): void {
+        const { itemsCount } = changes;
+        console.log(changes);
+
+        if (itemsCount) {
+            this.countPages = Math.ceil(itemsCount.currentValue / this.countOnPage);
+        }
+        this.pages = [];
 
         for (let i = 1; i < this.countPages + 1; i++) {
             this.pages.push(i);

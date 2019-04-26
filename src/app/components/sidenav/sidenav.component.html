@@ -2,17 +2,18 @@
     Filters
 
     <ul>
+        <li>
+            <div class="price">
+                <input type="number"  (change)="setPrice('from', $event.target.value)">
+                -
+                <input type="number" (change)="setPrice('to', $event.target.value)">
+                $
+            </div>
+        </li>
       <li *ngFor="let filter of filtersMapKeys">{{filter!}}
-          <div class="sidenav__price" *ngIf="filter === 'price'">
-              <input type="number" value="{{filtersMap!.get(filter)['from']}}">
-              -
-              <input type="number" value="{{filtersMap!.get(filter)['to']}}">
-              $
-          </div>
-
-          <ng-container *ngIf="filter !== 'price'">
+          <ng-container>
               <label *ngFor="let property of filtersMap!.get(filter)">
-                  <input type="checkbox" name="{{filter}}" value="{{property}}" (change)="onFiltersChecked(filter, property)"/>
+                  <input type="checkbox" name="{{filter}}" value="{{property}}" (change)="onFilterChecked(filter, property)"/>
                     {{property}}
               </label>
           </ng-container>

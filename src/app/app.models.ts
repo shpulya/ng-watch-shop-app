@@ -22,8 +22,8 @@ export interface IWatch {
     price: number;
 }
 
-export interface IGroupWatch {
-    count: number;
+export interface IPrice {
+    from: number;
 
-    item: IWatch;
+    to: number;
 }

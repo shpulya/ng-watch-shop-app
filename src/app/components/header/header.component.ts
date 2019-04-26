@@ -8,7 +8,8 @@ import { CartService } from '../../services/cart.service';
 })
 export class HeaderComponent implements OnInit {
 
-    @Output() public $showCartEmit: any = new EventEmitter<boolean>();
+    @Output()
+    public $showCartEmit: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     public counter: number = 0;
 

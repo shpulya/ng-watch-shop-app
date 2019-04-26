@@ -1,14 +1,12 @@
 <div class="body">
-    <app-sidenav>
-
-    </app-sidenav>
+    <app-sidenav (filtersEmit$)="receiveCategorisFilter($event)" (priceEmit$)="receivePriceFilter($event)"></app-sidenav>
 
     <div class="main-content">
         <div class="mode-view">
             <h1 class="mode-view-header">Smartwatches</h1>
             <div class="mode-view-panel">
                 <label for="sorting">Sorting</label>
-                <select name="sorting" id="sorting" [(ngModel)]="orderBy" (change)="currentPage = 1">
+                <select name="sorting" id="sorting" [(ngModel)]="orderBy" (change)="orderWatches()">
                     <option value="asc">Lowest Price</option>
                     <option value="desk">Highest Price</option>
                 </select>
@@ -28,25 +26,25 @@
 
         <div class="container grid" *ngIf="viewMode === 'grid'">
             <app-watches-grid-view
-                *ngFor="let watch of watches | orderBy : orderBy | pagination : currentPage : countOnPage"
+                *ngFor="let watch of pagedWatches"
                 [watch]="watch">
             </app-watches-grid-view>
         </div>
 
         <div class="container list" *ngIf="viewMode === 'list'">
             <app-watches-list-view
-                *ngFor="let watch of watches | orderBy : orderBy | pagination : currentPage : countOnPage"
+                *ngFor="let watch of pagedWatches"
                 [watch]="watch">
             </app-watches-list-view>
         </div>
 
         <hr *ngIf="viewMode === 'grid'">
         <app-pagination
-            *ngIf="watches?.length"
-            [watchesCount]="watches?.length"
-            [countOnPage]="countOnPage"
+            *ngIf="watchesCount"
             [currentPage]="currentPage"
-            ($activePageEvent)="receiveCurrentPage($event)">
+            [itemsCount]="watchesCount"
+            [countOnPage]="countOnPage"
+            ($activePageEvent)="outputWatchesOnPage($event)">
         </app-pagination>
     </div>
 </div>

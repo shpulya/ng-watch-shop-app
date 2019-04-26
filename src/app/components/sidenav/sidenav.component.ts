@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { WatchesService } from '../../services/watches.service';
-import { IWatch } from '../../app.models';
+import {IPrice, IWatch} from '../../app.models';
+
+type TFilterMap = Map<keyof IWatch, Set<string | number>>;
 
 @Component({
     selector: 'app-sidenav',
@@ -9,15 +11,21 @@ import { IWatch } from '../../app.models';
 })
 export class SidenavComponent implements OnInit {
 
+    @Output()
+    public filtersEmit$: EventEmitter<TFilterMap> = new EventEmitter<TFilterMap>();
+
+    @Output()
+    public priceEmit$: EventEmitter<IPrice> = new EventEmitter<IPrice>();
+
     public filtersMapKeys!: Array<keyof IWatch>;
 
-    public filtersMap: Map<keyof IWatch, Set<keyof IWatch>> = new Map();
+    public filtersMap: TFilterMap = new Map<keyof IWatch, Set<string | number>>();
 
-    public checkedFiltersMap: Map<keyof IWatch, Set<keyof IWatch>> = new Map();
+    public checkedFiltersMap: TFilterMap = new Map<keyof IWatch, Set<string | number>>();
 
     private filters: Array<keyof IWatch> = ['manufacturer', 'screenSize', 'screenType', 'os', 'ramSize', 'romSize'];
 
-    private priceSet: Set<{}> = new Set([{from: 0}, {to: 999999}]);
+    private price: IPrice = {from: 0, to: 999999};
 
 
     constructor(private watchesService: WatchesService) {
@@ -30,17 +38,24 @@ export class SidenavComponent implements OnInit {
 
     }
 
-    public onFiltersChecked(category: keyof IWatch, value: any): void {
+    public setPrice(priceKey: keyof IPrice, value: number): void {
+        this.price[priceKey] = value;
+        this.priceEmit$.emit(this.price);
+    }
 
-        const currentCategory = this.checkedFiltersMap.get(category);
+
+    public onFilterChecked(category: keyof IWatch, value: string | number): void {
 
         if (!this.checkedFiltersMap.has(category)) {
-            const filtersSet: Set<keyof IWatch> = new Set();
-
+            const filtersSet: Set<string | number> = new Set();
             filtersSet.add(value);
             this.checkedFiltersMap.set(category, filtersSet);
-            console.log(this.checkedFiltersMap);
+            this.filtersEmit$.emit(this.checkedFiltersMap);
+
+            return;
         }
+
+        const currentCategory = this.checkedFiltersMap.get(category);
 
         if (!currentCategory) {
             return;
@@ -48,15 +63,15 @@ export class SidenavComponent implements OnInit {
 
         if (currentCategory && currentCategory.has(value)) {
             currentCategory.delete(value);
-        } else {
+        } else if (currentCategory && !currentCategory.has(value)) {
             currentCategory.add(value);
         }
 
-        if (!currentCategory.size) {
+        if (currentCategory && !currentCategory.size) {
             this.checkedFiltersMap.delete(category);
         }
 
-        console.log(this.checkedFiltersMap);
+        this.filtersEmit$.emit(this.checkedFiltersMap);
     }
 
 

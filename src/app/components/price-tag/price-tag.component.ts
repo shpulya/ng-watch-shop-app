@@ -6,7 +6,9 @@ import { Component, OnInit, Input } from '@angular/core';
     styleUrls: ['./price-tag.component.scss']
 })
 export class PriceTagComponent implements OnInit {
-    @Input() public readonly price!: number;
+
+    @Input()
+    public readonly price!: number;
 
     constructor() {
     }
