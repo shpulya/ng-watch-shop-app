@@ -1,51 +1,61 @@
-import {Injectable} from '@angular/core';
-import {IWatch} from '../app.models';
+import { Injectable } from '@angular/core';
+import { IWatch } from '../app.models';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CartService {
 
-    public cartList: any [][] = [[], []];
+    public cartMap: Map<IWatch, number> = new Map();
 
     constructor() {
     }
 
     public addWatchToCart(watch: IWatch): void {
+        const cart = this.cartMap;
 
-        if (this.cartList[0].includes(watch)) {
-            this.cartList[1][this.cartList[0].indexOf(watch)] =  this.cartList[1][this.cartList[0].indexOf(watch)] + 1;
-        } else {
-            this.cartList[0].push(watch);
-            this.cartList[1].push(1);
+        if (!cart.has(watch)) {
+            cart.set(watch, 1);
+        }
+
+        const watchCount = cart.get(watch);
+
+        if (!watchCount) {
+            return;
+        }
+
+        if (cart && cart.has(watch)) {
+            cart.delete(watch)
+            cart.set(watch, watchCount + 1);
         }
 
         this.countWatchesItemInList();
     }
 
 
-
     public deleteWatchFromCart(watch: IWatch): void {
+        const watchCount = this.cartMap.get(watch);
 
-        if (this.cartList[0].includes(watch)) {
-           if (this.cartList[1][this.cartList[0].indexOf(watch)] === 1) {
-               this.cartList[0].splice(this.cartList[0].indexOf(watch), 1);
-               this.cartList[1].splice(this.cartList[0].indexOf(watch), 1);
-           } else {
-               this.cartList[1][this.cartList[0].indexOf(watch)] =  this.cartList[1][this.cartList[0].indexOf(watch)] - 1;
-           }
+        if (!watchCount) {
+            return;
         }
+
+        this.cartMap.delete(watch);
+
+        if (watchCount > 1) {
+            this.cartMap.set(watch, watchCount - 1);
+        }
+
     }
 
 
     public countWatchesItemInList(): number {
 
-        return (this.cartList[1].reduce((acc: number, currentVal: number) => acc + currentVal, 0));
+        return Array.from(this.cartMap.values()).reduce((acc: number, currentVal: number) => acc + currentVal, 0);
     }
 
-    public getCartList(): any {
-
-        return this.cartList;
+    public getCartMap(): Map<IWatch, number> {
+        return this.cartMap;
     }
 
 }

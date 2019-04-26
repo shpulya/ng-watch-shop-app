@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {IWatch} from '../../../app.models';
-import {CartService} from '../../../services/cart.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { IWatch } from '../../../app.models';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
     selector: 'app-watches-list-view',
@@ -8,6 +8,7 @@ import {CartService} from '../../../services/cart.service';
     styleUrls: ['./watches-list-view.component.scss']
 })
 export class WatchesListViewComponent implements OnInit {
+
     @Input() public readonly watch!: IWatch;
 
     public orderByVal!: string;

@@ -1,6 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {CartService} from '../../services/cart.service';
-import {IWatch} from '../../app.models';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { CartService } from '../../services/cart.service';
+import { IWatch } from '../../app.models';
 
 @Component({
     selector: 'app-cart',
@@ -8,15 +8,19 @@ import {IWatch} from '../../app.models';
     styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
+
     @Output() public $showCartEmit: any = new EventEmitter<boolean>();
 
-    public cartList: any;
+    public cartMap: Map<IWatch, number> = new Map<IWatch, number>();
+
+    public watchesList: Array<IWatch> = [];
 
     constructor(private cartService: CartService) {
     }
 
     public ngOnInit(): void {
-        this.cartList = this.cartService.getCartList();
+        this.cartMap = this.cartService.getCartMap();
+        this.watchesList = Array.from(this.cartMap.keys());
     }
 
     public closeCart(): void {
@@ -32,6 +36,6 @@ export class CartComponent implements OnInit {
     }
 
     public getItemsCount(watch: IWatch): any {
-        return this.cartList[1][this.cartList[0].indexOf(watch)];
+        return this.cartMap.get(watch);
     }
 }

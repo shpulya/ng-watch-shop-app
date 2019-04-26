@@ -1,5 +1,5 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
-import {CartService} from '../../services/cart.service';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { CartService } from '../../services/cart.service';
 
 @Component({
     selector: 'app-header',
@@ -7,6 +7,7 @@ import {CartService} from '../../services/cart.service';
     styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+
     @Output() public $showCartEmit: any = new EventEmitter<boolean>();
 
     public counter: number = 0;

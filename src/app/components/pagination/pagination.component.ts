@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'app-pagination',
@@ -6,7 +6,8 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
     styleUrls: ['./pagination.component.scss']
 })
 export class PaginationComponent implements OnInit {
-    @Input()  public watchesCount!: number;
+
+    @Input() public watchesCount!: number;
 
     @Input() public readonly countOnPage!: number;
 

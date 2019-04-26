@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
-import {WatchesService} from '../../services/watches.service';
-import {IWatch} from '../../app.models';
-import {CartService} from '../../services/cart.service';
+import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { WatchesService } from '../../services/watches.service';
+import { IWatch } from '../../app.models';
+import { CartService } from '../../services/cart.service';
 
 @Component({
     selector: 'app-watch-detail',
@@ -11,9 +11,12 @@ import {CartService} from '../../services/cart.service';
     styleUrls: ['./watch-detail.component.scss']
 })
 export class WatchDetailComponent implements OnInit {
-    private routeSubscription: Subscription;
-    private watchId!: number;
+
     public watch!: IWatch | null;
+
+    private routeSubscription: Subscription;
+
+    private watchId!: number;
 
     constructor(
         private route: ActivatedRoute,

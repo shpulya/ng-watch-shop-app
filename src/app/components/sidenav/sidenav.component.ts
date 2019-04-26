@@ -1,6 +1,6 @@
-import {Component, OnInit, Output} from '@angular/core';
-import {WatchesService} from '../../services/watches.service';
-import {IWatch} from '../../app.models';
+import { Component, OnInit } from '@angular/core';
+import { WatchesService } from '../../services/watches.service';
+import { IWatch } from '../../app.models';
 
 @Component({
     selector: 'app-sidenav',
@@ -9,15 +9,15 @@ import {IWatch} from '../../app.models';
 })
 export class SidenavComponent implements OnInit {
 
-    public filtersMapKeys: any;
+    public filtersMapKeys!: Array<keyof IWatch>;
 
-    private FILTERS: Array<string> = ['manufacturer', 'screenSize', 'screenType', 'os', 'ramSize', 'romSize'];
+    public filtersMap: Map<keyof IWatch, Set<keyof IWatch>> = new Map();
 
-    private priceSet: Set<any> = new Set([{'from': 0}, {'to': 999999}]);
+    public checkedFiltersMap: Map<keyof IWatch, Set<keyof IWatch>> = new Map();
 
-    public filtersMap: Map<string, Set<any>> = new Map(Object.entries({'price': this.priceSet}));
+    private filters: Array<keyof IWatch> = ['manufacturer', 'screenSize', 'screenType', 'os', 'ramSize', 'romSize'];
 
-    public checkedFiltersMap: Map<string, Set<any>> = new Map(Object.entries({'price': this.priceSet}));
+    private priceSet: Set<{}> = new Set([{from: 0}, {to: 999999}]);
 
 
     constructor(private watchesService: WatchesService) {
@@ -30,9 +30,39 @@ export class SidenavComponent implements OnInit {
 
     }
 
-    private getFiltersMap(watches: Array<any>): void {
+    public onFiltersChecked(category: keyof IWatch, value: any): void {
 
-        for (const filter of this.FILTERS) {
+        const currentCategory = this.checkedFiltersMap.get(category);
+
+        if (!this.checkedFiltersMap.has(category)) {
+            const filtersSet: Set<keyof IWatch> = new Set();
+
+            filtersSet.add(value);
+            this.checkedFiltersMap.set(category, filtersSet);
+            console.log(this.checkedFiltersMap);
+        }
+
+        if (!currentCategory) {
+            return;
+        }
+
+        if (currentCategory && currentCategory.has(value)) {
+            currentCategory.delete(value);
+        } else {
+            currentCategory.add(value);
+        }
+
+        if (!currentCategory.size) {
+            this.checkedFiltersMap.delete(category);
+        }
+
+        console.log(this.checkedFiltersMap);
+    }
+
+
+    private getFiltersMap(watches: Array<IWatch>): void {
+
+        for (const filter of this.filters) {
 
             const setPropsByFilter = new Set();
 
@@ -46,41 +76,5 @@ export class SidenavComponent implements OnInit {
         }
 
         this.filtersMapKeys = Array.from(this.filtersMap.keys());
-    }
-
-    public changeFilterToMap(mapKey: string, setValue: any): void {
-
-        if (this.checkedFiltersMap.has(mapKey) == false) {
-            const filtersSet: any = new Set();
-
-            filtersSet.add(setValue);
-            this.checkedFiltersMap.set(mapKey, filtersSet);
-            console.log(this.checkedFiltersMap);
-
-            return;
-        }
-
-
-
-        if (this.checkedFiltersMap.has(mapKey) && !this.checkedFiltersMap.get(mapKey)!.has(setValue)) {
-            this.checkedFiltersMap.get(mapKey)!.add(setValue);
-            console.log(this.checkedFiltersMap);
-            return;
-        }
-
-
-        if (this.checkedFiltersMap.has(mapKey) && this.checkedFiltersMap.get(mapKey)!.has(setValue)) {
-
-            if (this.checkedFiltersMap.get(mapKey)!.size === 0) {
-                console.log(this.checkedFiltersMap.get(mapKey)!.size);
-                this.checkedFiltersMap.delete(mapKey);
-            } else {
-                this.checkedFiltersMap.get(mapKey)!.delete(setValue);
-            }
-            console.log(this.checkedFiltersMap);
-
-            return;
-        }
-
     }
 }

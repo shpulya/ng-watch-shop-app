@@ -1,6 +1,6 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {IWatch} from '../../../app.models';
-import {CartService} from '../../../services/cart.service';
+import { Component, OnInit, Input } from '@angular/core';
+import { IWatch } from '../../../app.models';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
     selector: 'app-watches-grid-view',
@@ -8,6 +8,7 @@ import {CartService} from '../../../services/cart.service';
     styleUrls: ['./watches-grid-view.component.scss']
 })
 export class WatchesGridViewComponent implements OnInit {
+
     @Input() public readonly watch!: IWatch;
 
     constructor(private cartService: CartService) {

@@ -6,18 +6,18 @@
         </div>
     </div>
     <div class="cart__list">
-        <div class="cart__list__item" *ngFor="let item of cartList[0] ">
+        <div class="cart__list__item" *ngFor="let watch of watchesList">
             <div class="cart__list__item__img">
-                <img src="../../../../assets/img/watches/{{item.image}}" alt="{{item.image}}">
+                <img src="../../../../assets/img/watches/{{watch.image}}" alt="{{watch.image}}">
             </div>
-            <div class="cart__list__item__name">{{item.name}}</div>
-            <div class="cart__list__item__price">${{item.price}}</div>
+            <div class="cart__list__item__name">{{watch.name}}</div>
+            <div class="cart__list__item__price">${{watch.price}}</div>
             <div class="cart__list__item__counter">
-                <div class="cart__list__item__counter__reduce" (click)="reduceWatchesCount(item)">-</div>
-                <div class="cart__list__item__counter__number">{{getItemsCount(item)}}</div>
-                <div class="cart__list__item__counter__increase" (click)="increaseWatchesCount(item)">+</div>
+                <div class="cart__list__item__counter__reduce" (click)="reduceWatchesCount(watch)">-</div>
+                <div class="cart__list__item__counter__number">{{getItemsCount(watch)}}</div>
+                <div class="cart__list__item__counter__increase" (click)="increaseWatchesCount(watch)">+</div>
             </div>
-            <div class="cart__list__item__acc-price">${{getItemsCount(item) * item.price}}</div>
+            <div class="cart__list__item__acc-price">${{getItemsCount(watch) * watch.price}}</div>
         </div>
     </div>
 </div>

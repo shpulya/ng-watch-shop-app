@@ -12,7 +12,7 @@
 
           <ng-container *ngIf="filter !== 'price'">
               <label *ngFor="let property of filtersMap!.get(filter)">
-                  <input type="checkbox" name="{{filter}}" value="{{property}}" (change)="changeFilterToMap(filter, property)"/>
+                  <input type="checkbox" name="{{filter}}" value="{{property}}" (change)="onFiltersChecked(filter, property)"/>
                     {{property}}
               </label>
           </ng-container>
