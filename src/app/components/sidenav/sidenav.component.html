@@ -1,22 +1,31 @@
 <div class="sidenav">
-    Filters
+    <h2>Filters</h2>
 
     <ul>
         <li>
-            <div class="price">
-                <input type="number"  (change)="setPrice('from', $event.target.value)">
+            <div class="filter-header" (click)="showPriceFilter = !showPriceFilter">Price
+                <i class="fas fa-angle-down" *ngIf="showPriceFilter"></i>
+                <i class="fas fa-angle-left" *ngIf="!showPriceFilter"></i>
+            </div>
+            <div class="price" *ngIf="showPriceFilter">
+                <input type="number" (change)="setPrice('from', $event.target.value)">
                 -
                 <input type="number" (change)="setPrice('to', $event.target.value)">
                 $
             </div>
         </li>
-      <li *ngFor="let filter of filtersMapKeys">{{filter!}}
-          <ng-container>
-              <label *ngFor="let property of filtersMap!.get(filter)">
-                  <input type="checkbox" name="{{filter}}" value="{{property}}" (change)="onFilterChecked(filter, property)"/>
+        <li *ngFor="let filter of filtersMapKeys; let i = index" >
+            <div class="filter-header" (click)="filters[i].showFilter = !filters[i].showFilter">{{filter!}}
+                <i class="fas fa-angle-down" *ngIf="filters[i].showFilter"></i>
+                <i class="fas fa-angle-left" *ngIf="!filters[i].showFilter"></i>
+            </div>
+            <ng-container *ngIf="filters[i].showFilter">
+                <label *ngFor="let property of filtersMap!.get(filter)">
+                    <input type="checkbox" name="{{filter}}" value="{{property}}"
+                           (change)="onFilterChecked(filter, property)"/>
                     {{property}}
-              </label>
-          </ng-container>
-      </li>
+                </label>
+            </ng-container>
+        </li>
     </ul>
 </div>

@@ -1,8 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { WatchesService } from '../../services/watches.service';
-import {IPrice, IWatch} from '../../app.models';
+import { IPrice, IWatch } from '../../app.models';
 
 type TFilterMap = Map<keyof IWatch, Set<string | number>>;
+
+interface IFilter {
+    name: keyof IWatch;
+    showFilter: boolean;
+}
 
 @Component({
     selector: 'app-sidenav',
@@ -17,13 +22,21 @@ export class SidenavComponent implements OnInit {
     @Output()
     public priceEmit$: EventEmitter<IPrice> = new EventEmitter<IPrice>();
 
+    public showPriceFilter: boolean = false;
+
     public filtersMapKeys!: Array<keyof IWatch>;
 
     public filtersMap: TFilterMap = new Map<keyof IWatch, Set<string | number>>();
 
     public checkedFiltersMap: TFilterMap = new Map<keyof IWatch, Set<string | number>>();
 
-    private filters: Array<keyof IWatch> = ['manufacturer', 'screenSize', 'screenType', 'os', 'ramSize', 'romSize'];
+    private filters: Array<IFilter> = [
+        {name: 'manufacturer', showFilter: false},
+        {name: 'screenSize', showFilter: false},
+        {name: 'screenType', showFilter: false},
+        {name: 'os', showFilter: false},
+        {name: 'ramSize', showFilter: false},
+        {name: 'romSize', showFilter: false}];
 
     private price: IPrice = {from: 0, to: 999999};
 
@@ -83,11 +96,11 @@ export class SidenavComponent implements OnInit {
 
             for (const watch of watches) {
 
-                if (watch.hasOwnProperty(filter)) {
-                    setPropsByFilter.add(watch[filter]);
+                if (watch.hasOwnProperty(filter.name)) {
+                    setPropsByFilter.add(watch[filter.name]);
                 }
             }
-            this.filtersMap.set(filter, setPropsByFilter);
+            this.filtersMap.set(filter.name, setPropsByFilter);
         }
 
         this.filtersMapKeys = Array.from(this.filtersMap.keys());

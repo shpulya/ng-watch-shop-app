@@ -1,3 +1,4 @@
+
 label {
     display: block;
 }
@@ -8,9 +9,28 @@ input {
 
 .sidenav {
     width: 300px;
-    padding: 30px;
+
+    h2 {
+        background-color: #84bfbd;
+        color: #ffffff;
+        padding: 10px 20px;
+    }
+
+    ul {
+        padding: 30px;
+        list-style: none;
+
+        li {
+            text-transform: capitalize;
+        }
+    }
 }
 
 .price {
 
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
 }
