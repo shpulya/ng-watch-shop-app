@@ -16,15 +16,14 @@ export class CartService {
 
         if (!cart.has(watch)) {
             cart.set(watch, 1);
-        }
+        } else if (cart && cart.has(watch)) {
 
-        const watchCount = cart.get(watch);
+            const watchCount = cart.get(watch);
 
-        if (!watchCount) {
-            return;
-        }
+            if (!watchCount) {
+                return;
+            }
 
-        if (cart && cart.has(watch)) {
             cart.delete(watch)
             cart.set(watch, watchCount + 1);
         }
