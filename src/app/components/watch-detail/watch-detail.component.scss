@@ -9,9 +9,12 @@
         flex-direction: column;
         align-content: space-between;
         padding-left: 30px;
+        border-right: 1px solid #979797;
+        width: 60%;
 
         .specifications {
             padding: 30px 0;
+            color: #0082b3;
         }
     }
 
@@ -27,9 +30,14 @@
 
     }
 
-    #cart {
-        width: 50px;
-        display: block;
+    &__cart {
+        text-align: center;
+        font-size: 20px;
+
+        #cart {
+            width: 100px;
+            display: block;
+        }
     }
 
 }

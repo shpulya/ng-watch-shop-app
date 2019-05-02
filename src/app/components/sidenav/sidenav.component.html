@@ -1,31 +1,56 @@
 <div class="sidenav">
     <h2>Filters</h2>
 
+    <div class="checked_filters" *ngFor="let filter of checkedFiltersMapKeys">
+        <span>{{getDisplayCategoryName(filter)}}:</span>
+        <div class="checked_category_item" *ngFor="let property of checkedFiltersMap!.get(filter)">
+            {{property}}
+            <i class="fas fa-times delete" (click)="onFilterChecked(filter, property)"></i>
+        </div>
+    </div>
+
     <ul>
         <li>
             <div class="filter-header" (click)="showPriceFilter = !showPriceFilter">Price
                 <i class="fas fa-angle-down" *ngIf="showPriceFilter"></i>
                 <i class="fas fa-angle-left" *ngIf="!showPriceFilter"></i>
             </div>
-            <div class="price" *ngIf="showPriceFilter">
-                <input type="number" (change)="setPrice('from', $event.target.value)">
+
+            <div class="{{showPriceFilter ? '' : 'hide'}}">
+                <input
+                    class="price_from"
+                    type="number"
+                    (change)="setPrice('from', $event.target.value)"
+                    placeholder="From"
+                    pattern="^[0-9]{5}">
                 -
-                <input type="number" (change)="setPrice('to', $event.target.value)">
+                <input
+                    class="price_to"
+                    type="number"
+                    (change)="setPrice('to', $event.target.value)"
+                    placeholder="To"
+                    pattern="^[0-9]{5}">
                 $
             </div>
+            <hr *ngIf="!showPriceFilter">
         </li>
-        <li *ngFor="let filter of filtersMapKeys; let i = index" >
-            <div class="filter-header" (click)="filters[i].showFilter = !filters[i].showFilter">{{filter!}}
+        <li *ngFor="let filter of filtersMapKeys; let i = index">
+            <div class="filter-header" (click)="filters[i].showFilter = !filters[i].showFilter">{{filters[i].displayName}}
                 <i class="fas fa-angle-down" *ngIf="filters[i].showFilter"></i>
                 <i class="fas fa-angle-left" *ngIf="!filters[i].showFilter"></i>
             </div>
-            <ng-container *ngIf="filters[i].showFilter">
-                <label *ngFor="let property of filtersMap!.get(filter)">
-                    <input type="checkbox" name="{{filter}}" value="{{property}}"
-                           (change)="onFilterChecked(filter, property)"/>
-                    {{property}}
-                </label>
-            </ng-container>
+
+            <label
+                *ngFor="let property of filtersMap!.get(filter)"
+                class="{{filters[i].showFilter? '' : 'hide'}}">
+                <input
+                    type="checkbox"
+                    id="{{property}}"
+                    value="{{property}}"
+                    (change)="onFilterChecked(filter, property)"/>
+                {{property}}
+            </label>
+            <hr *ngIf="!filters[i].showFilter">
         </li>
     </ul>
 </div>

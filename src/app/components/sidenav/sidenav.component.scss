@@ -3,9 +3,6 @@ label {
     display: block;
 }
 
-input {
-    width: 100px;
-}
 
 .sidenav {
     width: 300px;
@@ -26,11 +23,45 @@ input {
     }
 }
 
-.price {
+.checked_filters {
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
 
+.checked_category_item {
+    border: 1px solid #979797;
+    border-radius: 8px;
+    padding: 5px;
+    margin: 3px 0 3px 10px ;
+    background-color: #ededed;
+    display: flex;
+}
+
+.delete {
+    color: #e2380b;
+    font-size: 18px;
+    padding-left: 5px;
+}
+
+.price_from, .price_to {
+    width: 90px;
+    height: 29px;
+    border-radius: 5px;
+    padding-left: 10px;
+    border: 1px solid #979797;
 }
 
 .filter-header {
     display: flex;
     justify-content: space-between;
+    color: #0082b3;
+    font-size: 14px;
+    line-height: 25px;
+}
+
+.hide {
+    display: none;
 }

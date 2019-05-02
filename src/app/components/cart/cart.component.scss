@@ -45,27 +45,89 @@
 
                 >img {
                     object-fit: fill;
-                    width: 50px;
+                    width: 100px;
                 }
             }
 
-            &__name {
+            &__properties {
                 width: calc(100% - 350px);
-            }
+                display: flex;
+                flex-direction: column;
 
-            &__price, &__acc-price {
-                padding: 0 30px;
-                font-size: 2em;
+                .name {
+                    line-height: 3em;
+                    font-size: 1.5em;
+                }
+
+                .price {
+                    width: 95px;
+                }
             }
 
             &__counter {
                 display: flex;
                 flex-direction: row;
-                justify-content: space-evenly;
-                width: 80px;
+                border: 1px solid #979797;
+                line-height: 29px;
+                border-radius: 5px;
+                overflow: hidden;
+
+                &__reduce, &__increase {
+                    background-color: #ededed;
+                    width: 30px;
+                    text-align: center;
+                }
+
+                &__number {
+                    width: 30px;
+                    text-align: center;
+                    border-right: 1px solid #979797;
+                    border-left: 1px solid #979797;
+                }
             }
         }
+
+        &__footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #979797;
+
+            .close, .summary {
+                background-color: #ededed;
+            }
+
+            .close {
+                border-radius: 5px;
+                padding: 10px 20px;
+                font-size: 1.2em;
+            }
+
+            .summary {
+                padding: 20px;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                width: 195px;
+                flex-wrap: wrap;
+
+                .submit {
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    background-color: #84bfbd;
+                    color: #ffffff;
+                    margin-top: 10px;
+                }
+            }
+        ;
+        }
     }
+}
+
+.cart__list__item__acc-price, .summary_sum {
+    padding: 0 30px;
+    font-size: 2em;
 }
 
 .overlay {

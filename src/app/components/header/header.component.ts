@@ -26,7 +26,9 @@ export class HeaderComponent implements OnInit {
     }
 
     public showCart(): void {
-        this.$showCartEmit.emit(true);
+        if (this.getCounter()) {
+            this.$showCartEmit.emit(true);
+        }
     }
 
 }
