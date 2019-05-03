@@ -1,7 +1,7 @@
 <div class="body">
     <app-sidenav
-        (filtersEmit$)="receiveCategoriesFilter($event)"
-        (priceEmit$)="receivePriceFilter($event)">
+        (onCategoriesUpdate)="receiveCategoriesFilter($event)"
+        (onPriceUpdate)="receivePriceFilter($event)">
     </app-sidenav>
 
     <div class="main-content">
@@ -57,7 +57,7 @@
             [currentPage]="currentPage"
             [itemsCount]="watchesCount"
             [countOnPage]="countOnPage"
-            ($activePageEvent)="outputWatchesOnPage($event)">
+            (onPageUpdate)="outputWatchesOnPage($event)">
         </app-pagination>
     </div>
 </div>

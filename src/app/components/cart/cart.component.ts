@@ -10,11 +10,13 @@ import { IWatch } from '../../app.models';
 export class CartComponent implements OnInit {
 
     @Output()
-    public $showCartEmit: EventEmitter<boolean> = new EventEmitter<boolean>();
+    public showCartEmit: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     public cartMap: Map<IWatch, number> = new Map<IWatch, number>();
 
     public watchesList: Array<IWatch> = [];
+
+    public finalSum: number = 0;
 
     constructor(private cartService: CartService) {
     }
@@ -22,10 +24,11 @@ export class CartComponent implements OnInit {
     public ngOnInit(): void {
         this.cartMap = this.cartService.getCartMap();
         this.watchesList = Array.from(this.cartMap.keys());
+        this.calcFinalSum();
     }
 
     public closeCart(): void {
-        this.$showCartEmit.emit(false);
+        this.showCartEmit.emit(false);
     }
 
     public reduceWatchesCount(watch: IWatch): void {
@@ -37,16 +40,13 @@ export class CartComponent implements OnInit {
     }
 
     public getItemsCount(watch: IWatch): number {
+
         return this.cartMap.get(watch) || 0;
     }
 
-    public getFinalSum(): number {
-        let finalSum = 0;
-
+    private calcFinalSum(): void {
         this.cartMap.forEach((acc: number, watch: IWatch) => {
-            finalSum += acc * watch.price;
+            this.finalSum += acc * watch.price;
         });
-
-        return finalSum;
     }
 }

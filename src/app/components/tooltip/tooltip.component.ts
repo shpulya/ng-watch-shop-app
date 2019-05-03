@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 
 @Component({
     selector: 'app-tooltip',
     templateUrl: './tooltip.component.html',
     styleUrls: ['./tooltip.component.scss']
 })
-export class TooltipComponent implements OnInit {
+export class TooltipComponent implements OnChanges {
 
     @Input()
     public message: string = '';
@@ -17,7 +17,8 @@ export class TooltipComponent implements OnInit {
     public constructor() {
     }
 
-    public ngOnInit(): void {
+    public ngOnChanges(changes: SimpleChanges): void {
+
     }
 
 }

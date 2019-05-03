@@ -1,10 +1,10 @@
 <div class="header">
-    <div class="header__logo" [routerLink]="''">
+    <div class="header__logo" [routerLink]="">
         <img src="../../../assets/img/logo.png" alt="">
     </div>
 
     <div class="header__cart" (click)="showCart()">
-        <img src="../../../assets/img/cart.png" alt="">
+        <img src="../../../assets/img/cart.png" alt="Cart" class="{{getCounter() ? '' : 'disabled'}}">
 
         <div class="header__cart__counter" *ngIf="getCounter()">
             {{getCounter()}}

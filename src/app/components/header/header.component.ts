@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 
 @Component({
@@ -6,18 +6,14 @@ import { CartService } from '../../services/cart.service';
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
     @Output()
-    public $showCartEmit: EventEmitter<boolean> = new EventEmitter<boolean>();
+    public showCartEmit: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     public counter: number = 0;
 
     constructor(private cartService: CartService) {
-    }
-
-    public ngOnInit(): void {
-
     }
 
     public getCounter(): number {
@@ -28,7 +24,7 @@ export class HeaderComponent implements OnInit {
 
     public showCart(): void {
         if (this.getCounter()) {
-            this.$showCartEmit.emit(true);
+            this.showCartEmit.emit(true);
         }
     }
 

@@ -17,7 +17,7 @@ export class PaginationComponent implements OnChanges {
     public currentPage!: number;
 
     @Output()
-    public $activePageEvent: EventEmitter<number> = new EventEmitter<number>();
+    public onPageUpdate: EventEmitter<number> = new EventEmitter<number>();
 
     public countPages: number = 0;
 
@@ -37,8 +37,7 @@ export class PaginationComponent implements OnChanges {
     }
 
     public changeActivePage(page: number): void {
-        this.currentPage = page;
-        this.$activePageEvent.emit(this.currentPage);
+        this.onPageUpdate.emit(page);
     }
 
 }

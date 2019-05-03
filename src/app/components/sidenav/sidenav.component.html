@@ -20,14 +20,14 @@
                 <input
                     class="price_from"
                     type="number"
-                    (change)="setPrice('from', $event.target.value)"
+                    (change)="setPrice('from', $event.target.value || 0)"
                     placeholder="From"
                     pattern="^[0-9]{5}">
                 -
                 <input
                     class="price_to"
                     type="number"
-                    (change)="setPrice('to', $event.target.value)"
+                    (change)="setPrice('to', $event.target.value || 99999)"
                     placeholder="To"
                     pattern="^[0-9]{5}">
                 $

@@ -1,6 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IFilter } from '../../app.models';
+import {takeWhile} from 'rxjs/operators';
 
 type TFilterMap = Map<keyof IWatch, Set<string | number>>;
 
@@ -9,13 +10,13 @@ type TFilterMap = Map<keyof IWatch, Set<string | number>>;
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent implements OnInit {
+export class SidenavComponent implements OnInit, OnDestroy {
 
     @Output()
-    public filtersEmit$: EventEmitter<TFilterMap> = new EventEmitter<TFilterMap>();
+    public onCategoriesUpdate: EventEmitter<TFilterMap> = new EventEmitter<TFilterMap>();
 
     @Output()
-    public priceEmit$: EventEmitter<IPrice> = new EventEmitter<IPrice>();
+    public onPriceUpdate: EventEmitter<IPrice> = new EventEmitter<IPrice>();
 
     public showPriceFilter: boolean = false;
 
@@ -27,7 +28,7 @@ export class SidenavComponent implements OnInit {
 
     public checkedFiltersMap: TFilterMap = new Map<keyof IWatch, Set<string | number>>();
 
-    private filters: Array<IFilter> = [
+    public filters: Array<IFilter> = [
         {
             name: 'manufacturer',
             displayName: 'Manufacturer',
@@ -56,19 +57,29 @@ export class SidenavComponent implements OnInit {
 
     private price: IPrice = {from: 0, to: 999999};
 
+    private alive: boolean = true;
 
     constructor(private watchesService: WatchesService) {
     }
 
     public ngOnInit(): void {
-        this.watchesService.watches$.subscribe((watches: Array<IWatch>) => {
-            this.getFiltersMap(watches);
-        });
+        this.watchesService.watches$
+            .pipe(
+                takeWhile(() => this.alive)
+            )
+            .subscribe((watches: Array<IWatch>) => {
+                this.updateFiltersMap(watches);
+            })
+        ;
+    }
+
+    public ngOnDestroy(): void {
+        this.alive = false;
     }
 
     public setPrice(priceKey: keyof IPrice, value: number): void {
         this.price[priceKey] = value;
-        this.priceEmit$.emit(this.price);
+        this.onPriceUpdate.emit(this.price);
     }
 
     public onFilterChecked(category: keyof IWatch, value: string | number): void {
@@ -78,7 +89,7 @@ export class SidenavComponent implements OnInit {
 
             filtersSet.add(value);
             this.checkedFiltersMap.set(category, filtersSet);
-            this.filtersEmit$.emit(this.checkedFiltersMap);
+            this.onCategoriesUpdate.emit(this.checkedFiltersMap);
             this.checkedFiltersMapKeys = Array.from(this.checkedFiltersMap.keys());
 
             return;
@@ -105,7 +116,7 @@ export class SidenavComponent implements OnInit {
         }
 
         this.checkedFiltersMapKeys = Array.from(this.checkedFiltersMap.keys());
-        this.filtersEmit$.emit(this.checkedFiltersMap);
+        this.onCategoriesUpdate.emit(this.checkedFiltersMap);
     }
 
     public getDisplayCategoryName(category: keyof IWatch): string | undefined {
@@ -117,7 +128,7 @@ export class SidenavComponent implements OnInit {
     }
 
 
-    private getFiltersMap(watches: Array<IWatch>): void {
+    private updateFiltersMap(watches: Array<IWatch>): void {
 
         for (const filter of this.filters) {
 

@@ -12,6 +12,8 @@ export class WatchesGridViewComponent implements OnInit {
     @Input()
     public readonly watch!: IWatch;
 
+    public isAdded: boolean = false;
+
     constructor(private cartService: CartService) {
     }
 
@@ -20,6 +22,7 @@ export class WatchesGridViewComponent implements OnInit {
 
     public addWatchToCart(watch: IWatch): void {
         this.cartService.addWatchToCart(watch);
+        this.isAdded = true;
     }
 
 }
