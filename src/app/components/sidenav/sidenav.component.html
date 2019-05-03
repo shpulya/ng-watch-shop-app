@@ -42,7 +42,7 @@
 
             <label
                 *ngFor="let property of filtersMap!.get(filter)"
-                class="{{filters[i].showFilter? '' : 'hide'}} check-container">
+                class=" {{filters[i].showFilter? 'check-container' : 'hide'}}">
                 <input
                     type="checkbox"
                     id="{{property}}"
