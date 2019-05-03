@@ -1,0 +1,19 @@
+.tooltip {
+    background-color: rgba(0,0,0,.85);
+    color: #fff;
+    border-radius: 6px;
+    padding: 5px 20px;
+    position: absolute;
+    z-index: 1;
+    font-size: 14px;
+}
+
+.tooltip:after {
+    content: "";
+    border-bottom: 10px solid rgba(0,0,0,.85);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    position: absolute;
+    top: -10px;
+    left: calc(50% - 10px);
+}

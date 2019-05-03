@@ -14,6 +14,8 @@ export class WatchDetailComponent implements OnInit {
 
     public watch!: IWatch | null;
 
+    public isAdded: boolean = false;
+
     private routeSubscription: Subscription;
 
     private watchId!: number;
@@ -35,6 +37,10 @@ export class WatchDetailComponent implements OnInit {
 
     public addWatchToCart(watch: IWatch): void {
         this.cartService.addWatchToCart(watch);
+        this.isAdded = true;
+        setTimeout(() => {
+            this.isAdded = false;
+        }, 300);
     }
 
 }

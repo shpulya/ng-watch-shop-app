@@ -22,6 +22,7 @@
             src="../../../../assets/img/cart.png"
             alt="Add to cart" id="cart"
             (click)="addWatchToCart(watch)">
+        <app-tooltip [isClicked]="isAdded" [message]="'Added to cart'"></app-tooltip>
         <label for="cart">
             Add to cart
         </label>

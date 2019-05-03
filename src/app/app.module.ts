@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { CartComponent } from './components/cart/cart.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { TooltipComponent } from './components/tooltip/tooltip.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +27,8 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
         WatchDetailComponent,
         CartComponent,
         PaginationComponent,
-        SidenavComponent
+        SidenavComponent,
+        TooltipComponent
     ],
     imports: [
         BrowserModule,
