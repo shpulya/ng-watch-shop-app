@@ -22,8 +22,11 @@ export class WatchDetailComponent implements OnInit {
         private route: ActivatedRoute,
         private watchesService: WatchesService,
         private cartService: CartService) {
-        this.routeSubscription = route.params.subscribe((params: Params) =>
-            this.watchId = parseInt(params['watchId'], 10));
+
+        this.routeSubscription = route.params.subscribe((params: Params) => {
+            this.watchId = parseInt(params['watchId'], 10);
+        }
+        );
     }
 
     public ngOnInit(): void {

@@ -1,14 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { WatchesService } from '../../services/watches.service';
-import { IPrice, IWatch } from '../../app.models';
+import { IPrice, IWatch, IFilter } from '../../app.models';
 
 type TFilterMap = Map<keyof IWatch, Set<string | number>>;
 
-interface IFilter {
-    name: keyof IWatch;
-    displayName: string;
-    showFilter: boolean;
-}
+
 
 @Component({
     selector: 'app-sidenav',
@@ -34,12 +30,31 @@ export class SidenavComponent implements OnInit {
     public checkedFiltersMap: TFilterMap = new Map<keyof IWatch, Set<string | number>>();
 
     private filters: Array<IFilter> = [
-        {name: 'manufacturer', displayName: 'Manufacturer', showFilter: false},
-        {name: 'screenSize', displayName: 'Screen Size', showFilter: false},
-        {name: 'screenType', displayName: 'Screen Type', showFilter: false},
-        {name: 'os', displayName: 'OS', showFilter: false},
-        {name: 'ramSize', displayName: 'RAM Size', showFilter: false},
-        {name: 'romSize', displayName: 'Internal Memory', showFilter: false}];
+        {
+            name: 'manufacturer',
+            displayName: 'Manufacturer',
+            showFilter: false
+        }, {
+            name: 'screenSize',
+            displayName: 'Screen Size',
+            showFilter: false
+        }, {
+            name: 'screenType',
+            displayName: 'Screen Type',
+            showFilter: false
+        }, {
+            name: 'os',
+            displayName: 'OS',
+            showFilter: false
+        }, {
+            name: 'ramSize',
+            displayName: 'RAM Size',
+            showFilter: false
+        }, {
+            name: 'romSize',
+            displayName: 'Internal Memory',
+            showFilter: false
+        }];
 
     private price: IPrice = {from: 0, to: 999999};
 
@@ -62,6 +77,7 @@ export class SidenavComponent implements OnInit {
 
         if (!this.checkedFiltersMap.has(category)) {
             const filtersSet: Set<string | number> = new Set();
+
             filtersSet.add(value);
             this.checkedFiltersMap.set(category, filtersSet);
             this.filtersEmit$.emit(this.checkedFiltersMap);
@@ -78,7 +94,9 @@ export class SidenavComponent implements OnInit {
 
         if (currentCategory && currentCategory.has(value)) {
             currentCategory.delete(value);
+
             const categoryItem = document.getElementById(String(value)) as HTMLInputElement;
+
             categoryItem.checked = false;
         } else if (currentCategory && !currentCategory.has(value)) {
             currentCategory.add(value);

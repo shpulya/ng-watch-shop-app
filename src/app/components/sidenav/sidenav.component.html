@@ -42,12 +42,13 @@
 
             <label
                 *ngFor="let property of filtersMap!.get(filter)"
-                class="{{filters[i].showFilter? '' : 'hide'}}">
+                class="{{filters[i].showFilter? '' : 'hide'}} check-container">
                 <input
                     type="checkbox"
                     id="{{property}}"
                     value="{{property}}"
                     (change)="onFilterChecked(filter, property)"/>
+                <span class="checkmark"></span>
                 {{property}}
             </label>
             <hr *ngIf="!filters[i].showFilter">

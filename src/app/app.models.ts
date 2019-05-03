@@ -27,3 +27,9 @@ export interface IPrice {
 
     to: number;
 }
+
+export interface IFilter {
+    name: keyof IWatch;
+    displayName: string;
+    showFilter: boolean;
+}
