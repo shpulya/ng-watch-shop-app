@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
 
     public getCounter(): number {
         this.counter = this.cartService.countWatchesItemInList();
+
         return this.counter;
     }
 

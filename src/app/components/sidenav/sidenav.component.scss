@@ -1,8 +1,6 @@
-
 label {
     display: block;
 }
-
 
 .sidenav {
     width: 300px;
@@ -65,3 +63,10 @@ label {
 .hide {
     display: none;
 }
+
+@media screen and (max-width: 600px) {
+    .sidenav {
+        width: 100%;
+    }
+}
+

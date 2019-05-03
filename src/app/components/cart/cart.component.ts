@@ -1,6 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {CartService} from '../../services/cart.service';
-import {IWatch} from '../../app.models';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { CartService } from '../../services/cart.service';
+import { IWatch } from '../../app.models';
 
 @Component({
     selector: 'app-cart',
@@ -9,7 +9,8 @@ import {IWatch} from '../../app.models';
 })
 export class CartComponent implements OnInit {
 
-    @Output() public $showCartEmit: any = new EventEmitter<boolean>();
+    @Output()
+    public $showCartEmit: any = new EventEmitter<boolean>();
 
     public cartMap: Map<IWatch, number> = new Map<IWatch, number>();
 
@@ -41,6 +42,7 @@ export class CartComponent implements OnInit {
 
     public getFinalSum(): number {
         let finalSum = 0;
+
         this.cartMap.forEach((acc: number, watch: IWatch) => {
             finalSum += acc * watch.price;
         });

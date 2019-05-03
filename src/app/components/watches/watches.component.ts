@@ -60,7 +60,7 @@ export class WatchesComponent implements OnInit {
 
     }
 
-    public receiveCategorisFilter(filtersMap$: TFilterMap): void {
+    public receiveCategoriesFilter(filtersMap$: TFilterMap): void {
         this.categoriesFilter = filtersMap$;
         this.filterWatchesByCategory();
     }
@@ -70,8 +70,11 @@ export class WatchesComponent implements OnInit {
 
         if (this.categoriesFilter) {
             this.categoriesFilter.forEach(
-                (values: Set<string | number>, category: keyof IWatch, watchesMap: TFilterMap) => {
-                    this.filteredWatches = this.filteredWatches.filter((watch: IWatch) => values.has(watch[category]));
+                (
+                    values: Set<string | number>,
+                    category: keyof IWatch) => {
+                    this.filteredWatches = this.filteredWatches.filter((watch: IWatch) =>
+                        values.has(watch[category]));
                 }
             );
         }
@@ -85,7 +88,6 @@ export class WatchesComponent implements OnInit {
 
         this.watchesCount = this.filteredWatches.length;
 
-
         this.outputWatchesOnPage(1);
     }
 
@@ -98,7 +100,7 @@ export class WatchesComponent implements OnInit {
 
     public outputWatchesOnPage(currentPage$: number): void {
         this.pagedWatches = this.filteredWatches.filter((watch: IWatch, i: number) =>
-            (i > (currentPage$ - 1) * this.countOnPage - 1 && i <= currentPage$ * this.countOnPage - 1));
+            ((i >= (currentPage$ - 1) * this.countOnPage) && (i < currentPage$ * this.countOnPage)));
     }
 
 

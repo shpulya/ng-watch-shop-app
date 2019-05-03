@@ -5,24 +5,29 @@
             <i class="fas fa-times"></i>
         </div>
     </div>
+
     <div class="cart__list">
         <div class="cart__list__item" *ngFor="let watch of watchesList">
             <div class="cart__list__item__img">
                 <img src="../../../../assets/img/watches/{{watch.image}}" alt="{{watch.image}}">
             </div>
+
             <div class="cart__list__item__properties">
                 <div class="name">{{watch.name}}</div>
                 <app-price-tag class="price" [price]="watch.price"></app-price-tag>
             </div>
+
             <div class="cart__list__item__counter">
                 <div class="cart__list__item__counter__reduce" (click)="reduceWatchesCount(watch)">-</div>
                 <div class="cart__list__item__counter__number">{{getItemsCount(watch)}}</div>
                 <div class="cart__list__item__counter__increase" (click)="increaseWatchesCount(watch)">+</div>
             </div>
+
             <div class="cart__list__item__acc-price">${{getItemsCount(watch) * watch!.price}}</div>
         </div>
         <div class="cart__list__footer">
             <div class="close" (click)="closeCart()">Back to catalog</div>
+
             <div class="summary">Final sum:
                 <div class="summary_sum">${{getFinalSum()}}</div>
                 <div class="submit">Place an order</div>
@@ -30,4 +35,5 @@
         </div>
     </div>
 </div>
+
 <div class="overlay" (click)="closeCart()"></div>

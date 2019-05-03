@@ -9,10 +9,8 @@ import { CartService } from '../../../services/cart.service';
 })
 export class WatchesListViewComponent implements OnInit {
 
-    @Input() public readonly watch!: IWatch;
-
-    public orderByVal!: string;
-
+    @Input()
+    public readonly watch!: IWatch;
 
     constructor(private cartService: CartService) {
     }

@@ -1,20 +1,34 @@
 <div class="body">
-    <app-sidenav (filtersEmit$)="receiveCategorisFilter($event)" (priceEmit$)="receivePriceFilter($event)"></app-sidenav>
+    <app-sidenav
+        (filtersEmit$)="receiveCategoriesFilter($event)"
+        (priceEmit$)="receivePriceFilter($event)">
+    </app-sidenav>
 
     <div class="main-content">
+
         <div class="mode-view">
-            <h1 class="mode-view-header">Smartwatches</h1>
+            <h1 class="mode-view-header">
+                Smartwatches
+            </h1>
+
             <div class="mode-view-panel">
                 <label for="sorting">Sorting</label>
-                <select name="sorting" id="sorting" [(ngModel)]="orderBy" (change)="orderWatches()">
+
+                <select
+                    name="sorting"
+                    id="sorting"
+                    [(ngModel)]="orderBy"
+                    (change)="orderWatches()">
                     <option value="asc">Lowest Price</option>
                     <option value="desk">Highest Price</option>
                 </select>
+
                 <div
                     class="list_view"
                     (click)="changeViewMode()">
                     <i class="fas fa-list {{(viewMode === 'list') ? 'active' : ''}}"></i>
                 </div>
+
                 <div
                     class="grid_view"
                     (click)="changeViewMode()">
