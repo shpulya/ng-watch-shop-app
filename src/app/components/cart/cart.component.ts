@@ -16,15 +16,12 @@ export class CartComponent implements OnInit {
 
     public watchesList: Array<IWatch> = [];
 
-    public finalSum: number = 0;
-
     constructor(private cartService: CartService) {
     }
 
     public ngOnInit(): void {
         this.cartMap = this.cartService.getCartMap();
         this.watchesList = Array.from(this.cartMap.keys());
-        this.calcFinalSum();
     }
 
     public closeCart(): void {
@@ -40,13 +37,16 @@ export class CartComponent implements OnInit {
     }
 
     public getItemsCount(watch: IWatch): number {
-
         return this.cartMap.get(watch) || 0;
     }
 
-    private calcFinalSum(): void {
+    public getFinalSum(): number {
+        let finalSum = 0;
+
         this.cartMap.forEach((acc: number, watch: IWatch) => {
-            this.finalSum += acc * watch.price;
+            finalSum += acc * watch.price;
         });
+
+        return finalSum;
     }
 }

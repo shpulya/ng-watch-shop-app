@@ -1,29 +1,45 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CartService } from '../../services/cart.service';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
 
     @Output()
     public showCartEmit: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     public counter: number = 0;
 
+    public alive: boolean = true;
+
     constructor(private cartService: CartService) {
     }
 
-    public getCounter(): number {
-        this.counter = this.cartService.countWatchesItemInList();
+    public ngOnInit(): void {
+        this.getCounter();
+    }
 
-        return this.counter;
+    public ngOnDestroy(): void {
+        this.alive = false;
+    }
+
+    public getCounter(): void {
+        this.cartService.countWatches$
+            .pipe(
+                takeWhile(() => this.alive)
+            )
+            .subscribe((countWatches) => {
+                this.counter = countWatches;
+            })
+        ;
     }
 
     public showCart(): void {
-        if (this.getCounter()) {
+        if (this.counter) {
             this.showCartEmit.emit(true);
         }
     }

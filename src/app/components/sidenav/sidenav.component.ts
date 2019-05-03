@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IFilter } from '../../app.models';
-import {takeWhile} from 'rxjs/operators';
+import {take, takeWhile} from 'rxjs/operators';
 
 type TFilterMap = Map<keyof IWatch, Set<string | number>>;
 

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IWatch } from '../app.models';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -7,6 +8,8 @@ import { IWatch } from '../app.models';
 export class CartService {
 
     public cartMap: Map<IWatch, number> = new Map();
+
+    public countWatches$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
     constructor() {
     }
@@ -30,7 +33,6 @@ export class CartService {
         this.countWatchesItemInList();
     }
 
-
     public deleteWatchFromCart(watch: IWatch): void {
         const watchCount = this.cartMap.get(watch);
 
@@ -46,10 +48,8 @@ export class CartService {
 
     }
 
-
-    public countWatchesItemInList(): number {
-
-        return Array.from(this.cartMap.values()).reduce((acc: number, currentVal: number) => acc + currentVal, 0);
+    public countWatchesItemInList(): void {
+        this.countWatches$.next(Array.from(this.cartMap.values()).reduce((acc: number, currentVal: number) => acc + currentVal, 0));
     }
 
     public getCartMap(): Map<IWatch, number> {
