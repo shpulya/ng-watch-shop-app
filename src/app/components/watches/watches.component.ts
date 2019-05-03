@@ -99,8 +99,11 @@ export class WatchesComponent implements OnInit {
     }
 
     public outputWatchesOnPage(currentPage$: number): void {
-        this.pagedWatches = this.filteredWatches.filter((watch: IWatch, i: number) =>
-            ((i >= (currentPage$ - 1) * this.countOnPage) && (i < currentPage$ * this.countOnPage)));
+        this.currentPage = currentPage$;
+        this.pagedWatches = this.filteredWatches.filter((watch: IWatch, i: number) => {
+            return ((i >= (currentPage$ - 1) * this.countOnPage) && (i < currentPage$ * this.countOnPage));
+        }
+        );
     }
 
 

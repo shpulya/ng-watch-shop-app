@@ -14,10 +14,10 @@ export class PaginationComponent implements OnChanges {
     public readonly countOnPage!: number;
 
     @Input()
-    public currentPage: number = 1;
+    public currentPage!: number;
 
     @Output()
-    public $activePageEvent: any = new EventEmitter<number>();
+    public $activePageEvent: EventEmitter<number> = new EventEmitter<number>();
 
     public countPages: number = 0;
 

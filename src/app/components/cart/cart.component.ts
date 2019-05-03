@@ -10,7 +10,7 @@ import { IWatch } from '../../app.models';
 export class CartComponent implements OnInit {
 
     @Output()
-    public $showCartEmit: any = new EventEmitter<boolean>();
+    public $showCartEmit: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     public cartMap: Map<IWatch, number> = new Map<IWatch, number>();
 

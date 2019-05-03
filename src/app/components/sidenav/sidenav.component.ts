@@ -4,8 +4,6 @@ import { IPrice, IWatch, IFilter } from '../../app.models';
 
 type TFilterMap = Map<keyof IWatch, Set<string | number>>;
 
-
-
 @Component({
     selector: 'app-sidenav',
     templateUrl: './sidenav.component.html',
