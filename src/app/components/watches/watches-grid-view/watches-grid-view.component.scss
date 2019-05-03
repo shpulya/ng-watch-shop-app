@@ -31,6 +31,11 @@
         >img {
             width: 28px;
             margin-left: 20px;
+            cursor: pointer;
+
+            &:hover {
+                width: 30px;
+            }
         }
     }
 }

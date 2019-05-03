@@ -29,6 +29,7 @@
             justify-content: center;
             align-items: center;
             font-size: 30px;
+            cursor: pointer;
         }
     }
 
@@ -76,6 +77,7 @@
                     background-color: #ededed;
                     width: 30px;
                     text-align: center;
+                    cursor: pointer;
                 }
 
                 &__number {
@@ -95,6 +97,8 @@
 
             .close, .summary {
                 background-color: #ededed;
+                cursor: pointer;
+
             }
 
             .close {

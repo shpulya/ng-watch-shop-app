@@ -60,6 +60,11 @@
 
             #cart {
                 width: 60px;
+                cursor: pointer;
+
+                &:hover {
+                    width: 63px;
+                }
             }
         }
     }

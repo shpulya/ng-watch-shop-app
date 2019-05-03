@@ -40,6 +40,10 @@
             align-items: center;
             >img {
                 width: 30px;
+
+                &:hover {
+                    width: 32px;
+                }
             }
         }
     }
