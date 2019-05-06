@@ -1,12 +1,10 @@
 .cart {
     position: fixed;
-    top: 150px;
+    top: 50%;
     left: 50%;
     margin-left: -350px;
+    margin-top: -350px;
     width: 700px;
-    min-height: 500px;
-    max-height: 700px;
-    overflow: auto;
     background-color: #ffffff;
     box-shadow: 1px 4px 11px rgba(93, 93, 93, 0.5);
     border: 1px solid #979797;
@@ -15,14 +13,14 @@
     &__header {
         background-color: #84bfbd;
         color: #ffffff;
-        padding: 10px 30px;
+        padding: 20px 30px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         position: fixed;
         width: 640px;
+        font-size: 36px;
         z-index: 1;
-
 
         &__close {
             background-color: #ffffff;
@@ -33,13 +31,14 @@
             height: 40px;
             justify-content: center;
             align-items: center;
-            font-size: 30px;
             cursor: pointer;
         }
     }
 
     &__list {
         padding: 120px 30px 20px 30px;
+        max-height: 700px;
+        overflow: auto;
 
         &__item {
             display: flex;
@@ -49,7 +48,7 @@
             &__img {
                 padding: 0 10px;
 
-                >img {
+                > img {
                     object-fit: fill;
                     width: 100px;
                 }

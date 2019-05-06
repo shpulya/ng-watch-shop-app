@@ -7,12 +7,12 @@
     <div class="watch__data">
         <h1>{{watch!.name}}</h1>
         <div class="specifications">
-            {{watch!.os}}, Screen size: {{watch!.screenSize}}, Screen type: {{watch!.screenType}}, {{watch!.ramSize}} RAM, {{watch!.romSize}} ROM
+            {{watch!.os}}, Screen size: {{watch!.screenSize}}, Screen type: {{watch!.screenType}}, {{watch!.ramSize}}
+            RAM, {{watch!.romSize}} ROM
         </div>
         <div class="watch__description">
             {{watch!.description}}
         </div>
-        <hr>
     </div>
     <div class="watch__price">
         <app-price-tag [price]="watch!.price"></app-price-tag>

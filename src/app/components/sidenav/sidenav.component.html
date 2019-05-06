@@ -1,29 +1,28 @@
 <div class="sidenav">
-    <h2>Filters</h2>
+    <div class="sidenav__header">Filters</div>
 
     <div class="checked_filters" *ngFor="let filter of checkedFiltersMapKeys">
         <span>{{getDisplayCategoryName(filter)}}:</span>
         <div class="checked_category_item" *ngFor="let property of checkedFiltersMap!.get(filter)">
             {{property}}
-            <i class="fas fa-times delete" (click)="onFilterChecked(filter, property)"></i>
+            <div class="delete" (click)="onFilterChecked(filter, property)"></div>
         </div>
     </div>
 
     <ul>
         <li>
             <div class="filter-header" (click)="showPriceFilter = !showPriceFilter">Price
-                <i class="fas fa-angle-down" *ngIf="showPriceFilter"></i>
-                <i class="fas fa-angle-left" *ngIf="!showPriceFilter"></i>
+                <div class="arrow {{showPriceFilter ? 'arrow_down': 'arrow_left'}}"></div>
             </div>
 
-            <div class="{{showPriceFilter ? '' : 'hide'}}">
+            <div class="price {{showPriceFilter ? '' : 'hide'}}">
                 <input
                     class="price_from"
                     type="number"
                     (change)="setPrice('from', $event.target.value || 0)"
                     placeholder="From"
                     pattern="^[0-9]{5}">
-                -
+                &emsp;&mdash;&emsp;
                 <input
                     class="price_to"
                     type="number"
@@ -35,9 +34,9 @@
             <hr *ngIf="!showPriceFilter">
         </li>
         <li *ngFor="let filter of filtersMapKeys; let i = index">
-            <div class="filter-header" (click)="filters[i].showFilter = !filters[i].showFilter">{{filters[i].displayName}}
-                <i class="fas fa-angle-down" *ngIf="filters[i].showFilter"></i>
-                <i class="fas fa-angle-left" *ngIf="!filters[i].showFilter"></i>
+            <div class="filter-header"
+                 (click)="filters[i].showFilter = !filters[i].showFilter">{{filters[i].displayName}}
+                <div class="arrow {{filters[i].showFilter ? 'arrow_down': 'arrow_left'}}"></div>
             </div>
 
             <label

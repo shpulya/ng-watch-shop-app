@@ -39,4 +39,5 @@ import { TooltipComponent } from './components/tooltip/tooltip.component';
     providers: [],
     bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

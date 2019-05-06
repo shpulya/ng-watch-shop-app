@@ -1,6 +1,9 @@
 <div class="container">
     <div class="watch-img-col">
-        <img src="../../../../assets/img/watches/{{watch!.image}}" alt="{{watch!.image}}">
+        <img
+            src="../../../../assets/img/watches/{{watch!.image}}"
+            alt="{{watch!.image}}"
+            [routerLink]="['/watch/'+watch.id]">
     </div>
 
     <div class="details-col">

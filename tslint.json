@@ -107,15 +107,27 @@
         "no-use-before-declare": true,
         "no-var-keyword": true,
         "no-angle-bracket-type-assertion": false,
-        "no-consecutive-blank-lines": [true, 2],
+        "no-consecutive-blank-lines": [
+            true,
+            2
+        ],
         "no-redundant-jsdoc": true,
         "no-unnecessary-qualifier": true,
         "object-literal-sort-keys": false,
-        "max-classes-per-file": [true, 1],
+        "max-classes-per-file": [
+            true,
+            1
+        ],
         "newline-before-return": true,
-        "one-variable-per-declaration": [true, "ignore-for-loop"],
+        "one-variable-per-declaration": [
+            true,
+            "ignore-for-loop"
+        ],
         "prefer-function-over-method": false,
-        "prefer-template": [true, "allow-single-concat"],
+        "prefer-template": [
+            true,
+            "allow-single-concat"
+        ],
         "new-parens": true,
         "one-line": [
             true,
@@ -179,7 +191,10 @@
         "prefer-for-of": true,
         "ban-comma-operator": true,
         "no-duplicate-switch-case": true,
-        "no-duplicate-variable": [true, "check-parameters"],
+        "no-duplicate-variable": [
+            true,
+            "check-parameters"
+        ],
         "no-object-literal-type-assertion": true,
         "prefer-conditional-expression": true,
         "no-invalid-this": true,
@@ -191,12 +206,24 @@
         "no-for-in-array": true,
         "no-invalid-template-strings": true,
         "typeof-compare": true,
-        "array-type": [true, "generic"],
-        "object-literal-key-quotes": [true, "as-needed"],
+        "array-type": [
+            true,
+            "generic"
+        ],
+        "object-literal-key-quotes": [
+            true,
+            "as-needed"
+        ],
         "ban-types": [
             true,
-            ["Object", "Use {} or object instead"],
-            ["Function", "Use () => void instead"]
+            [
+                "Object",
+                "Use {} or object instead"
+            ],
+            [
+                "Function",
+                "Use () => void instead"
+            ]
         ],
         "no-unbound-method": [
             true,
@@ -205,7 +232,9 @@
         "no-this-assignment": [
             true,
             {
-                "allowed-names": ["^\\$this$"],
+                "allowed-names": [
+                    "^\\$this$"
+                ],
                 "allow-destructuring": true
             }
         ],
@@ -234,9 +263,12 @@
         "block-spacing": false,
         "space-within-parens": 0,
         "space-before-function-paren": false,
-        "brace-style": ["1tbs", {
-            "allowSingleLine": false
-        }],
+        "brace-style": [
+            "1tbs",
+            {
+                "allowSingleLine": false
+            }
+        ],
         "computed-property-spacing": false,
         "func-call-spacing": false,
         "ter-no-mixed-spaces-and-tabs": true,

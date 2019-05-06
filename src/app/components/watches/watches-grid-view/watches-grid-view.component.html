@@ -1,7 +1,8 @@
 <div class="grid_item">
     <img
         src="../../../../assets/img/watches/{{watch.image}}"
-        alt="{{watch.image}}">
+        alt="{{watch.image}}"
+        [routerLink]="['/watch/'+watch.id]">
 
     <a [routerLink]="['/watch/'+watch.id]">
         {{watch.name}}</a>

@@ -1,5 +1,5 @@
 .tooltip {
-    background-color: rgba(0,0,0,.85);
+    background-color: rgba(0, 0, 0, .85);
     color: #fff;
     border-radius: 6px;
     padding: 5px 20px;
@@ -10,7 +10,7 @@
 
 .tooltip:after {
     content: "";
-    border-bottom: 10px solid rgba(0,0,0,.85);
+    border-bottom: 10px solid rgba(0, 0, 0, .85);
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     position: absolute;

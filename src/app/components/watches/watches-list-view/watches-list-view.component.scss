@@ -6,7 +6,8 @@
 
     .watch-img-col {
         width: 12%;
-        >img {
+
+        > img {
             width: 70%;
         }
     }
@@ -17,7 +18,7 @@
         justify-content: space-between;
         flex-direction: column;
 
-        >a {
+        > a {
             color: #0082b3;
             font-size: 18px;
         }
@@ -38,7 +39,8 @@
         .cart {
             display: flex;
             align-items: center;
-            >img {
+
+            > img {
                 width: 30px;
 
                 &:hover {

@@ -1,7 +1,7 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IFilter } from '../../app.models';
-import {take, takeWhile} from 'rxjs/operators';
+import { take, takeWhile } from 'rxjs/operators';
 
 type TFilterMap = Map<keyof IWatch, Set<string | number>>;
 
@@ -18,7 +18,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     @Output()
     public onPriceUpdate: EventEmitter<IPrice> = new EventEmitter<IPrice>();
 
-    public showPriceFilter: boolean = false;
+    public showPriceFilter: boolean = true;
 
     public filtersMapKeys!: Array<keyof IWatch>;
 

@@ -3,7 +3,7 @@
     flex-direction: row;
     padding: 50px 60px;
     align-items: center;
-    width: calc(100% - 110px);
+    width: 100%;
     box-sizing: border-box;
 
     &__data {
@@ -20,7 +20,7 @@
     }
 
     &__img {
-        >img {
+        > img {
             width: 300px;
         }
     }
@@ -47,7 +47,7 @@
 
 @media screen and (max-width: 1024px) {
     .watch__img {
-        >img {
+        > img {
             width: 200px;
         }
     }
@@ -81,7 +81,7 @@
         justify-content: space-between;
 
         &__img {
-            >img {
+            > img {
                 width: 120px;
             }
         }
