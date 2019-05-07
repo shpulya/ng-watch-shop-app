@@ -21,7 +21,9 @@ export class WatchesComponent implements OnInit {
 
     public orderBy: string = 'asc';
 
-    public countOnPage: number = 8;
+    public countOnGridPage: number = 8;
+
+    public countOnLinePage: number = 5;
 
     public currentPage: number = 1;
 
@@ -37,9 +39,9 @@ export class WatchesComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.calculateWatchesOnGridPage();
         this.getWatches();
         this.outputWatchesOnPage(1);
-        this.calculateWatchesOnPage();
     }
 
     public getWatches(): void {
@@ -54,13 +56,15 @@ export class WatchesComponent implements OnInit {
     public changeViewMode(view: string): void {
         this.viewMode = view;
 
-        this.calculateWatchesOnPage();
+        this.calculateWatchesOnGridPage();
+        this.outputWatchesOnPage(1);
     }
 
-    public receivePriceFilter(price$: IPrice): void {
-        this.priceFilter = price$;
-        this.filterWatchesByCategory();
+    public receivePriceFilter(priceFilter: IPrice): void {
+        this.priceFilter = priceFilter;
 
+        console.log('wp', priceFilter);
+        this.filterWatchesByCategory();
     }
 
     public receiveCategoriesFilter(filtersMap$: TFilterMap): void {
@@ -102,31 +106,28 @@ export class WatchesComponent implements OnInit {
     }
 
     public outputWatchesOnPage(currentPage$: number): void {
+        const countOnPage = this.viewMode === 'grid' ? this.countOnGridPage : this.countOnLinePage;
+
         this.currentPage = currentPage$;
         this.pagedWatches = this.filteredWatches.filter((watch: IWatch, i: number) => {
-            return ((i >= (currentPage$ - 1) * this.countOnPage) && (i < currentPage$ * this.countOnPage));
+            return ((i >= (currentPage$ - 1) * countOnPage) && (i < currentPage$ * countOnPage));
         }
         );
     }
 
     @HostListener('window:resize', ['$event'])
-    private calculateWatchesOnPage(event?: Event): void {
-        if (this.viewMode === 'list') {
-            this.countOnPage = 6;
+    private calculateWatchesOnGridPage(event?: Event): void {
+        this.screenWidth = window.innerWidth;
+
+        if (this.screenWidth > 1730) {
+            this.countOnGridPage = 10;
+        } else if (this.screenWidth > 1480 && this.screenWidth <= 1730) {
+            this.countOnGridPage = 8;
+        } else if (this.screenWidth > 1230 && this.screenWidth <= 1480) {
+            this.countOnGridPage = 6;
         } else {
-            this.screenWidth = window.innerWidth;
-
-            if (this.screenWidth > 1730) {
-                this.countOnPage = 10;
-            } else if (this.screenWidth > 1480 && this.screenWidth <= 1730) {
-                this.countOnPage = 8;
-            } else if (this.screenWidth > 1230 && this.screenWidth <= 1480) {
-                this.countOnPage = 6;
-            } else {
-                this.countOnPage = 4;
-            }
+            this.countOnGridPage = 4;
         }
-
     }
 
 }

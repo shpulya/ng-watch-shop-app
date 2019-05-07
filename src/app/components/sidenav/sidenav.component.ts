@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IFilter } from '../../app.models';
 import { take, takeWhile } from 'rxjs/operators';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 type TFilterMap = Map<keyof IWatch, Set<string | number>>;
 
@@ -59,7 +60,20 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     private alive: boolean = true;
 
-    constructor(private watchesService: WatchesService) {
+    constructor(
+        private watchesService: WatchesService,
+        private router: Router,
+        private route: ActivatedRoute
+    ) {
+        this.route.queryParams.subscribe(
+            (queryParam: any) => {
+                this.price = JSON.parse(queryParam['price']) || this.price;
+            }
+        );
+
+        console.log('sn', this.price);
+
+        setTimeout(() => this.onPriceUpdate.emit(this.price), 1);
     }
 
     public ngOnInit(): void {
@@ -79,6 +93,16 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     public setPrice(priceKey: keyof IPrice, value: number): void {
         this.price[priceKey] = value;
+
+        const queryParams: Params = { price: JSON.stringify(this.price) };
+
+        this.router.navigate(
+            ['.'],
+            {
+                queryParams: queryParams,
+                queryParamsHandling: 'merge', // remove to replace all query params by provided
+            });
+
         this.onPriceUpdate.emit(this.price);
     }
 
@@ -144,5 +168,14 @@ export class SidenavComponent implements OnInit, OnDestroy {
         }
 
         this.filtersMapKeys = Array.from(this.filtersMap.keys());
+    }
+
+
+    private receivePrice(): void {
+        this.route.queryParams.subscribe(
+            (queryParam: any) => {
+                this.price = JSON.parse(queryParam['price']) || this.price;
+            }
+        );
     }
 }

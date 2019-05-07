@@ -19,6 +19,7 @@
                 <input
                     class="price_from"
                     type="number"
+                    [(ngModel)]="price['from']"
                     (change)="setPrice('from', $event.target.value || 0)"
                     placeholder="From"
                     pattern="^[0-9]{5}">
@@ -26,6 +27,7 @@
                 <input
                     class="price_to"
                     type="number"
+                    [(ngModel)]="price['to']"
                     (change)="setPrice('to', $event.target.value || 99999)"
                     placeholder="To"
                     pattern="^[0-9]{5}">

@@ -53,10 +53,18 @@
 
         <hr *ngIf="viewMode === 'grid'">
         <app-pagination
-            *ngIf="watchesCount"
+            *ngIf="watchesCount && viewMode === 'grid'"
             [currentPage]="currentPage"
             [itemsCount]="watchesCount"
-            [countOnPage]="countOnPage"
+            [countOnPage]="countOnGridPage"
+            (onPageUpdate)="outputWatchesOnPage($event)">
+        </app-pagination>
+
+        <app-pagination
+            *ngIf="watchesCount && viewMode === 'list'"
+            [currentPage]="currentPage"
+            [itemsCount]="watchesCount"
+            [countOnPage]="countOnLinePage"
             (onPageUpdate)="outputWatchesOnPage($event)">
         </app-pagination>
     </div>
