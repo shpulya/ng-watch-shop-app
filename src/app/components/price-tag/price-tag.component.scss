@@ -8,6 +8,7 @@
     grid-area: price;
     align-items: center;
     font-weight: bold;
+    justify-content: space-evenly;
 
     &__hole {
         content: '';
@@ -39,5 +40,30 @@
         height: 18px;
         border-radius: 50%;
         background: #ffffff;
+    }
+}
+
+.price-tag_big {
+    font-size: 24px;
+    padding: 12px 10px 12px 28px;
+
+    &__hole {
+        width: 13px;
+        height: 13px;
+        margin-left: 30px;
+    }
+
+    &:after {
+        top: -20px;
+        right: -20px;
+        width: 35px;
+        height: 35px;
+    }
+
+    &:before {
+        bottom: -20px;
+        right: -20px;
+        width: 35px;
+        height: 35px;
     }
 }

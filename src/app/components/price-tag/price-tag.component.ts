@@ -10,6 +10,9 @@ export class PriceTagComponent {
     @Input()
     public readonly price!: number;
 
+    @Input()
+    public scale: number = 1;
+
     constructor() {
     }
 }

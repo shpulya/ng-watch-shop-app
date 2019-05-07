@@ -12,6 +12,7 @@
 
 .mode-view-header, .mode-view-panel, .list_view, .grid_view {
     display: inline-block;
+    box-sizing: border-box;
 }
 
 .mode-view-panel, .list_view, .grid_view {
@@ -35,7 +36,7 @@
         }
 
         .active {
-            border: 2px solid #939393;
+            box-shadow: 3px 3px 3px 2px rgba(0,0,0,0.75);
         }
     }
 }
@@ -67,6 +68,11 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+
+.grid_last:after {
+    content: "";
+    flex: auto;
 }
 
 @media screen and (max-width: 600px) {

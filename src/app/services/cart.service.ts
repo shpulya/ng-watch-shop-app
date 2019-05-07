@@ -33,7 +33,7 @@ export class CartService {
         this.countWatchesItemInList();
     }
 
-    public deleteWatchFromCart(watch: IWatch): void {
+    public deleteWatchFromCart(watch: IWatch, all: boolean): void {
         const watchCount = this.cartMap.get(watch);
 
         if (!watchCount) {
@@ -42,10 +42,13 @@ export class CartService {
 
         this.cartMap.delete(watch);
 
-        if (watchCount > 1) {
-            this.cartMap.set(watch, watchCount - 1);
+        if (!all) {
+            if (watchCount > 1) {
+                this.cartMap.set(watch, watchCount - 1);
+            }
         }
 
+        this.countWatchesItemInList();
     }
 
     public countWatchesItemInList(): void {

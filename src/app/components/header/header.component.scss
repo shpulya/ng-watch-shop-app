@@ -36,8 +36,13 @@
             right: -5px;
             color: #ffffff;
             font-size: 14px;
-            line-height: 18px;
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &_resize {
+                font-size: 12px;
+            }
         }
     }
 }

@@ -1,19 +1,26 @@
 .watch {
     display: flex;
     flex-direction: row;
-    padding: 50px 60px;
-    align-items: center;
+    padding: 80px;
     width: 100%;
     box-sizing: border-box;
+    align-items: stretch;
 
     &__data {
         display: flex;
         flex-direction: column;
         align-content: space-between;
-        padding-left: 30px;
+        padding: 0 50px;
         border-right: 1px solid #979797;
+        justify-content: center;
+        color: #333333;
+        font-size: 12px;
 
-        .specifications {
+        &__name {
+            font-size: 36px;
+        }
+
+        &__specifications {
             padding: 30px 0;
             color: #0082b3;
         }
@@ -23,23 +30,30 @@
         > img {
             width: 300px;
         }
+        padding-right: 50px;
     }
 
     &__price {
         width: 100px;
-        padding: 20px;
-
+        padding: 50px;
+        display: flex;
+        align-items: center;
     }
 
     &__cart {
         text-align: center;
-        font-size: 20px;
         cursor: pointer;
         position: relative;
+        padding-left: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 18px;
 
         #cart {
             width: 100px;
             display: block;
+            opacity: 0.65;
         }
     }
 

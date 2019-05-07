@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch } from '../../app.models';
 
@@ -31,12 +31,15 @@ export class WatchesComponent implements OnInit {
 
     public priceFilter!: IPrice;
 
+    private screenWidth!: number;
+
     constructor(private watchesService: WatchesService) {
     }
 
     public ngOnInit(): void {
         this.getWatches();
         this.outputWatchesOnPage(1);
+        this.calculateWatchesOnPage();
     }
 
     public getWatches(): void {
@@ -48,10 +51,10 @@ export class WatchesComponent implements OnInit {
         });
     }
 
-    public changeViewMode(): void {
-        this.viewMode = (this.viewMode === 'grid')
-            ? 'list'
-            : 'grid';
+    public changeViewMode(view: string): void {
+        this.viewMode = view;
+
+        this.calculateWatchesOnPage();
     }
 
     public receivePriceFilter(price$: IPrice): void {
@@ -106,5 +109,24 @@ export class WatchesComponent implements OnInit {
         );
     }
 
+    @HostListener('window:resize', ['$event'])
+    private calculateWatchesOnPage(event?: Event): void {
+        if (this.viewMode === 'list') {
+            this.countOnPage = 6;
+        } else {
+            this.screenWidth = window.innerWidth;
+
+            if (this.screenWidth > 1730) {
+                this.countOnPage = 10;
+            } else if (this.screenWidth > 1480 && this.screenWidth <= 1730) {
+                this.countOnPage = 8;
+            } else if (this.screenWidth > 1230 && this.screenWidth <= 1480) {
+                this.countOnPage = 6;
+            } else {
+                this.countOnPage = 4;
+            }
+        }
+
+    }
 
 }

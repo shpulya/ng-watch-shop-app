@@ -25,13 +25,13 @@
 
                 <div
                     class="list_view"
-                    (click)="changeViewMode()">
+                    (click)="changeViewMode('list')">
                     <i class="fas fa-list {{(viewMode === 'list') ? 'active' : ''}}"></i>
                 </div>
 
                 <div
                     class="grid_view"
-                    (click)="changeViewMode()">
+                    (click)="changeViewMode('grid')">
                     <i class="fas fa-th {{(viewMode === 'grid') ? 'active' : ''}}"></i>
                 </div>
             </div>

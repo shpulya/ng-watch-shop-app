@@ -29,7 +29,14 @@ export class CartComponent implements OnInit {
     }
 
     public reduceWatchesCount(watch: IWatch): void {
-        this.cartService.deleteWatchFromCart(watch);
+        this.cartService.deleteWatchFromCart(watch, false);
+    }
+
+    public deleteSameWatches(watch: IWatch): void {
+        this.cartService.deleteWatchFromCart(watch, true);
+        this.cartMap.delete(watch);
+        this.cartMap = this.cartService.getCartMap();
+        this.watchesList = Array.from(this.cartMap.keys());
     }
 
     public increaseWatchesCount(watch: IWatch): void {

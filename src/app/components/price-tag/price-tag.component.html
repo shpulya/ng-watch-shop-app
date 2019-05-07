@@ -1,4 +1,4 @@
-<div class="price-tag">
+<div class="price-tag {{scale === 2 ? 'price-tag_big' : ''}}">
     ${{price}}
-    <div class="price-tag__hole"></div>
+    <div class="price-tag__hole {{scale === 2 ? 'price-tag_big__hole' : ''}}"></div>
 </div>
