@@ -21,7 +21,7 @@ export class WatchesComponent implements OnInit {
 
     public orderBy: string = 'asc';
 
-    public countOnGridPage: number = 8;
+    public countOnGridPage: number = 4;
 
     public countOnLinePage: number = 5;
 
@@ -121,13 +121,15 @@ export class WatchesComponent implements OnInit {
 
         if (this.screenWidth > 1730) {
             this.countOnGridPage = 10;
-        } else if (this.screenWidth > 1480 && this.screenWidth <= 1730) {
-            this.countOnGridPage = 8;
-        } else if (this.screenWidth > 1230 && this.screenWidth <= 1480) {
-            this.countOnGridPage = 6;
-        } else {
-            this.countOnGridPage = 4;
         }
+        if (this.screenWidth > 1480 && this.screenWidth <= 1730) {
+            this.countOnGridPage = 8;
+        }
+        if (this.screenWidth > 1230 && this.screenWidth <= 1480) {
+            this.countOnGridPage = 6;
+        }
+
+        this.outputWatchesOnPage(1);
     }
 
 }

@@ -1,9 +1,9 @@
 .grid_item {
     display: flex;
     flex-direction: column;
-    width: 250px;
     height: 300px;
     align-items: flex-start;
+    flex-grow: 1;
 
     >a, .description, .footer {
         padding-top: 15px;
@@ -39,3 +39,4 @@
         }
     }
 }
+
