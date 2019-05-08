@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IFilter } from '../../app.models';
 import { takeWhile } from 'rxjs/operators';
@@ -11,7 +11,7 @@ type TFilterMap = Map<keyof IWatch, Set<string | number>>;
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SidenavComponent implements OnInit, OnDestroy {
 
     @Output()
     public onCategoriesUpdate: EventEmitter<TFilterMap> = new EventEmitter<TFilterMap>();
@@ -88,9 +88,6 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public ngOnDestroy(): void {
         this.alive = false;
-    }
-
-    public ngAfterViewInit(): void {
     }
 
     public setPrice(priceKey: keyof IPrice, value: number): void {
