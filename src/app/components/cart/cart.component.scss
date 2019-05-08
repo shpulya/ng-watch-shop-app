@@ -59,7 +59,7 @@
     }
 
     &__list {
-        padding: 100px 40px 40px 40px;
+        margin: 100px 40px 112px 40px;
         max-height: 400px;
         overflow: auto;
 
@@ -179,7 +179,14 @@
         }
 
         &__footer {
+            position: fixed;
+            width: 100%;
+            padding: 0 40px;
+            box-sizing: border-box;
+            bottom: 0;
+            left: 0;
             display: flex;
+            background-color: #ffffff;
             justify-content: space-between;
             align-items: flex-end;
 

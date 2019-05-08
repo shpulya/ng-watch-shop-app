@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IFilter } from '../../app.models';
-import { take, takeWhile } from 'rxjs/operators';
+import { takeWhile } from 'rxjs/operators';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 type TFilterMap = Map<keyof IWatch, Set<string | number>>;
@@ -33,11 +33,11 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewInit {
         {
             name: 'manufacturer',
             displayName: 'Manufacturer',
-            showFilter: true
+            showFilter: false
         }, {
             name: 'screenSize',
             displayName: 'Screen Size',
-            showFilter: true
+            showFilter: false
         }, {
             name: 'screenType',
             displayName: 'Screen Type',
