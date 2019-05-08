@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IFilter } from '../../app.models';
 import { take, takeWhile } from 'rxjs/operators';
@@ -11,7 +11,7 @@ type TFilterMap = Map<keyof IWatch, Set<string | number>>;
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent implements OnInit, OnDestroy {
+export class SidenavComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @Output()
     public onCategoriesUpdate: EventEmitter<TFilterMap> = new EventEmitter<TFilterMap>();
@@ -33,11 +33,11 @@ export class SidenavComponent implements OnInit, OnDestroy {
         {
             name: 'manufacturer',
             displayName: 'Manufacturer',
-            showFilter: false
+            showFilter: true
         }, {
             name: 'screenSize',
             displayName: 'Screen Size',
-            showFilter: false
+            showFilter: true
         }, {
             name: 'screenType',
             displayName: 'Screen Type',
@@ -65,30 +65,32 @@ export class SidenavComponent implements OnInit, OnDestroy {
         private router: Router,
         private route: ActivatedRoute
     ) {
-        this.route.queryParams.subscribe(
-            (queryParam: any) => {
-                this.price = JSON.parse(queryParam['price']) || this.price;
-            }
-        );
-
-        console.log('sn', this.price);
-
-        setTimeout(() => this.onPriceUpdate.emit(this.price), 1);
     }
 
     public ngOnInit(): void {
+
         this.watchesService.watches$
             .pipe(
                 takeWhile(() => this.alive)
             )
             .subscribe((watches: Array<IWatch>) => {
                 this.updateFiltersMap(watches);
-            })
+                this.getQueryParams();
+                setTimeout(() => this.setInitialFilters());
+            },
+                () => {
+                    console.error('Can\'t load watches!');
+                },
+                () => {
+                })
         ;
     }
 
     public ngOnDestroy(): void {
         this.alive = false;
+    }
+
+    public ngAfterViewInit(): void {
     }
 
     public setPrice(priceKey: keyof IPrice, value: number): void {
@@ -100,7 +102,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
             ['.'],
             {
                 queryParams: queryParams,
-                queryParamsHandling: 'merge', // remove to replace all query params by provided
+                queryParamsHandling: 'merge'
             });
 
         this.onPriceUpdate.emit(this.price);
@@ -115,6 +117,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
             this.checkedFiltersMap.set(category, filtersSet);
             this.onCategoriesUpdate.emit(this.checkedFiltersMap);
             this.checkedFiltersMapKeys = Array.from(this.checkedFiltersMap.keys());
+            this.setCategoriesToUrl(this.checkedFiltersMap);
 
             return;
         }
@@ -139,6 +142,8 @@ export class SidenavComponent implements OnInit, OnDestroy {
             this.checkedFiltersMap.delete(category);
         }
 
+
+        this.setCategoriesToUrl(this.checkedFiltersMap);
         this.checkedFiltersMapKeys = Array.from(this.checkedFiltersMap.keys());
         this.onCategoriesUpdate.emit(this.checkedFiltersMap);
     }
@@ -171,11 +176,70 @@ export class SidenavComponent implements OnInit, OnDestroy {
     }
 
 
-    private receivePrice(): void {
-        this.route.queryParams.subscribe(
-            (queryParam: any) => {
-                this.price = JSON.parse(queryParam['price']) || this.price;
+    private setCategoriesToUrl(categoriesMap: TFilterMap): void {
+        const categories: any = {};
+
+        categoriesMap.forEach((value: Set<string | number>, key: string, map: TFilterMap) => {
+            categories[key] = JSON.stringify([...value]);
+        })
+
+        const queryParams: Params = { categories: JSON.stringify(categories) };
+
+        this.router.navigate(
+            ['.'],
+            {
+                queryParams: queryParams,
+                queryParamsHandling: 'merge'
+            });
+    }
+
+
+    private getQueryParams(): void {
+
+        this.route.queryParams
+            .pipe(
+                takeWhile(() => this.alive)
+            )
+            .subscribe(
+            (queryParam: Params) => {
+
+                if (queryParam['price']) {
+                    this.price = JSON.parse(queryParam['price']);
+                    this.onPriceUpdate.emit(this.price);
+                }
+
+                if (queryParam['categories']) {
+                    const categoriesObject = JSON.parse(queryParam['categories']);
+                    const categoriesMap = new Map<keyof IWatch, Set<string | number>>();
+
+                    Object.keys(categoriesObject).forEach((key: string) => {
+                        categoriesObject[key] = new Set<string | number>(JSON.parse(categoriesObject[key]));
+                        categoriesMap.set(<keyof IWatch> key, categoriesObject[key]);
+
+                    });
+
+                    this.checkedFiltersMap = categoriesMap;
+                    this.checkedFiltersMapKeys = Array.from(this.checkedFiltersMap.keys());
+                }
+
+                this.onCategoriesUpdate.emit(this.checkedFiltersMap);
             }
         );
+    }
+
+    private setInitialFilters(): void {
+        console.log(this.checkedFiltersMap);
+
+        if (this.checkedFiltersMap) {
+            this.checkedFiltersMap.forEach(
+                        (
+                            values: Set<string | number>) => {
+                            values.forEach((catItem) => {
+                                const categoryItem = document.getElementById(String(catItem)) as HTMLInputElement;
+                                console.log(catItem);
+                                categoryItem.checked = true;
+                            });
+                        });
+        }
     }
 }

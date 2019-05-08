@@ -63,7 +63,6 @@ export class WatchesComponent implements OnInit {
     public receivePriceFilter(priceFilter: IPrice): void {
         this.priceFilter = priceFilter;
 
-        console.log('wp', priceFilter);
         this.filterWatchesByCategory();
     }
 
@@ -122,9 +121,11 @@ export class WatchesComponent implements OnInit {
         if (this.screenWidth > 1730) {
             this.countOnGridPage = 10;
         }
+
         if (this.screenWidth > 1480 && this.screenWidth <= 1730) {
             this.countOnGridPage = 8;
         }
+
         if (this.screenWidth > 1230 && this.screenWidth <= 1480) {
             this.countOnGridPage = 6;
         }
