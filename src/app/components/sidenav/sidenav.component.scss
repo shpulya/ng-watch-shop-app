@@ -74,11 +74,11 @@ label {
     position: absolute;
     border-color: #373737;
     border-style: solid;
-    height: 16px;
+    height: 17px;
     top: 1.3em;
     left: 0.6em;
     margin-top: -1em;
-    width: 16px;
+    width: 17px;
 }
 .delete:before {
     transform: rotate(45deg);
@@ -86,8 +86,8 @@ label {
 }
 
 .delete:after {
-    transform: translate(11px)rotate(45deg);
-    border-width: 0 0 0 1px;
+    transform: translate(12px)rotate(-45deg);
+    border-width: 1px 0 0 0;
 }
 
 

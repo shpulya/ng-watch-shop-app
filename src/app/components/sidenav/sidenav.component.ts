@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IFilter } from '../../app.models';
-import { takeWhile } from 'rxjs/operators';
+import { finalize, take, takeWhile } from 'rxjs/operators';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 type TFilterMap = Map<keyof IWatch, Set<string | number>>;
@@ -33,7 +33,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
         {
             name: 'manufacturer',
             displayName: 'Manufacturer',
-            showFilter: false
+            showFilter: true
         }, {
             name: 'screenSize',
             displayName: 'Screen Size',
@@ -71,23 +71,30 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
         this.watchesService.watches$
             .pipe(
-                takeWhile(() => this.alive)
+                take(2),
+                //takeWhile(() => this.alive)
+                finalize(() => {
+                    console.log('finalize');
+                    //this.setInitialFilters();
+                })
             )
             .subscribe((watches: Array<IWatch>) => {
                 this.updateFiltersMap(watches);
                 this.getQueryParams();
-                setTimeout(() => this.setInitialFilters());
+                //setTimeout(() => this.setInitialFilters());
             },
                 () => {
                     console.error('Can\'t load watches!');
                 },
                 () => {
+                    console.log('complete');
                 })
         ;
     }
 
     public ngOnDestroy(): void {
         this.alive = false;
+        console.log('ngOnDestroy');
     }
 
     public setPrice(priceKey: keyof IPrice, value: number): void {
