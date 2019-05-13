@@ -2,9 +2,13 @@
     <img
         src="../../../../assets/img/watches/{{watch.image}}"
         alt="{{watch.image}}"
-        [routerLink]="['/watch/'+watch.id]">
+        [routerLink]="['/watch/'+watch.id]"
+        [queryParams]="queryURLParams"
+        [skipLocationChange]="true">
 
-    <a [routerLink]="['/watch/'+watch.id]">
+    <a [routerLink]="['/watch/'+watch.id]"
+       [queryParams]="queryURLParams"
+       [skipLocationChange]="true">
         {{watch.name}}</a>
 
     <div class="description">

@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch } from '../../app.models';
+import { ActivatedRoute, Params } from '@angular/router';
 
 type TFilterMap = Map<keyof IWatch, Set<string | number>>;
 
@@ -33,9 +34,11 @@ export class WatchesComponent implements OnInit {
 
     public priceFilter!: IPrice;
 
+    public queryParams!: Params;
+
     private screenWidth!: number;
 
-    constructor(private watchesService: WatchesService) {
+    constructor(private watchesService: WatchesService, private route: ActivatedRoute) {
     }
 
     public ngOnInit(): void {
@@ -62,13 +65,18 @@ export class WatchesComponent implements OnInit {
 
     public receivePriceFilter(priceFilter: IPrice): void {
         this.priceFilter = priceFilter;
-
         this.filterWatchesByCategory();
+        this.route.queryParams.subscribe((queryParams: Params) => {
+            this.queryParams = queryParams;
+        });
     }
 
     public receiveCategoriesFilter(filtersMap$: TFilterMap): void {
         this.categoriesFilter = filtersMap$;
         this.filterWatchesByCategory();
+        this.route.queryParams.subscribe((queryParams: Params) => {
+            this.queryParams = queryParams;
+        });
     }
 
     public filterWatchesByCategory(): void {

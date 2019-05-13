@@ -3,6 +3,8 @@ import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IFilter } from '../../app.models';
 import { finalize, take, takeWhile } from 'rxjs/operators';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { FiltersService } from '../../services/filters.service';
+import { CookieService } from 'ngx-cookie-service';
 
 type TFilterMap = Map<keyof IWatch, Set<string | number>>;
 
@@ -11,7 +13,7 @@ type TFilterMap = Map<keyof IWatch, Set<string | number>>;
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent implements OnInit, OnDestroy {
+export class SidenavComponent implements OnInit {
 
     @Output()
     public onCategoriesUpdate: EventEmitter<TFilterMap> = new EventEmitter<TFilterMap>();
@@ -63,15 +65,16 @@ export class SidenavComponent implements OnInit, OnDestroy {
     constructor(
         private watchesService: WatchesService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private filterService: FiltersService,
+        private cookie: CookieService
     ) {
     }
 
     public ngOnInit(): void {
-
         this.watchesService.watches$
             .pipe(
-                take(2),
+                //take(2),
                 //takeWhile(() => this.alive)
                 finalize(() => {
                     console.log('finalize');
@@ -81,7 +84,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
             .subscribe((watches: Array<IWatch>) => {
                 this.updateFiltersMap(watches);
                 this.getQueryParams();
-                //setTimeout(() => this.setInitialFilters());
+                setTimeout(() => this.setInitialFilters());
             },
                 () => {
                     console.error('Can\'t load watches!');
@@ -92,23 +95,10 @@ export class SidenavComponent implements OnInit, OnDestroy {
         ;
     }
 
-    public ngOnDestroy(): void {
-        this.alive = false;
-        console.log('ngOnDestroy');
-    }
-
     public setPrice(priceKey: keyof IPrice, value: number): void {
         this.price[priceKey] = value;
-
-        const queryParams: Params = { price: JSON.stringify(this.price) };
-
-        this.router.navigate(
-            ['.'],
-            {
-                queryParams: queryParams,
-                queryParamsHandling: 'merge'
-            });
-
+        this.filterService.setPriceToUrl(JSON.stringify(this.price));
+        this.cookie.set('price', JSON.stringify(this.price));
         this.onPriceUpdate.emit(this.price);
     }
 
@@ -121,7 +111,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
             this.checkedFiltersMap.set(category, filtersSet);
             this.onCategoriesUpdate.emit(this.checkedFiltersMap);
             this.checkedFiltersMapKeys = Array.from(this.checkedFiltersMap.keys());
-            this.setCategoriesToUrl(this.checkedFiltersMap);
+            this.filterService.setCategoriesToUrl(this.checkedFiltersMap);
 
             return;
         }
@@ -146,8 +136,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
             this.checkedFiltersMap.delete(category);
         }
 
-
-        this.setCategoriesToUrl(this.checkedFiltersMap);
+        this.filterService.setCategoriesToUrl(this.checkedFiltersMap);
         this.checkedFiltersMapKeys = Array.from(this.checkedFiltersMap.keys());
         this.onCategoriesUpdate.emit(this.checkedFiltersMap);
     }
@@ -179,30 +168,11 @@ export class SidenavComponent implements OnInit, OnDestroy {
         this.filtersMapKeys = Array.from(this.filtersMap.keys());
     }
 
-
-    private setCategoriesToUrl(categoriesMap: TFilterMap): void {
-        const categories: any = {};
-
-        categoriesMap.forEach((value: Set<string | number>, key: string, map: TFilterMap) => {
-            categories[key] = JSON.stringify([...value]);
-        })
-
-        const queryParams: Params = { categories: JSON.stringify(categories) };
-
-        this.router.navigate(
-            ['.'],
-            {
-                queryParams: queryParams,
-                queryParamsHandling: 'merge'
-            });
-    }
-
-
     private getQueryParams(): void {
 
         this.route.queryParams
             .pipe(
-                takeWhile(() => this.alive)
+                // takeWhile(() => this.alive)
             )
             .subscribe(
             (queryParam: Params) => {
@@ -227,12 +197,15 @@ export class SidenavComponent implements OnInit, OnDestroy {
                 }
 
                 this.onCategoriesUpdate.emit(this.checkedFiltersMap);
+
+
+                console.log(this.checkedFiltersMap);
             }
         );
+
     }
 
     private setInitialFilters(): void {
-        console.log(this.checkedFiltersMap);
 
         if (this.checkedFiltersMap) {
             this.checkedFiltersMap.forEach(
@@ -240,7 +213,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
                             values: Set<string | number>) => {
                             values.forEach((catItem) => {
                                 const categoryItem = document.getElementById(String(catItem)) as HTMLInputElement;
-                                console.log(catItem);
                                 categoryItem.checked = true;
                             });
                         });

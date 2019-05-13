@@ -40,14 +40,16 @@
         <div class="container grid" *ngIf="viewMode === 'grid'">
             <app-watches-grid-view
                 *ngFor="let watch of pagedWatches"
-                [watch]="watch">
+                [watch]="watch"
+                [queryURLParams]="queryParams">
             </app-watches-grid-view>
         </div>
 
         <div class="container list" *ngIf="viewMode === 'list'">
             <app-watches-list-view
                 *ngFor="let watch of pagedWatches"
-                [watch]="watch">
+                [watch]="watch"
+                [queryURLParams]="queryParams">
             </app-watches-list-view>
         </div>
 

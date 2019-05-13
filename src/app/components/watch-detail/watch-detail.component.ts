@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute, Params } from '@angular/router';
+import {ActivatedRoute, Params, RouterLinkActive} from '@angular/router';
 import { WatchesService } from '../../services/watches.service';
 import { IWatch } from '../../app.models';
 import { CartService } from '../../services/cart.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-watch-detail',
@@ -15,6 +16,10 @@ export class WatchDetailComponent implements OnInit {
     public watch!: IWatch | null;
 
     public isAdded: boolean = false;
+
+    public price: string = '';
+
+    public queryParams!: Params;
 
     private routeSubscription: Subscription;
 
@@ -33,6 +38,9 @@ export class WatchDetailComponent implements OnInit {
 
     public ngOnInit(): void {
         this.watch = this.watchesService.getWatchById(this.watchId);
+        this.route.queryParams.subscribe((queryParams: Params) => {
+            this.queryParams = queryParams;
+        });
     }
 
     public addWatchToCart(watch: IWatch): void {

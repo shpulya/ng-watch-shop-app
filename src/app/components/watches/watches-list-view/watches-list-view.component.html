@@ -3,12 +3,18 @@
         <img
             src="../../../../assets/img/watches/{{watch!.image}}"
             alt="{{watch!.image}}"
-            [routerLink]="['/watch/'+watch.id]">
+            [routerLink]="['/watch/'+watch.id]"
+            [queryParams]="queryURLParams"
+            [skipLocationChange]="true">
     </div>
 
     <div class="container__details">
         <div class="details-col">
-            <a [routerLink]="['/watch/'+watch!.id]">{{watch!.name}}</a>
+            <a [routerLink]="['/watch/'+watch!.id]"
+               [queryParams]="queryURLParams"
+               [skipLocationChange]>
+                {{watch!.name}}
+            </a>
             <div class="specifications">
                 {{watch!.os}}, {{watch!.ramSize}} RAM, {{watch!.romSize}} ROM
             </div>

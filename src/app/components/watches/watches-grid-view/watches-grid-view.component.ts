@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IWatch } from '../../../app.models';
 import { CartService } from '../../../services/cart.service';
+import { Params } from '@angular/router';
 
 @Component({
     selector: 'app-watches-grid-view',
@@ -11,6 +12,9 @@ export class WatchesGridViewComponent implements OnInit {
 
     @Input()
     public readonly watch!: IWatch;
+
+    @Input()
+    public queryURLParams!: Params;
 
     public isAdded: boolean = false;
 
