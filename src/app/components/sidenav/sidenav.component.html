@@ -1,6 +1,7 @@
 <div class="sidenav">
     <div class="sidenav__header">Filters</div>
 
+    <div class="sidenav__applied">Applied filters</div>
     <div class="checked_filters" *ngFor="let filter of checkedFiltersMapKeys">
         <span>{{getDisplayCategoryName(filter)}}:</span>
         <div class="checked_category_item" *ngFor="let property of checkedFiltersMap!.get(filter)">
@@ -8,6 +9,7 @@
             <div class="delete" (click)="onFilterChecked(filter, property)"></div>
         </div>
     </div>
+    <hr>
 
     <ul>
         <li>

@@ -25,7 +25,9 @@
                     src="../../../../assets/img/cart.png"
                     alt="Add to cart" id="cart"
                     (click)="addWatchToCart(watch)">
-                <label for="cart">Add to cart</label>
+                <label for="cart" (click)="addWatchToCart(watch)">
+                    Add to cart
+                </label>
             </div>
         </div>
     </div>

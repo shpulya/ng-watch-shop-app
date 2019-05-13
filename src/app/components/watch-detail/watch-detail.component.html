@@ -5,6 +5,7 @@
             alt="{{watch!.image}}">
     </div>
     <div class="watch__data">
+        <a [routerLink]="''">Back to catalog</a>
         <span class="watch__data__name">{{watch!.name}}</span>
 
         <div class="watch__data__specifications">
@@ -28,7 +29,7 @@
             (click)="addWatchToCart(watch)">
         <app-tooltip [isClicked]="isAdded" [message]="'Added to cart'"></app-tooltip>
 
-        <label for="cart">
+        <label for="cart" (click)="addWatchToCart(watch)">
             Add to cart
         </label>
     </div>

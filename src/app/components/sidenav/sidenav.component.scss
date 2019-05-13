@@ -13,6 +13,13 @@ label {
         font-size: 24px;
     }
 
+    &__applied {
+        color: #333333;
+        padding: 18px 25px;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
     ul {
         padding-left: 25px;
         padding-right: 15px;
@@ -47,7 +54,7 @@ label {
 }
 
 .checked_filters {
-    padding: 10px;
+    padding: 10px 10px 10px 25px;
     display: flex;
     justify-content: flex-start;
     align-items: center;

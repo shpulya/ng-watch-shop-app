@@ -12,9 +12,16 @@
         align-content: space-between;
         padding: 0 50px;
         border-right: 1px solid #979797;
-        justify-content: center;
+        justify-content: flex-start;
         color: #333333;
         font-size: 12px;
+
+
+        a {
+            color: #0082b3;
+            padding: 5px 0 100px 0;
+            text-decoration: underline;
+        }
 
         &__name {
             font-size: 36px;
@@ -69,28 +76,14 @@
 
     .watch {
         padding: 20px;
-    }
-}
 
-@media screen and (max-width: 900px) {
-    .watch {
-        padding: 20px;
+        &__data {
 
-
-        &__cart {
-            font-size: 16px;
-
-            #cart {
-                width: 60px;
-                cursor: pointer;
-
-                &:hover {
-                    width: 63px;
-                }
+            a {
+                padding-bottom: 20px;
             }
         }
     }
-
 }
 
 @media screen and (max-width: 900px) {
