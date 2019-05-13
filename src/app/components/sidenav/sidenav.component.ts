@@ -1,10 +1,9 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IFilter } from '../../app.models';
-import { finalize, take, takeWhile } from 'rxjs/operators';
+import { finalize, takeWhile } from 'rxjs/operators';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FiltersService } from '../../services/filters.service';
-import { CookieService } from 'ngx-cookie-service';
 
 type TFilterMap = Map<keyof IWatch, Set<string | number>>;
 
@@ -13,7 +12,7 @@ type TFilterMap = Map<keyof IWatch, Set<string | number>>;
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent implements OnInit {
+export class SidenavComponent implements OnInit, OnDestroy {
 
     @Output()
     public onCategoriesUpdate: EventEmitter<TFilterMap> = new EventEmitter<TFilterMap>();
@@ -66,19 +65,15 @@ export class SidenavComponent implements OnInit {
         private watchesService: WatchesService,
         private router: Router,
         private route: ActivatedRoute,
-        private filterService: FiltersService,
-        private cookie: CookieService
+        private filterService: FiltersService
     ) {
     }
 
     public ngOnInit(): void {
         this.watchesService.watches$
             .pipe(
-                //take(2),
-                //takeWhile(() => this.alive)
+                takeWhile(() => this.alive),
                 finalize(() => {
-                    console.log('finalize');
-                    //this.setInitialFilters();
                 })
             )
             .subscribe((watches: Array<IWatch>) => {
@@ -90,15 +85,18 @@ export class SidenavComponent implements OnInit {
                     console.error('Can\'t load watches!');
                 },
                 () => {
-                    console.log('complete');
                 })
         ;
+    }
+
+    public ngOnDestroy(): void {
+        this.alive = false;
+        console.log('ngOnDestroy');
     }
 
     public setPrice(priceKey: keyof IPrice, value: number): void {
         this.price[priceKey] = value;
         this.filterService.setPriceToUrl(JSON.stringify(this.price));
-        this.cookie.set('price', JSON.stringify(this.price));
         this.onPriceUpdate.emit(this.price);
     }
 

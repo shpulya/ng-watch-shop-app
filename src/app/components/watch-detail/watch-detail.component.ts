@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import {ActivatedRoute, Params, RouterLinkActive} from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { WatchesService } from '../../services/watches.service';
 import { IWatch } from '../../app.models';
 import { CartService } from '../../services/cart.service';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-watch-detail',
