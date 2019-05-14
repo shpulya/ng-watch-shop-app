@@ -11,9 +11,6 @@ import { CartService } from '../../services/cart.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-    @Output()
-    public showCartEmit: EventEmitter<boolean> = new EventEmitter<boolean>();
-
     public counter: number = 0;
 
     public alive: boolean = true;
@@ -43,9 +40,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     public showCart(): void {
-        if (this.counter) {
-            this.showCartEmit.emit(true);
-        }
+        this.cartService.isShowCart$.next(true);
     }
 
 }

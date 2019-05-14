@@ -7,6 +7,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class CartService {
 
+    public isShowCart$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
     public cartMap: Map<IWatch, number> = new Map();
 
     public countWatches$: BehaviorSubject<number> = new BehaviorSubject<number>(0);

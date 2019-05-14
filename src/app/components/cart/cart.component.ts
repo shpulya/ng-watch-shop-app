@@ -10,9 +10,6 @@ import { IWatch } from '../../app.models';
 })
 export class CartComponent implements OnInit {
 
-    @Output()
-    public showCartEmit: EventEmitter<boolean> = new EventEmitter<boolean>();
-
     public cartMap: Map<IWatch, number> = new Map<IWatch, number>();
 
     public watchesList: Array<IWatch> = [];
@@ -28,7 +25,7 @@ export class CartComponent implements OnInit {
     }
 
     public closeCart(): void {
-        this.showCartEmit.emit(false);
+        this.cartService.isShowCart$.next(false);
     }
 
     public reduceWatchesCount(watch: IWatch): void {
