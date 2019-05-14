@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { IWatch } from '../app.models';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+
+import { ICartItem, IWatch } from '../app.models';
+import { CookieService } from 'ngx-cookie-service';
+
 
 @Injectable({
     providedIn: 'root'
@@ -9,56 +12,62 @@ export class CartService {
 
     public isShowCart$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    public cartMap: Map<IWatch, number> = new Map();
+    public items$: BehaviorSubject<Map<number, number>> = new BehaviorSubject<Map<number, number>>(new Map());
 
     public countWatches$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-    constructor() {
+    constructor(private cookieService: CookieService) {
     }
 
-    public addWatchToCart(watch: IWatch): void {
-        const cart = this.cartMap;
+    public addWatchToCart(watchId: number): void {
 
-        if (!cart.has(watch)) {
-            cart.set(watch, 1);
+        if (!this.items$.getValue().has(watchId)) {
+            this.items$.next(this.items$.getValue().set(watchId, 1));
         } else {
-            const watchCount = cart.get(watch);
+            const watchCount = this.items$.getValue().get(watchId);
 
             if (!watchCount) {
                 return;
             }
 
-            cart.delete(watch);
-            cart.set(watch, watchCount + 1);
+            this.items$.getValue().delete(watchId);
+            this.items$.next(this.items$.getValue().set(watchId, watchCount + 1));
         }
 
-        this.countWatchesItemInList();
+        this.countItemsInCart();
+        this.cookieService.set('cartItems', JSON.stringify([...this.items$.getValue()]));
     }
 
-    public deleteWatchFromCart(watch: IWatch, all: boolean): void {
-        const watchCount = this.cartMap.get(watch);
+    public deleteItem(watchId: number): void {
+
+        this.items$.getValue().delete(watchId);
+        console.log(this.items$.getValue());
+        this.items$.next(this.items$.getValue());
+        this.countItemsInCart();
+    }
+
+    public reduceCountItem(watchId: number): void {
+        const watchCount = this.items$.getValue().get(watchId);
 
         if (!watchCount) {
             return;
         }
 
-        this.cartMap.delete(watch);
+        this.items$.getValue().delete(watchId);
 
-        if (!all) {
-            if (watchCount > 1) {
-                this.cartMap.set(watch, watchCount - 1);
-            }
+        if (watchCount > 1) {
+            this.items$.getValue().set(watchId, watchCount - 1);
         }
+        console.log(this.items$.getValue());
 
-        this.countWatchesItemInList();
+        this.items$.next(this.items$.getValue());
+        this.countItemsInCart();
     }
 
-    public countWatchesItemInList(): void {
-        this.countWatches$.next(Array.from(this.cartMap.values()).reduce((acc: number, currentVal: number) => acc + currentVal, 0));
+    public countItemsInCart(): void {
+        this.countWatches$.next(Array.from(this.items$
+            .getValue()
+            .values())
+            .reduce((acc: number, currentVal: number) => acc + currentVal, 0));
     }
-
-    public getCartMap(): Map<IWatch, number> {
-        return this.cartMap;
-    }
-
 }

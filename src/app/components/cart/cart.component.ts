@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { CartService } from '../../services/cart.service';
 import { IWatch } from '../../app.models';
+import { WatchesService } from '../../services/watches.service';
 
 @Component({
     selector: 'app-cart',
@@ -10,47 +11,55 @@ import { IWatch } from '../../app.models';
 })
 export class CartComponent implements OnInit {
 
-    public cartMap: Map<IWatch, number> = new Map<IWatch, number>();
+    public items: Map<IWatch, number> = new Map<IWatch, number>();
 
     public watchesList: Array<IWatch> = [];
 
     constructor(
-        private cartService: CartService
+        private cartService: CartService,
+        private watchesService: WatchesService
     ) {
+
     }
 
     public ngOnInit(): void {
-        this.cartMap = this.cartService.getCartMap();
-        this.watchesList = Array.from(this.cartMap.keys());
+
+        this.cartService.items$.subscribe((items: Map<number, number>) => {
+            items.forEach((count, itemId) => {
+                this.items.set(this.watchesService.getWatchById(itemId), count);
+            });
+        });
+
+        this.watchesList = Array.from(this.items.keys());
     }
 
     public closeCart(): void {
         this.cartService.isShowCart$.next(false);
     }
 
-    public reduceWatchesCount(watch: IWatch): void {
-        this.cartService.deleteWatchFromCart(watch, false);
+    public reduceWatchesCount(watchId: number): void {
+        this.cartService.reduceCountItem(watchId);
     }
 
-    public deleteSameWatches(watch: IWatch): void {
-        this.cartService.deleteWatchFromCart(watch, true);
-        this.cartMap.delete(watch);
-        this.cartMap = this.cartService.getCartMap();
-        this.watchesList = Array.from(this.cartMap.keys());
+    public deleteSameWatches(watchId: number): void {
+        this.cartService.deleteItem(watchId);
+        this.watchesList = Array.from(this.items.keys());
     }
 
-    public increaseWatchesCount(watch: IWatch): void {
-        this.cartService.addWatchToCart(watch);
+    public increaseWatchesCount(watchId: number): void {
+        this.cartService.addWatchToCart(watchId);
     }
 
     public getItemsCount(watch: IWatch): number {
-        return this.cartMap.get(watch) || 0;
+        console.log('count', this.items);
+
+        return this.items.get(watch) || 0;
     }
 
     public getFinalSum(): number {
         let finalSum = 0;
 
-        this.cartMap.forEach((acc: number, watch: IWatch) => {
+        this.items.forEach((acc: number, watch: IWatch) => {
             finalSum += acc * watch.price;
         });
 

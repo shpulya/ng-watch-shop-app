@@ -25,3 +25,8 @@ export interface IFilter {
     displayName: string;
     showFilter: boolean;
 }
+
+export interface ICartItem {
+    id: string;
+    count: number;
+}

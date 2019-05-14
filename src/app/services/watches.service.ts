@@ -33,11 +33,11 @@ export class WatchesService {
 
     }
 
-    public getWatchById(id: number): IWatch | null {
+    public getWatchById(id: number): IWatch {
         const watches = this.getWatches().getValue();
 
         if (!watches || !watches.length) {
-            return null;
+            return Object();
         }
 
         for (const watch of watches) {
@@ -46,7 +46,7 @@ export class WatchesService {
             }
         }
 
-        return null;
+        return  Object();
     }
 
 }

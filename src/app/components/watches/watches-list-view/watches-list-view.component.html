@@ -28,8 +28,8 @@
                 <img
                     src="../../../../assets/img/cart.png"
                     alt="Add to cart" id="cart"
-                    (click)="addWatchToCart(watch)">
-                <label for="cart" (click)="addWatchToCart(watch)">
+                    (click)="addWatchToCart(watch!.id)">
+                <label for="cart" (click)="addWatchToCart(watch!.id)">
                     Add to cart
                 </label>
             </div>
