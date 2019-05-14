@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch } from '../../app.models';
@@ -42,20 +42,25 @@ export class WatchesComponent implements OnInit {
 
     constructor(
         private watchesService: WatchesService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private router: Router
     ) {
     }
 
     public ngOnInit(): void {
-        this.calculateWatchesOnGridPage();
+        this.getQueryParams();
         this.getWatches();
-        this.outputWatchesOnPage(1);
+
+
+        this.calculateWatchesOnGridPage();
+        this.outputWatchesOnPage(this.currentPage);
     }
 
     public getWatches(): void {
         this.watchesService.getWatches().subscribe((watches: Array<IWatch>) => {
             this.watches = watches;
             this.filteredWatches = this.watches;
+            this.orderWatches();
             this.watchesCount = this.watches.length;
             this.outputWatchesOnPage(1);
         });
@@ -63,6 +68,13 @@ export class WatchesComponent implements OnInit {
 
     public changeViewMode(view: string): void {
         this.viewMode = view;
+
+        this.router.navigate(
+            ['.'],
+            {
+                queryParams: {view: view},
+                queryParamsHandling: 'merge'
+            });
 
         this.calculateWatchesOnGridPage();
         this.outputWatchesOnPage(1);
@@ -111,20 +123,45 @@ export class WatchesComponent implements OnInit {
     }
 
     public orderWatches(): void {
+        this.router.navigate(
+            ['.'],
+            {
+                queryParams: {sort: this.orderBy},
+                queryParamsHandling: 'merge'
+            });
+
+        debugger;
         this.filteredWatches = (this.orderBy === 'asc')
             ? this.filteredWatches.sort((a: IWatch, b: IWatch) => a.price - b.price)
             : this.filteredWatches.sort((a: IWatch, b: IWatch) => b.price - a.price);
         this.outputWatchesOnPage(1);
     }
 
-    public outputWatchesOnPage(currentPage$: number): void {
+    public outputWatchesOnPage(currentPage: number): void {
         const countOnPage = this.viewMode === 'grid' ? this.countOnGridPage : this.countOnLinePage;
 
-        this.currentPage = currentPage$;
+        this.currentPage = currentPage;
         this.pagedWatches = this.filteredWatches.filter((watch: IWatch, i: number) => {
-            return ((i >= (currentPage$ - 1) * countOnPage) && (i < currentPage$ * countOnPage));
+            return ((i >= (currentPage - 1) * countOnPage) && (i < currentPage * countOnPage));
         }
         );
+    }
+
+    private getQueryParams(): void {
+        this.route.queryParams
+            .subscribe(
+                (queryParam: Params) => {
+                    console.log(queryParam['view']);
+
+                    if (queryParam['view']) {
+                        console.log(queryParam['view']);
+                        this.viewMode = queryParam['view'];
+                    }
+                    if (queryParam['sort']) {
+                        this.orderBy = queryParam['sort'];
+                        console.log(queryParam['sort']);
+                    }
+                });
     }
 
     @HostListener('window:resize', ['$event'])

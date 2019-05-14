@@ -195,9 +195,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
                 }
 
                 this.onCategoriesUpdate.emit(this.checkedFiltersMap);
-
-
-                console.log(this.checkedFiltersMap);
             }
         );
 
