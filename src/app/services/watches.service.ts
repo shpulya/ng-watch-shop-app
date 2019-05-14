@@ -15,7 +15,7 @@ export class WatchesService {
     ) {
     }
 
-    public getWatches(): Observable<Array<IWatch>> {
+    public getWatches(): BehaviorSubject<Array<IWatch>> {
         if (this.watches$.getValue().length) {
             return this.watches$;
         } else {
@@ -34,7 +34,7 @@ export class WatchesService {
     }
 
     public getWatchById(id: number): IWatch | null {
-        const watches = this.watches$.getValue();
+        const watches = this.getWatches().getValue();
 
         if (!watches || !watches.length) {
             return null;

@@ -1,7 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch } from '../../app.models';
-import { ActivatedRoute, Params } from '@angular/router';
+
 
 type TFilterMap = Map<keyof IWatch, Set<string | number>>;
 
@@ -38,7 +40,10 @@ export class WatchesComponent implements OnInit {
 
     private screenWidth!: number;
 
-    constructor(private watchesService: WatchesService, private route: ActivatedRoute) {
+    constructor(
+        private watchesService: WatchesService,
+        private route: ActivatedRoute
+    ) {
     }
 
     public ngOnInit(): void {

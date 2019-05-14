@@ -1,8 +1,9 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { WatchesService } from '../../services/watches.service';
-import { IPrice, IWatch, IFilter } from '../../app.models';
-import { finalize, takeWhile } from 'rxjs/operators';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { finalize, takeWhile } from 'rxjs/operators';
+
+import { WatchesService } from '../../services/watches.service';
+import { IPrice, IWatch, IFilter, IWatchDetail } from '../../app.models';
 import { FiltersService } from '../../services/filters.service';
 
 type TFilterMap = Map<keyof IWatch, Set<string | number>>;
@@ -34,7 +35,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
         {
             name: 'manufacturer',
             displayName: 'Manufacturer',
-            showFilter: true
+            showFilter: false
         }, {
             name: 'screenSize',
             displayName: 'Screen Size',
@@ -91,7 +92,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.alive = false;
-        console.log('ngOnDestroy');
     }
 
     public setPrice(priceKey: keyof IPrice, value: number): void {
@@ -208,8 +208,11 @@ export class SidenavComponent implements OnInit, OnDestroy {
         if (this.checkedFiltersMap) {
             this.checkedFiltersMap.forEach(
                         (
-                            values: Set<string | number>) => {
-                            values.forEach((catItem) => {
+                            value: Set<string | number>, key: keyof IWatch) => {
+
+                            this.filters.filter((el: IFilter) => el.name === key)[0].showFilter = true;
+
+                            value.forEach((catItem) => {
                                 const categoryItem = document.getElementById(String(catItem)) as HTMLInputElement;
                                 categoryItem.checked = true;
                             });

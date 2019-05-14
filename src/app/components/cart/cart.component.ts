@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+
 import { CartService } from '../../services/cart.service';
 import { IWatch } from '../../app.models';
 
@@ -16,7 +17,9 @@ export class CartComponent implements OnInit {
 
     public watchesList: Array<IWatch> = [];
 
-    constructor(private cartService: CartService) {
+    constructor(
+        private cartService: CartService
+    ) {
     }
 
     public ngOnInit(): void {

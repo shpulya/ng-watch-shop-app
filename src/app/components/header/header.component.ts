@@ -1,6 +1,8 @@
 import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-import { CartService } from '../../services/cart.service';
 import { takeWhile } from 'rxjs/operators';
+
+import { CartService } from '../../services/cart.service';
+
 
 @Component({
     selector: 'app-header',
@@ -16,7 +18,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     public alive: boolean = true;
 
-    constructor(private cartService: CartService) {
+    constructor(
+        private cartService: CartService
+    ) {
     }
 
     public ngOnInit(): void {

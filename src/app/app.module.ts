@@ -15,7 +15,6 @@ import { CartComponent } from './components/cart/cart.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
-import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
     declarations: [
@@ -37,7 +36,7 @@ import { CookieService } from 'ngx-cookie-service';
         HttpClientModule,
         FormsModule
     ],
-    providers: [CookieService],
+    providers: [],
     bootstrap: [AppComponent]
 })
 export class AppModule {

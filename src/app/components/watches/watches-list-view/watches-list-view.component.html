@@ -4,15 +4,13 @@
             src="../../../../assets/img/watches/{{watch!.image}}"
             alt="{{watch!.image}}"
             [routerLink]="['/watch/'+watch.id]"
-            [queryParams]="queryURLParams"
-            [skipLocationChange]="true">
+            [queryParams]="queryURLParams">
     </div>
 
     <div class="container__details">
         <div class="details-col">
             <a [routerLink]="['/watch/'+watch!.id]"
-               [queryParams]="queryURLParams"
-               [skipLocationChange]>
+               [queryParams]="queryURLParams">
                 {{watch!.name}}
             </a>
             <div class="specifications">
