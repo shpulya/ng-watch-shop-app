@@ -27,34 +27,9 @@ export class CartComponent implements OnInit {
     public ngOnInit(): void {
 
         if (this.cartService.items$.getValue()) {
-
-            this.cartService.items$.subscribe((items: Map<number, number>) => {
-                items.forEach((count, itemId) => {
-                    this.items.set(this.watchesService.getItemById(itemId), count);
-                });
-
-
-                this.items.forEach((count, item) => {
-                    if (!items.has(item.id)) {
-                        this.items.delete(item);
-                    }
-                });
-            });
+            this.receiveItems();
         } else {
-
-            const items = JSON.parse(this.cookies.get('cartItems'));
-            const itemsMap = new Map();
-
-            items.forEach((item: Array<number>) => {
-                itemsMap.set(item[0], item[1]);
-                this.items.set(this.watchesService.getItemById(item[0]), item[1]);
-            });
-
-            this.items.forEach((count, item) => {
-                if (!itemsMap.has(item.id)) {
-                    this.items.delete(item);
-                }
-            });
+            this.receiveCookiesItems();
         }
 
         this.watchesList = Array.from(this.items.keys());
@@ -90,5 +65,35 @@ export class CartComponent implements OnInit {
         });
 
         return finalSum;
+    }
+
+    private receiveCookiesItems(): void {
+        const items = JSON.parse(this.cookies.get('cartItems'));
+        const itemsMap = new Map();
+
+        items.forEach((item: Array<number>) => {
+            itemsMap.set(item[0], item[1]);
+            this.items.set(this.watchesService.getItemById(item[0]), item[1]);
+        });
+
+        this.items.forEach((count, item) => {
+            if (!itemsMap.has(item.id)) {
+                this.items.delete(item);
+            }
+        });
+    }
+
+    private receiveItems(): void {
+        this.cartService.items$.subscribe((items: Map<number, number>) => {
+            items.forEach((count, itemId) => {
+                this.items.set(this.watchesService.getItemById(itemId), count);
+            });
+
+            this.items.forEach((count, item) => {
+                if (!items.has(item.id)) {
+                    this.items.delete(item);
+                }
+            });
+        });
     }
 }

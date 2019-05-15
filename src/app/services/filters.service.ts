@@ -14,7 +14,7 @@ export class FiltersService {
     public setCategoriesToUrl(categoriesMap: TFilterMap): void {
         const categories: any = {};
 
-        categoriesMap.forEach((value: Set<string | number>, key: string, map: TFilterMap) => {
+        categoriesMap.forEach((value: Set<string | number>, key: string) => {
             categories[key] = JSON.stringify([...value]);
         })
 

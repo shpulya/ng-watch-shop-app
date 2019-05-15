@@ -24,9 +24,9 @@ export class ItemsComponent implements OnInit {
 
     public orderBy: string = 'asc';
 
-    public countOnGridPage: number = 4;
+    public countOnGrid: number = 4;
 
-    public countOnLinePage: number = 5;
+    public countOnLine: number = 5;
 
     public currentPage: number = 1;
 
@@ -137,7 +137,7 @@ export class ItemsComponent implements OnInit {
     }
 
     public outputItems(currentPage: number): void {
-        const countOnPage = this.viewMode === 'grid' ? this.countOnGridPage : this.countOnLinePage;
+        const countOnPage = this.viewMode === 'grid' ? this.countOnGrid : this.countOnLine;
 
         this.currentPage = currentPage;
         this.pagedItems = this.filteredItems.filter((watch: IItem, i: number) => {
@@ -165,15 +165,15 @@ export class ItemsComponent implements OnInit {
         this.screenWidth = window.innerWidth;
 
         if (this.screenWidth > 1730) {
-            this.countOnGridPage = 10;
+            this.countOnGrid = 10;
         }
 
         if (this.screenWidth > 1480 && this.screenWidth <= 1730) {
-            this.countOnGridPage = 8;
+            this.countOnGrid = 8;
         }
 
         if (this.screenWidth > 1230 && this.screenWidth <= 1480) {
-            this.countOnGridPage = 6;
+            this.countOnGrid = 6;
         }
 
         this.outputItems(1);
