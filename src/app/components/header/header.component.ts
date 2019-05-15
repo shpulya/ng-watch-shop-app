@@ -29,14 +29,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     public getCounter(): void {
-        this.cartService.countWatches$
-            .pipe(
-                takeWhile(() => this.alive)
-            )
-            .subscribe((countWatches) => {
-                this.counter = countWatches;
-            })
-        ;
+        this.cartService.items$.subscribe(() => {
+            this.counter = this.cartService.countItemsInCart();
+        });
     }
 
     public showCart(): void {

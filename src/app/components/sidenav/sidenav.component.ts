@@ -187,7 +187,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
                     Object.keys(categoriesObject).forEach((key: string) => {
                         categoriesObject[key] = new Set<string | number>(JSON.parse(categoriesObject[key]));
                         categoriesMap.set(<keyof IWatch> key, categoriesObject[key]);
-
                     });
 
                     this.checkedFiltersMap = categoriesMap;

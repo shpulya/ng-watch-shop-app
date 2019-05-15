@@ -1,8 +1,14 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { CartService } from '../../services/cart.service';
 import { IWatch } from '../../app.models';
 import { WatchesService } from '../../services/watches.service';
+import { CookieService } from 'ngx-cookie-service';
+
+interface ICartItem {
+    id: number;
+    count: number;
+}
 
 @Component({
     selector: 'app-cart',
@@ -17,18 +23,48 @@ export class CartComponent implements OnInit {
 
     constructor(
         private cartService: CartService,
-        private watchesService: WatchesService
+        private watchesService: WatchesService,
+        private cookies: CookieService
     ) {
 
     }
 
     public ngOnInit(): void {
 
-        this.cartService.items$.subscribe((items: Map<number, number>) => {
-            items.forEach((count, itemId) => {
-                this.items.set(this.watchesService.getWatchById(itemId), count);
+        if (this.cartService.items$.getValue()) {
+
+            this.cartService.items$.subscribe((items: Map<number, number>) => {
+                items.forEach((count, itemId) => {
+                    this.items.set(this.watchesService.getWatchById(itemId), count);
+                });
+
+
+                this.items.forEach((count, item) => {
+                    if (!items.has(item.id)) {
+                        this.items.delete(item);
+                    }
+                });
             });
-        });
+        } else {
+
+            const items = JSON.parse(this.cookies.get('cartItems'));
+            const itemsMap = new Map();
+
+            items.forEach((item: Array<number>) => {
+                console.log(item);
+
+                itemsMap.set(item[0], item[1]);
+                this.items.set(this.watchesService.getWatchById(item[0]), item[1]);
+            });
+
+            console.log('map', itemsMap);
+
+            this.items.forEach((count, item) => {
+                if (!itemsMap.has(item.id)) {
+                    this.items.delete(item);
+                }
+            });
+        }
 
         this.watchesList = Array.from(this.items.keys());
     }
@@ -47,7 +83,7 @@ export class CartComponent implements OnInit {
     }
 
     public increaseWatchesCount(watchId: number): void {
-        this.cartService.addWatchToCart(watchId);
+        this.cartService.addItem(watchId);
     }
 
     public getItemsCount(watch: IWatch): number {

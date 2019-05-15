@@ -130,7 +130,6 @@ export class WatchesComponent implements OnInit {
                 queryParamsHandling: 'merge'
             });
 
-        debugger;
         this.filteredWatches = (this.orderBy === 'asc')
             ? this.filteredWatches.sort((a: IWatch, b: IWatch) => a.price - b.price)
             : this.filteredWatches.sort((a: IWatch, b: IWatch) => b.price - a.price);
@@ -151,15 +150,12 @@ export class WatchesComponent implements OnInit {
         this.route.queryParams
             .subscribe(
                 (queryParam: Params) => {
-                    console.log(queryParam['view']);
 
                     if (queryParam['view']) {
-                        console.log(queryParam['view']);
                         this.viewMode = queryParam['view'];
                     }
                     if (queryParam['sort']) {
                         this.orderBy = queryParam['sort'];
-                        console.log(queryParam['sort']);
                     }
                 });
     }

@@ -19,7 +19,7 @@ export class CartService {
     constructor(private cookieService: CookieService) {
     }
 
-    public addWatchToCart(watchId: number): void {
+    public addItem(watchId: number): void {
 
         if (!this.items$.getValue().has(watchId)) {
             this.items$.next(this.items$.getValue().set(watchId, 1));
@@ -41,9 +41,9 @@ export class CartService {
     public deleteItem(watchId: number): void {
 
         this.items$.getValue().delete(watchId);
-        console.log(this.items$.getValue());
         this.items$.next(this.items$.getValue());
         this.countItemsInCart();
+        this.cookieService.set('cartItems', JSON.stringify([...this.items$.getValue()]));
     }
 
     public reduceCountItem(watchId: number): void {
@@ -58,16 +58,16 @@ export class CartService {
         if (watchCount > 1) {
             this.items$.getValue().set(watchId, watchCount - 1);
         }
-        console.log(this.items$.getValue());
 
         this.items$.next(this.items$.getValue());
         this.countItemsInCart();
+        this.cookieService.set('cartItems', JSON.stringify([...this.items$.getValue()]));
     }
 
-    public countItemsInCart(): void {
-        this.countWatches$.next(Array.from(this.items$
+    public countItemsInCart(): number {
+        return Array.from(this.items$
             .getValue()
             .values())
-            .reduce((acc: number, currentVal: number) => acc + currentVal, 0));
+            .reduce((acc: number, currentCount: number) => acc + currentCount, 0);
     }
 }

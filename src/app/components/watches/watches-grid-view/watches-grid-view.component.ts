@@ -28,7 +28,7 @@ export class WatchesGridViewComponent implements OnInit {
     }
 
     public addWatchToCart(watchId: number): void {
-        this.cartService.addWatchToCart(watchId);
+        this.cartService.addItem(watchId);
         this.isAdded = true;
     }
 

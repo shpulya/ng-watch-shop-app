@@ -26,6 +26,6 @@ export class WatchesListViewComponent implements OnInit {
     }
 
     public addWatchToCart(watchId: number): void {
-        this.cartService.addWatchToCart(watchId);
+        this.cartService.addItem(watchId);
     }
 }

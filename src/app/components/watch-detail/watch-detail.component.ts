@@ -59,7 +59,7 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
     }
 
     public addWatchToCart(watchId: number): void {
-        this.cartService.addWatchToCart(watchId);
+        this.cartService.addItem(watchId);
         this.isAdded = true;
 
         setTimeout(() => {
