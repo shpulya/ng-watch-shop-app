@@ -6,7 +6,7 @@ import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IFilter, IWatchDetail } from '../../app.models';
 import { FiltersService } from '../../services/filters.service';
 
-type TFilterMap = Map<keyof IWatch, Set<string | number>>;
+type TFilterMap = Map<keyof IWatchDetail, Set<string | number>>;
 
 @Component({
     selector: 'app-sidenav',
@@ -23,13 +23,13 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     public showPriceFilter: boolean = true;
 
-    public filtersMapKeys!: Array<keyof IWatch>;
+    public filtersMapKeys!: Array<keyof IWatchDetail>;
 
-    public checkedFiltersMapKeys!: Array<keyof IWatch>;
+    public checkedFiltersMapKeys!: Array<keyof IWatchDetail>;
 
-    public filtersMap: TFilterMap = new Map<keyof IWatch, Set<string | number>>();
+    public filtersMap: TFilterMap = new Map<keyof IWatchDetail, Set<string | number>>();
 
-    public checkedFiltersMap: TFilterMap = new Map<keyof IWatch, Set<string | number>>();
+    public checkedFiltersMap: TFilterMap = new Map<keyof IWatchDetail, Set<string | number>>();
 
     public filters: Array<IFilter> = [
         {
@@ -100,7 +100,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
         this.onPriceUpdate.emit(this.price);
     }
 
-    public onFilterChecked(category: keyof IWatch, value: string | number): void {
+    public onFilterChecked(category: keyof IWatchDetail, value: string | number): void {
 
         if (!this.checkedFiltersMap.has(category)) {
             const filtersSet: Set<string | number> = new Set();
@@ -139,7 +139,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
         this.onCategoriesUpdate.emit(this.checkedFiltersMap);
     }
 
-    public getDisplayCategoryName(category: keyof IWatch): string | undefined {
+    public getDisplayCategoryName(category: keyof IWatchDetail): string | undefined {
         for (const obj of this.filters) {
             if (obj.name === category) {
                 return obj.displayName;
@@ -182,11 +182,11 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
                 if (queryParam['categories']) {
                     const categoriesObject = JSON.parse(queryParam['categories']);
-                    const categoriesMap = new Map<keyof IWatch, Set<string | number>>();
+                    const categoriesMap = new Map<keyof IWatchDetail, Set<string | number>>();
 
                     Object.keys(categoriesObject).forEach((key: string) => {
                         categoriesObject[key] = new Set<string | number>(JSON.parse(categoriesObject[key]));
-                        categoriesMap.set(<keyof IWatch> key, categoriesObject[key]);
+                        categoriesMap.set(<keyof IWatchDetail> key, categoriesObject[key]);
                     });
 
                     this.checkedFiltersMap = categoriesMap;

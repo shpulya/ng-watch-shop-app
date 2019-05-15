@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { IWatch } from '../app.models';
 
 @Injectable({
@@ -46,7 +46,7 @@ export class WatchesService {
             }
         }
 
-        return  Object();
+        return Object();
     }
 
 }

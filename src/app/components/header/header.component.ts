@@ -1,5 +1,4 @@
-import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-import { takeWhile } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { CartService } from '../../services/cart.service';
 

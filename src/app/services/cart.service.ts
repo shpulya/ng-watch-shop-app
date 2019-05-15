@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import { ICartItem, IWatch } from '../app.models';
 import { CookieService } from 'ngx-cookie-service';
 
 
@@ -13,8 +12,6 @@ export class CartService {
     public isShowCart$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     public items$: BehaviorSubject<Map<number, number>> = new BehaviorSubject<Map<number, number>>(new Map());
-
-    public countWatches$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
     constructor(private cookieService: CookieService) {
     }

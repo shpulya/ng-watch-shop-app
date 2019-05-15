@@ -2,10 +2,10 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { WatchesService } from '../../services/watches.service';
-import { IPrice, IWatch } from '../../app.models';
+import { IPrice, IWatch, IWatchDetail } from '../../app.models';
 
 
-type TFilterMap = Map<keyof IWatch, Set<string | number>>;
+type TFilterMap = Map<keyof IWatchDetail, Set<string | number>>;
 
 @Component({
     selector: 'app-watches',
@@ -32,7 +32,7 @@ export class WatchesComponent implements OnInit {
 
     public watchesCount: number = 0;
 
-    public categoriesFilter: TFilterMap = new Map<keyof IWatch, Set<string | number>>();
+    public categoriesFilter: TFilterMap = new Map<keyof IWatchDetail, Set<string | number>>();
 
     public priceFilter!: IPrice;
 
@@ -103,7 +103,7 @@ export class WatchesComponent implements OnInit {
             this.categoriesFilter.forEach(
                 (
                     values: Set<string | number>,
-                    category: keyof IWatch) => {
+                    category: keyof IWatchDetail) => {
                     this.filteredWatches = this.filteredWatches.filter((watch: IWatch) =>
                         values.has(watch[category]));
                 }

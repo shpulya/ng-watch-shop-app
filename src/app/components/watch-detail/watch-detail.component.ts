@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { WatchesService } from '../../services/watches.service';
 import { IWatch } from '../../app.models';
 import { CartService } from '../../services/cart.service';
-import {takeWhile} from 'rxjs/operators';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
     selector: 'app-watch-detail',

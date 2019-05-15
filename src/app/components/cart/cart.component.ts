@@ -5,11 +5,6 @@ import { IWatch } from '../../app.models';
 import { WatchesService } from '../../services/watches.service';
 import { CookieService } from 'ngx-cookie-service';
 
-interface ICartItem {
-    id: number;
-    count: number;
-}
-
 @Component({
     selector: 'app-cart',
     templateUrl: './cart.component.html',
@@ -51,13 +46,9 @@ export class CartComponent implements OnInit {
             const itemsMap = new Map();
 
             items.forEach((item: Array<number>) => {
-                console.log(item);
-
                 itemsMap.set(item[0], item[1]);
                 this.items.set(this.watchesService.getWatchById(item[0]), item[1]);
             });
-
-            console.log('map', itemsMap);
 
             this.items.forEach((count, item) => {
                 if (!itemsMap.has(item.id)) {
@@ -87,7 +78,6 @@ export class CartComponent implements OnInit {
     }
 
     public getItemsCount(watch: IWatch): number {
-        console.log('count', this.items);
 
         return this.items.get(watch) || 0;
     }
