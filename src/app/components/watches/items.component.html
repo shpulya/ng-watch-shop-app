@@ -39,7 +39,7 @@
 
         <div class="container grid" *ngIf="viewMode === 'grid'">
             <app-watches-grid-view
-                *ngFor="let watch of pagedWatches"
+                *ngFor="let watch of pagedItems"
                 [watch]="watch"
                 [queryURLParams]="queryParams">
             </app-watches-grid-view>
@@ -47,7 +47,7 @@
 
         <div class="container list" *ngIf="viewMode === 'list'">
             <app-watches-list-view
-                *ngFor="let watch of pagedWatches"
+                *ngFor="let watch of pagedItems"
                 [watch]="watch"
                 [queryURLParams]="queryParams">
             </app-watches-list-view>
@@ -55,19 +55,19 @@
 
         <hr *ngIf="viewMode === 'grid'">
         <app-pagination
-            *ngIf="watchesCount && viewMode === 'grid'"
+            *ngIf="itemsCount && viewMode === 'grid'"
             [currentPage]="currentPage"
-            [itemsCount]="watchesCount"
+            [itemsCount]="itemsCount"
             [countOnPage]="countOnGridPage"
-            (onPageUpdate)="outputWatchesOnPage($event)">
+            (onPageUpdate)="outputItems($event)">
         </app-pagination>
 
         <app-pagination
-            *ngIf="watchesCount && viewMode === 'list'"
+            *ngIf="itemsCount && viewMode === 'list'"
             [currentPage]="currentPage"
-            [itemsCount]="watchesCount"
+            [itemsCount]="itemsCount"
             [countOnPage]="countOnLinePage"
-            (onPageUpdate)="outputWatchesOnPage($event)">
+            (onPageUpdate)="outputItems($event)">
         </app-pagination>
     </div>
 </div>

@@ -1,18 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Params } from '@angular/router';
 
-import { IWatch } from '../../../app.models';
+import { IItem } from '../../../app.models';
 import { CartService } from '../../../services/cart.service';
 
 @Component({
     selector: 'app-watches-list-view',
-    templateUrl: './watches-list-view.component.html',
-    styleUrls: ['./watches-list-view.component.scss']
+    templateUrl: './items-list-view.component.html',
+    styleUrls: ['./items-list-view.component.scss']
 })
-export class WatchesListViewComponent implements OnInit {
+export class ItemsListViewComponent implements OnInit {
 
     @Input()
-    public readonly watch!: IWatch;
+    public readonly watch!: IItem;
 
     @Input()
     public queryURLParams!: Params;
@@ -25,7 +25,7 @@ export class WatchesListViewComponent implements OnInit {
     public ngOnInit(): void {
     }
 
-    public addWatchToCart(watchId: number): void {
-        this.cartService.addItem(watchId);
+    public addItemToCart(itemId: number): void {
+        this.cartService.addItem(itemId);
     }
 }

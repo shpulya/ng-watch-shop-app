@@ -1,11 +1,11 @@
-export interface IWatch extends IWatchDetail{
+export interface IItem extends IItemDetail {
     id: number;
     image: string;
     name: string;
     price: number;
 }
 
-export interface IWatchDetail {
+export interface IItemDetail {
     description: string;
     manufacturer: string;
     screenSize: number;
@@ -21,7 +21,7 @@ export interface IPrice {
 }
 
 export interface IFilter {
-    name: keyof IWatchDetail;
+    name: keyof IItemDetail;
     displayName: string;
     showFilter: boolean;
 }

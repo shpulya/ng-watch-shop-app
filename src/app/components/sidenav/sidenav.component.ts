@@ -2,11 +2,11 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { finalize, takeWhile } from 'rxjs/operators';
 
-import { WatchesService } from '../../services/watches.service';
-import { IPrice, IWatch, IFilter, IWatchDetail } from '../../app.models';
+import { ItemsService } from '../../services/items.service';
+import { IPrice, IItem, IFilter, IItemDetail } from '../../app.models';
 import { FiltersService } from '../../services/filters.service';
 
-type TFilterMap = Map<keyof IWatchDetail, Set<string | number>>;
+type TFilterMap = Map<keyof IItemDetail, Set<string | number>>;
 
 @Component({
     selector: 'app-sidenav',
@@ -23,13 +23,13 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     public showPriceFilter: boolean = true;
 
-    public filtersMapKeys!: Array<keyof IWatchDetail>;
+    public filtersMapKeys!: Array<keyof IItemDetail>;
 
-    public checkedFiltersMapKeys!: Array<keyof IWatchDetail>;
+    public checkedFiltersMapKeys!: Array<keyof IItemDetail>;
 
-    public filtersMap: TFilterMap = new Map<keyof IWatchDetail, Set<string | number>>();
+    public filtersMap: TFilterMap = new Map<keyof IItemDetail, Set<string | number>>();
 
-    public checkedFiltersMap: TFilterMap = new Map<keyof IWatchDetail, Set<string | number>>();
+    public checkedFiltersMap: TFilterMap = new Map<keyof IItemDetail, Set<string | number>>();
 
     public filters: Array<IFilter> = [
         {
@@ -63,7 +63,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     private alive: boolean = true;
 
     constructor(
-        private watchesService: WatchesService,
+        private watchesService: ItemsService,
         private router: Router,
         private route: ActivatedRoute,
         private filterService: FiltersService
@@ -71,13 +71,13 @@ export class SidenavComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.watchesService.watches$
+        this.watchesService.items$
             .pipe(
                 takeWhile(() => this.alive),
                 finalize(() => {
                 })
             )
-            .subscribe((watches: Array<IWatch>) => {
+            .subscribe((watches: Array<IItem>) => {
                 this.updateFiltersMap(watches);
                 this.getQueryParams();
                 setTimeout(() => this.setInitialFilters());
@@ -100,7 +100,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
         this.onPriceUpdate.emit(this.price);
     }
 
-    public onFilterChecked(category: keyof IWatchDetail, value: string | number): void {
+    public onFilterChecked(category: keyof IItemDetail, value: string | number): void {
 
         if (!this.checkedFiltersMap.has(category)) {
             const filtersSet: Set<string | number> = new Set();
@@ -139,7 +139,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
         this.onCategoriesUpdate.emit(this.checkedFiltersMap);
     }
 
-    public getDisplayCategoryName(category: keyof IWatchDetail): string | undefined {
+    public getDisplayCategoryName(category: keyof IItemDetail): string | undefined {
         for (const obj of this.filters) {
             if (obj.name === category) {
                 return obj.displayName;
@@ -148,7 +148,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     }
 
 
-    private updateFiltersMap(watches: Array<IWatch>): void {
+    private updateFiltersMap(watches: Array<IItem>): void {
 
         for (const filter of this.filters) {
 
@@ -182,11 +182,11 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
                 if (queryParam['categories']) {
                     const categoriesObject = JSON.parse(queryParam['categories']);
-                    const categoriesMap = new Map<keyof IWatchDetail, Set<string | number>>();
+                    const categoriesMap = new Map<keyof IItemDetail, Set<string | number>>();
 
                     Object.keys(categoriesObject).forEach((key: string) => {
                         categoriesObject[key] = new Set<string | number>(JSON.parse(categoriesObject[key]));
-                        categoriesMap.set(<keyof IWatchDetail> key, categoriesObject[key]);
+                        categoriesMap.set(<keyof IItemDetail> key, categoriesObject[key]);
                     });
 
                     this.checkedFiltersMap = categoriesMap;
@@ -204,7 +204,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
         if (this.checkedFiltersMap) {
             this.checkedFiltersMap.forEach(
                         (
-                            value: Set<string | number>, key: keyof IWatch) => {
+                            value: Set<string | number>, key: keyof IItem) => {
 
                             this.filters.filter((el: IFilter) => el.name === key)[0].showFilter = true;
 

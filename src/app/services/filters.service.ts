@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import { IWatchDetail } from '../app.models';
+import { IItemDetail } from '../app.models';
 
-type TFilterMap = Map<keyof IWatchDetail, Set<string | number>>;
+type TFilterMap = Map<keyof IItemDetail, Set<string | number>>;
 
 @Injectable({
     providedIn: 'root'

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WatchDetailComponent } from './watch-detail.component';
+import { ItemsComponent } from './items.component';
 
-describe('WatchDetailComponent', () => {
-    let component: WatchDetailComponent;
-    let fixture: ComponentFixture<WatchDetailComponent>;
+describe('ItemsComponent', () => {
+    let component: ItemsComponent;
+    let fixture: ComponentFixture<ItemsComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [WatchDetailComponent]
+            declarations: [ItemsComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(WatchDetailComponent);
+        fixture = TestBed.createComponent(ItemsComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -1,18 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Params } from '@angular/router';
 
-import { IWatch } from '../../../app.models';
+import { IItem } from '../../../app.models';
 import { CartService } from '../../../services/cart.service';
 
 @Component({
     selector: 'app-watches-grid-view',
-    templateUrl: './watches-grid-view.component.html',
-    styleUrls: ['./watches-grid-view.component.scss']
+    templateUrl: './items-grid-view.component.html',
+    styleUrls: ['./items-grid-view.component.scss']
 })
-export class WatchesGridViewComponent implements OnInit {
+export class ItemsGridViewComponent implements OnInit {
 
     @Input()
-    public readonly watch!: IWatch;
+    public readonly watch!: IItem;
 
     @Input()
     public queryURLParams!: Params;
@@ -27,8 +27,8 @@ export class WatchesGridViewComponent implements OnInit {
     public ngOnInit(): void {
     }
 
-    public addWatchToCart(watchId: number): void {
-        this.cartService.addItem(watchId);
+    public addItemToCart(itemId: number): void {
+        this.cartService.addItem(itemId);
         this.isAdded = true;
     }
 

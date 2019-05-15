@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CartService } from '../../services/cart.service';
-import { IWatch } from '../../app.models';
-import { WatchesService } from '../../services/watches.service';
+import { IItem } from '../../app.models';
+import { ItemsService } from '../../services/items.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -12,13 +12,13 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class CartComponent implements OnInit {
 
-    public items: Map<IWatch, number> = new Map<IWatch, number>();
+    public items: Map<IItem, number> = new Map<IItem, number>();
 
-    public watchesList: Array<IWatch> = [];
+    public watchesList: Array<IItem> = [];
 
     constructor(
         private cartService: CartService,
-        private watchesService: WatchesService,
+        private watchesService: ItemsService,
         private cookies: CookieService
     ) {
 
@@ -30,7 +30,7 @@ export class CartComponent implements OnInit {
 
             this.cartService.items$.subscribe((items: Map<number, number>) => {
                 items.forEach((count, itemId) => {
-                    this.items.set(this.watchesService.getWatchById(itemId), count);
+                    this.items.set(this.watchesService.getItemById(itemId), count);
                 });
 
 
@@ -47,7 +47,7 @@ export class CartComponent implements OnInit {
 
             items.forEach((item: Array<number>) => {
                 itemsMap.set(item[0], item[1]);
-                this.items.set(this.watchesService.getWatchById(item[0]), item[1]);
+                this.items.set(this.watchesService.getItemById(item[0]), item[1]);
             });
 
             this.items.forEach((count, item) => {
@@ -64,29 +64,29 @@ export class CartComponent implements OnInit {
         this.cartService.isShowCart$.next(false);
     }
 
-    public reduceWatchesCount(watchId: number): void {
-        this.cartService.reduceCountItem(watchId);
+    public reduceItemsCount(itemId: number): void {
+        this.cartService.reduceCountItem(itemId);
     }
 
-    public deleteSameWatches(watchId: number): void {
-        this.cartService.deleteItem(watchId);
+    public deleteItem(itemId: number): void {
+        this.cartService.deleteItem(itemId);
         this.watchesList = Array.from(this.items.keys());
     }
 
-    public increaseWatchesCount(watchId: number): void {
-        this.cartService.addItem(watchId);
+    public increaseItemsCount(itemId: number): void {
+        this.cartService.addItem(itemId);
     }
 
-    public getItemsCount(watch: IWatch): number {
+    public getItemsCount(item: IItem): number {
 
-        return this.items.get(watch) || 0;
+        return this.items.get(item) || 0;
     }
 
     public getFinalSum(): number {
         let finalSum = 0;
 
-        this.items.forEach((acc: number, watch: IWatch) => {
-            finalSum += acc * watch.price;
+        this.items.forEach((acc: number, item: IItem) => {
+            finalSum += acc * item.price;
         });
 
         return finalSum;

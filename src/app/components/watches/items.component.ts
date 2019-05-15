@@ -1,26 +1,26 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { WatchesService } from '../../services/watches.service';
-import { IPrice, IWatch, IWatchDetail } from '../../app.models';
+import { ItemsService } from '../../services/items.service';
+import { IPrice, IItem, IItemDetail } from '../../app.models';
 
 
-type TFilterMap = Map<keyof IWatchDetail, Set<string | number>>;
+type TFilterMap = Map<keyof IItemDetail, Set<string | number>>;
 
 @Component({
     selector: 'app-watches',
-    templateUrl: './watches.component.html',
-    styleUrls: ['./watches.component.scss']
+    templateUrl: './items.component.html',
+    styleUrls: ['./items.component.scss']
 })
-export class WatchesComponent implements OnInit {
+export class ItemsComponent implements OnInit {
 
     public viewMode: string = 'grid';
 
-    public watches: Array<IWatch> = [];
+    public watches: Array<IItem> = [];
 
-    public filteredWatches: Array<IWatch> = [];
+    public filteredItems: Array<IItem> = [];
 
-    public pagedWatches: Array<IWatch> = [];
+    public pagedItems: Array<IItem> = [];
 
     public orderBy: string = 'asc';
 
@@ -30,9 +30,9 @@ export class WatchesComponent implements OnInit {
 
     public currentPage: number = 1;
 
-    public watchesCount: number = 0;
+    public itemsCount: number = 0;
 
-    public categoriesFilter: TFilterMap = new Map<keyof IWatchDetail, Set<string | number>>();
+    public categoriesFilter: TFilterMap = new Map<keyof IItemDetail, Set<string | number>>();
 
     public priceFilter!: IPrice;
 
@@ -41,7 +41,7 @@ export class WatchesComponent implements OnInit {
     private screenWidth!: number;
 
     constructor(
-        private watchesService: WatchesService,
+        private itemsService: ItemsService,
         private route: ActivatedRoute,
         private router: Router
     ) {
@@ -49,20 +49,20 @@ export class WatchesComponent implements OnInit {
 
     public ngOnInit(): void {
         this.getQueryParams();
-        this.getWatches();
+        this.getItems();
 
 
-        this.calculateWatchesOnGridPage();
-        this.outputWatchesOnPage(this.currentPage);
+        this.calculateItemsOnGrid();
+        this.outputItems(this.currentPage);
     }
 
-    public getWatches(): void {
-        this.watchesService.getWatches().subscribe((watches: Array<IWatch>) => {
-            this.watches = watches;
-            this.filteredWatches = this.watches;
+    public getItems(): void {
+        this.itemsService.getItems().subscribe((items: Array<IItem>) => {
+            this.watches = items;
+            this.filteredItems = this.watches;
             this.orderWatches();
-            this.watchesCount = this.watches.length;
-            this.outputWatchesOnPage(1);
+            this.itemsCount = this.watches.length;
+            this.outputItems(1);
         });
     }
 
@@ -76,8 +76,8 @@ export class WatchesComponent implements OnInit {
                 queryParamsHandling: 'merge'
             });
 
-        this.calculateWatchesOnGridPage();
-        this.outputWatchesOnPage(1);
+        this.calculateItemsOnGrid();
+        this.outputItems(1);
     }
 
     public receivePriceFilter(priceFilter: IPrice): void {
@@ -97,29 +97,29 @@ export class WatchesComponent implements OnInit {
     }
 
     public filterWatchesByCategory(): void {
-        this.filteredWatches = this.watches;
+        this.filteredItems = this.watches;
 
         if (this.categoriesFilter) {
             this.categoriesFilter.forEach(
                 (
                     values: Set<string | number>,
-                    category: keyof IWatchDetail) => {
-                    this.filteredWatches = this.filteredWatches.filter((watch: IWatch) =>
+                    category: keyof IItemDetail) => {
+                    this.filteredItems = this.filteredItems.filter((watch: IItem) =>
                         values.has(watch[category]));
                 }
             );
         }
 
         if (this.priceFilter) {
-            this.filteredWatches = this.filteredWatches.filter((watch: IWatch) =>
+            this.filteredItems = this.filteredItems.filter((watch: IItem) =>
                 watch.price >= this.priceFilter.from && watch.price <= this.priceFilter.to
             );
 
         }
 
-        this.watchesCount = this.filteredWatches.length;
+        this.itemsCount = this.filteredItems.length;
 
-        this.outputWatchesOnPage(1);
+        this.outputItems(1);
     }
 
     public orderWatches(): void {
@@ -130,17 +130,17 @@ export class WatchesComponent implements OnInit {
                 queryParamsHandling: 'merge'
             });
 
-        this.filteredWatches = (this.orderBy === 'asc')
-            ? this.filteredWatches.sort((a: IWatch, b: IWatch) => a.price - b.price)
-            : this.filteredWatches.sort((a: IWatch, b: IWatch) => b.price - a.price);
-        this.outputWatchesOnPage(1);
+        this.filteredItems = (this.orderBy === 'asc')
+            ? this.filteredItems.sort((a: IItem, b: IItem) => a.price - b.price)
+            : this.filteredItems.sort((a: IItem, b: IItem) => b.price - a.price);
+        this.outputItems(1);
     }
 
-    public outputWatchesOnPage(currentPage: number): void {
+    public outputItems(currentPage: number): void {
         const countOnPage = this.viewMode === 'grid' ? this.countOnGridPage : this.countOnLinePage;
 
         this.currentPage = currentPage;
-        this.pagedWatches = this.filteredWatches.filter((watch: IWatch, i: number) => {
+        this.pagedItems = this.filteredItems.filter((watch: IItem, i: number) => {
             return ((i >= (currentPage - 1) * countOnPage) && (i < currentPage * countOnPage));
         }
         );
@@ -161,7 +161,7 @@ export class WatchesComponent implements OnInit {
     }
 
     @HostListener('window:resize', ['$event'])
-    private calculateWatchesOnGridPage(event?: Event): void {
+    private calculateItemsOnGrid(event?: Event): void {
         this.screenWidth = window.innerWidth;
 
         if (this.screenWidth > 1730) {
@@ -176,7 +176,7 @@ export class WatchesComponent implements OnInit {
             this.countOnGridPage = 6;
         }
 
-        this.outputWatchesOnPage(1);
+        this.outputItems(1);
     }
 
 }

@@ -2,10 +2,10 @@
     <img
         src="../../../../assets/img/watches/{{watch.image}}"
         alt="{{watch.image}}"
-        [routerLink]="['/watch/'+watch.id]"
+        [routerLink]="['/item/'+watch.id]"
         [queryParams]="queryURLParams">
 
-    <a [routerLink]="['/watch/'+watch.id]"
+    <a [routerLink]="['/item/'+watch.id]"
        [queryParams]="queryURLParams">
         {{watch.name}}</a>
 
@@ -18,6 +18,6 @@
         <img
             src="../../../../assets/img/cart.png"
             alt="Add to cart"
-            (click)="addWatchToCart(watch!.id)">
+            (click)="addItemToCart(watch!.id)">
     </div>
 </div>
