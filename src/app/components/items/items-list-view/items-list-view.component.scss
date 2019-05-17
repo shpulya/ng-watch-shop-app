@@ -50,11 +50,15 @@
             display: flex;
             align-items: center;
 
-            > img {
-                width: 30px;
+            #cart {
+                width: 32px;
+                height: 32px;
+                > img {
+                    width: 30px;
 
-                &:hover {
-                    width: 32px;
+                    &:hover {
+                        width: 32px;
+                    }
                 }
             }
         }

@@ -25,10 +25,10 @@
         <div class="price-col">
             <app-price-tag [price]="watch!.price"></app-price-tag>
             <div class="cart">
-                <img
+                <div  id="cart"><img
                     src="../../../../assets/img/cart.png"
-                    alt="Add to cart" id="cart"
-                    (click)="addItemToCart(watch!.id)">
+                    alt="Add to cart"
+                    (click)="addItemToCart(watch!.id)"></div>
                 <label for="cart" (click)="addItemToCart(watch!.id)">
                     Add to cart
                 </label>
