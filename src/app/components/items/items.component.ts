@@ -50,8 +50,6 @@ export class ItemsComponent implements OnInit {
     public ngOnInit(): void {
         this.getQueryParams();
         this.getItems();
-
-
         this.calculateItemsOnGrid();
         this.outputItems(this.currentPage);
     }
@@ -63,7 +61,10 @@ export class ItemsComponent implements OnInit {
             this.orderWatches();
             this.itemsCount = this.watches.length;
             this.outputItems(1);
-        });
+        },
+            () => {
+                console.error('Couldn\'t download items');
+            });
     }
 
     public changeViewMode(view: string): void {
@@ -85,6 +86,8 @@ export class ItemsComponent implements OnInit {
         this.filterWatchesByCategory();
         this.route.queryParams.subscribe((queryParams: Params) => {
             this.queryParams = queryParams;
+        }, () => {
+            console.error('Can\'t get \'Price\' query params');
         });
     }
 
@@ -93,6 +96,8 @@ export class ItemsComponent implements OnInit {
         this.filterWatchesByCategory();
         this.route.queryParams.subscribe((queryParams: Params) => {
             this.queryParams = queryParams;
+        }, () => {
+            console.error('Can\'t get \'Categories\' query params');
         });
     }
 
@@ -114,11 +119,9 @@ export class ItemsComponent implements OnInit {
             this.filteredItems = this.filteredItems.filter((watch: IItem) =>
                 watch.price >= this.priceFilter.from && watch.price <= this.priceFilter.to
             );
-
         }
 
         this.itemsCount = this.filteredItems.length;
-
         this.outputItems(1);
     }
 
@@ -157,6 +160,8 @@ export class ItemsComponent implements OnInit {
                     if (queryParam['sort']) {
                         this.orderBy = queryParam['sort'];
                     }
+                }, () => {
+                    console.error('Can\'t get query Params');
                 });
     }
 

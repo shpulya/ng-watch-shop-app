@@ -84,10 +84,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
             },
                 () => {
                     console.error('Can\'t load watches!');
-                },
-                () => {
-                })
-        ;
+                });
     }
 
     public ngOnDestroy(): void {
