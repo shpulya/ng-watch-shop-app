@@ -1,0 +1,30 @@
+@mixin start {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 3.3s, visibility 0s linear 3.3s;
+}
+
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    width: 100px;
+    z-index: 1;
+    @include start;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.4);
+    @include  start;
+}
+
+.disappearing {
+    opacity: 0;
+    visibility: hidden;
+}

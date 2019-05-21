@@ -16,6 +16,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
 import { WatchDetailComponent } from './components/watch-detail/watch-detail.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,8 @@ import { WatchDetailComponent } from './components/watch-detail/watch-detail.com
         CartComponent,
         PaginationComponent,
         SidenavComponent,
-        TooltipComponent
+        TooltipComponent,
+        LoadingComponent
     ],
     imports: [
         BrowserModule,
