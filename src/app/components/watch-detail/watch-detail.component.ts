@@ -2,19 +2,19 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { ItemsService } from '../../services/items.service';
-import { IItem } from '../../app.models';
+import { WatchesService } from '../../services/watches.service';
+import { IWatch } from '../../app.models';
 import { CartService } from '../../services/cart.service';
 import { takeWhile } from 'rxjs/operators';
 
 @Component({
     selector: 'app-item-detail',
-    templateUrl: './item-detail.component.html',
-    styleUrls: ['./item-detail.component.scss']
+    templateUrl: './watch-detail.component.html',
+    styleUrls: ['./watch-detail.component.scss']
 })
-export class ItemDetailComponent implements OnInit, OnDestroy {
+export class WatchDetailComponent implements OnInit, OnDestroy {
 
-    public watch!: IItem | null;
+    public watch!: IWatch | null;
 
     public isAdded: boolean = false;
 
@@ -30,7 +30,7 @@ export class ItemDetailComponent implements OnInit, OnDestroy {
 
     constructor(
         private route: ActivatedRoute,
-        private watchesService: ItemsService,
+        private itemsService: WatchesService,
         private cartService: CartService) {
 
 
@@ -45,12 +45,14 @@ export class ItemDetailComponent implements OnInit, OnDestroy {
             this.queryParams = queryParams;
         });
 
-        this.watchesService.items$
+        this.itemsService.items$
             .pipe(
                 takeWhile(() => this.alive)
             )
             .subscribe(() => {
-                this.watch = this.watchesService.getItemById(this.watchId);
+                this.itemsService.getItemById(this.watchId).subscribe((watch: IWatch) => {
+                    this.watch = watch;
+                });
             });
     }
 

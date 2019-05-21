@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ItemsComponent } from './components/items/items.component';
-import { ItemDetailComponent } from './components/item-detail/item-detail.component';
+import { WatchDetailComponent } from './components/watch-detail/watch-detail.component';
+import { ItemsResolverService } from './services/items-resolver.service';
 
 const routes: Routes = [
     {
         path: '',
-        component: ItemsComponent
+        component: ItemsComponent,
+        resolve: {
+            watches: ItemsResolverService
+        }
     },
     {
         path: 'item/:itemId',
-        component: ItemDetailComponent
+        component: WatchDetailComponent
     }
 
 ];

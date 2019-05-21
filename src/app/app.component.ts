@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 
 import { CartService } from './services/cart.service';
+import { Observable } from 'rxjs';
+import { LoaderService } from './services/loader.service';
 
 @Component({
     selector: 'app-root',
@@ -11,7 +13,12 @@ export class AppComponent {
 
     public isShowCart: boolean = false;
 
-    constructor(private cartService: CartService) {
+    public isLoading$: Observable<boolean> = this.loaderService.loading$;
+
+    constructor(
+        private cartService: CartService,
+        private loaderService: LoaderService
+    ) {
         this.cartService.isShowCart$.subscribe((isShow: boolean) => {
             this.isShowCart = isShow;
         });

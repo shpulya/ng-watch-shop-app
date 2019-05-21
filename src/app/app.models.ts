@@ -1,12 +1,12 @@
-export interface IItem extends IItemDetail {
+export interface IItem {
     id: number;
     image: string;
     name: string;
     price: number;
+    description: string;
 }
 
-export interface IItemDetail {
-    description: string;
+export interface IWatch extends IItem {
     manufacturer: string;
     screenSize: number;
     screenType: string;
@@ -21,7 +21,7 @@ export interface IPrice {
 }
 
 export interface IFilter {
-    name: keyof IItemDetail;
+    name: keyof IWatch;
     displayName: string;
     showFilter: boolean;
 }

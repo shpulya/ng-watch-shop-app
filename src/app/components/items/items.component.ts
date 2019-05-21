@@ -1,11 +1,17 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import {
+    Event,
+    Router,
+    ActivatedRoute,
+    Params
+} from '@angular/router';
 
-import { ItemsService } from '../../services/items.service';
-import { IPrice, IItem, IItemDetail } from '../../app.models';
+import { WatchesService } from '../../services/watches.service';
+import { IPrice, IWatch } from '../../app.models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
-type TFilterMap = Map<keyof IItemDetail, Set<string | number>>;
+type TFilterMap = Map<keyof IWatch, Set<string | number>>;
 
 @Component({
     selector: 'app-watches',
@@ -16,11 +22,11 @@ export class ItemsComponent implements OnInit {
 
     public viewMode: string = 'grid';
 
-    public watches: Array<IItem> = [];
+    public watches: Array<IWatch> = [];
 
-    public filteredItems: Array<IItem> = [];
+    public filteredItems: Array<IWatch> = [];
 
-    public pagedItems: Array<IItem> = [];
+    public pagedItems: Array<IWatch> = [];
 
     public orderBy: string = 'asc';
 
@@ -32,7 +38,7 @@ export class ItemsComponent implements OnInit {
 
     public itemsCount: number = 0;
 
-    public categoriesFilter: TFilterMap = new Map<keyof IItemDetail, Set<string | number>>();
+    public categoriesFilter: TFilterMap = new Map<keyof IWatch, Set<string | number>>();
 
     public priceFilter!: IPrice;
 
@@ -41,30 +47,31 @@ export class ItemsComponent implements OnInit {
     private screenWidth!: number;
 
     constructor(
-        private itemsService: ItemsService,
+        private itemsService: WatchesService,
         private route: ActivatedRoute,
         private router: Router
     ) {
     }
 
     public ngOnInit(): void {
+
+        console.log(this.route.snapshot.data.watches);
+        if (this.route.snapshot.data.watches instanceof HttpErrorResponse) {
+            console.error('Couldn\'t load data', this.route.snapshot.data);
+        }
         this.getQueryParams();
-        this.getItems();
+        this.getWatches();
         this.calculateItemsOnGrid();
         this.outputItems(this.currentPage);
     }
 
-    public getItems(): void {
-        this.itemsService.getItems().subscribe((items: Array<IItem>) => {
-            this.watches = items;
-            this.filteredItems = this.watches;
-            this.orderWatches();
-            this.itemsCount = this.watches.length;
-            this.outputItems(1);
-        },
-            () => {
-                console.error('Couldn\'t download items');
-            });
+    public getWatches(): void {
+        this.watches = this.route.snapshot.data.watches;
+        this.filteredItems = this.watches;
+        this.orderItems();
+        this.itemsCount = this.watches.length;
+        this.outputItems(1);
+
     }
 
     public changeViewMode(view: string): void {
@@ -108,15 +115,15 @@ export class ItemsComponent implements OnInit {
             this.categoriesFilter.forEach(
                 (
                     values: Set<string | number>,
-                    category: keyof IItemDetail) => {
-                    this.filteredItems = this.filteredItems.filter((watch: IItem) =>
+                    category: keyof IWatch) => {
+                    this.filteredItems = this.filteredItems.filter((watch: IWatch) =>
                         values.has(watch[category]));
                 }
             );
         }
 
         if (this.priceFilter) {
-            this.filteredItems = this.filteredItems.filter((watch: IItem) =>
+            this.filteredItems = this.filteredItems.filter((watch: IWatch) =>
                 watch.price >= this.priceFilter.from && watch.price <= this.priceFilter.to
             );
         }
@@ -125,7 +132,7 @@ export class ItemsComponent implements OnInit {
         this.outputItems(1);
     }
 
-    public orderWatches(): void {
+    public orderItems(): void {
         this.router.navigate(
             ['.'],
             {
@@ -134,8 +141,8 @@ export class ItemsComponent implements OnInit {
             });
 
         this.filteredItems = (this.orderBy === 'asc')
-            ? this.filteredItems.sort((a: IItem, b: IItem) => a.price - b.price)
-            : this.filteredItems.sort((a: IItem, b: IItem) => b.price - a.price);
+            ? this.filteredItems.sort((a: IWatch, b: IWatch) => a.price - b.price)
+            : this.filteredItems.sort((a: IWatch, b: IWatch) => b.price - a.price);
         this.outputItems(1);
     }
 
@@ -143,7 +150,7 @@ export class ItemsComponent implements OnInit {
         const countOnPage = this.viewMode === 'grid' ? this.countOnGrid : this.countOnLine;
 
         this.currentPage = currentPage;
-        this.pagedItems = this.filteredItems.filter((watch: IItem, i: number) => {
+        this.pagedItems = this.filteredItems.filter((watch: IWatch, i: number) => {
             return ((i >= (currentPage - 1) * countOnPage) && (i < currentPage * countOnPage));
         }
         );

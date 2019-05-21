@@ -11,12 +11,11 @@ import { PriceTagComponent } from './components/price-tag/price-tag.component';
 import { ItemsComponent } from './components/items/items.component';
 import { ItemsGridViewComponent } from './components/items/items-grid-view/items-grid-view.component';
 import { ItemsListViewComponent } from './components/items/items-list-view/items-list-view.component';
-import { ItemDetailComponent } from './components/item-detail/item-detail.component';
 import { CartComponent } from './components/cart/cart.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
-
+import { WatchDetailComponent } from './components/watch-detail/watch-detail.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +25,7 @@ import { TooltipComponent } from './components/tooltip/tooltip.component';
         ItemsComponent,
         ItemsGridViewComponent,
         ItemsListViewComponent,
-        ItemDetailComponent,
+        WatchDetailComponent,
         CartComponent,
         PaginationComponent,
         SidenavComponent,
@@ -38,8 +37,12 @@ import { TooltipComponent } from './components/tooltip/tooltip.component';
         HttpClientModule,
         FormsModule
     ],
-    providers: [CookieService],
-    bootstrap: [AppComponent]
+    providers: [
+        CookieService
+    ],
+    bootstrap: [
+        AppComponent
+    ]
 })
 export class AppModule {
 }

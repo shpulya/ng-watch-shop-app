@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CartService } from '../../services/cart.service';
-import { IItem } from '../../app.models';
-import { ItemsService } from '../../services/items.service';
-import { CookieService } from 'ngx-cookie-service';
+import { IWatch } from '../../app.models';
+import { WatchesService } from '../../services/watches.service';
 
 @Component({
     selector: 'app-cart',
@@ -12,27 +11,18 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class CartComponent implements OnInit {
 
-    public items: Map<IItem, number> = new Map<IItem, number>();
+    public items: Map<IWatch, number> = new Map<IWatch, number>();
 
-    public watchesList: Array<IItem> = [];
+    public watchesList: Array<IWatch> = [];
 
     constructor(
         private cartService: CartService,
-        private watchesService: ItemsService,
-        private cookies: CookieService
+        private watchesService: WatchesService
     ) {
-
+        this.receiveItems();
     }
 
     public ngOnInit(): void {
-
-        if (this.cartService.items$.getValue()) {
-            this.receiveItems();
-        } else {
-            this.receiveCookiesItems();
-        }
-
-        this.watchesList = Array.from(this.items.keys());
     }
 
     public closeCart(): void {
@@ -45,48 +35,32 @@ export class CartComponent implements OnInit {
 
     public deleteItem(itemId: number): void {
         this.cartService.deleteItem(itemId);
-        this.watchesList = Array.from(this.items.keys());
     }
 
     public increaseItemsCount(itemId: number): void {
         this.cartService.addItem(itemId);
     }
 
-    public getItemsCount(item: IItem): number {
-
+    public getItemsCount(item: IWatch): number {
         return this.items.get(item) || 0;
     }
 
     public getFinalSum(): number {
         let finalSum = 0;
 
-        this.items.forEach((acc: number, item: IItem) => {
+        this.items.forEach((acc: number, item: IWatch) => {
             finalSum += acc * item.price;
         });
 
         return finalSum;
     }
 
-    private receiveCookiesItems(): void {
-        const items = JSON.parse(this.cookies.get('cartItems'));
-        const itemsMap = new Map();
-
-        items.forEach((item: Array<number>) => {
-            itemsMap.set(item[0], item[1]);
-            this.items.set(this.watchesService.getItemById(item[0]), item[1]);
-        });
-
-        this.items.forEach((count, item) => {
-            if (!itemsMap.has(item.id)) {
-                this.items.delete(item);
-            }
-        });
-    }
-
     private receiveItems(): void {
         this.cartService.items$.subscribe((items: Map<number, number>) => {
             items.forEach((count, itemId) => {
-                this.items.set(this.watchesService.getItemById(itemId), count);
+                this.watchesService.getItemById(itemId).subscribe((watch: IWatch) => {
+                    this.items.set(watch, count);
+                });
             });
 
             this.items.forEach((count, item) => {
@@ -94,6 +68,8 @@ export class CartComponent implements OnInit {
                     this.items.delete(item);
                 }
             });
+
+            this.watchesList = Array.from(this.items.keys());
         });
     }
 }
