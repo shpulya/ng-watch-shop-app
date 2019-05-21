@@ -71,20 +71,9 @@ export class SidenavComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.watchesService.items$
-            .pipe(
-                takeWhile(() => this.alive),
-                finalize(() => {
-                })
-            )
-            .subscribe((watches: Array<IWatch>) => {
-                this.updateFiltersMap(watches);
-                this.getQueryParams();
-                setTimeout(() => this.setInitialFilters());
-            },
-                () => {
-                    console.error('Can\'t load watches!');
-                });
+        this.updateFiltersMap(this.route.snapshot.data.watches);
+        this.getQueryParams();
+        setTimeout(() => this.setInitialFilters());
     }
 
     public ngOnDestroy(): void {

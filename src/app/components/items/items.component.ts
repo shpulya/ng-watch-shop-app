@@ -66,12 +66,13 @@ export class ItemsComponent implements OnInit {
     }
 
     public getWatches(): void {
-        this.watches = this.route.snapshot.data.watches;
-        this.filteredItems = this.watches;
-        this.orderItems();
-        this.itemsCount = this.watches.length;
-        this.outputItems(1);
-
+        if (this.route.snapshot.data.watches) {
+            this.watches = this.route.snapshot.data.watches;
+            this.filteredItems = this.watches;
+            this.orderItems();
+            this.itemsCount = this.watches.length;
+            this.outputItems(1);
+        }
     }
 
     public changeViewMode(view: string): void {
