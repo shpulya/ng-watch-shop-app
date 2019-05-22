@@ -15,8 +15,6 @@ import { LoaderService } from './loader.service';
 })
 export class ItemsResolverService implements Resolve<any> {
 
-    public isL: Subject<boolean> = new BehaviorSubject<boolean>(false);
-
     constructor(
         private http: HttpClient,
         private loaderService: LoaderService

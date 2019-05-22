@@ -10,7 +10,7 @@ import { LoaderService } from '../../services/loader.service';
 })
 export class LoadingComponent implements OnInit {
 
-    public isLoading$: Observable<boolean> = this.loaderService.loading$;
+    public isLoading$: Observable<boolean> = this.loaderService.isLoading$;
 
 
     constructor(
