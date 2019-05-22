@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { timer } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IFilter } from '../../app.models';
@@ -61,7 +61,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     private price: IPrice = {from: 0, to: 999999};
 
-    private alive: boolean = true;
+    private destroy$: Subject<void> = new Subject();
 
     constructor(
         private watchesService: WatchesService,
@@ -78,7 +78,8 @@ export class SidenavComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this.alive = false;
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     public setPrice(priceKey: keyof IPrice, value: number): void {
@@ -157,32 +158,32 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
         this.route.queryParams
             .pipe(
-                takeUntil(timer(50))
+                takeUntil(this.destroy$)
             )
             .subscribe(
-            (queryParam: Params) => {
+                (queryParam: Params) => {
 
-                if (queryParam['price']) {
-                    this.price = JSON.parse(queryParam['price']);
-                    this.onPriceUpdate.emit(this.price);
+                    if (queryParam['price']) {
+                        this.price = JSON.parse(queryParam['price']);
+                        this.onPriceUpdate.emit(this.price);
+                    }
+
+                    if (queryParam['categories']) {
+                        const categoriesObject = JSON.parse(queryParam['categories']);
+                        const categoriesMap = new Map<keyof IWatch, Set<string | number>>();
+
+                        Object.keys(categoriesObject).forEach((key: string) => {
+                            categoriesObject[key] = new Set<string | number>(JSON.parse(categoriesObject[key]));
+                            categoriesMap.set(<keyof IWatch> key, categoriesObject[key]);
+                        });
+
+                        this.checkedFiltersMap = categoriesMap;
+                        this.checkedFiltersMapKeys = Array.from(this.checkedFiltersMap.keys());
+                    }
+
+                    this.onCategoriesUpdate.emit(this.checkedFiltersMap);
                 }
-
-                if (queryParam['categories']) {
-                    const categoriesObject = JSON.parse(queryParam['categories']);
-                    const categoriesMap = new Map<keyof IWatch, Set<string | number>>();
-
-                    Object.keys(categoriesObject).forEach((key: string) => {
-                        categoriesObject[key] = new Set<string | number>(JSON.parse(categoriesObject[key]));
-                        categoriesMap.set(<keyof IWatch> key, categoriesObject[key]);
-                    });
-
-                    this.checkedFiltersMap = categoriesMap;
-                    this.checkedFiltersMapKeys = Array.from(this.checkedFiltersMap.keys());
-                }
-
-                this.onCategoriesUpdate.emit(this.checkedFiltersMap);
-            }
-        );
+            );
 
     }
 
@@ -190,16 +191,16 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
         if (this.checkedFiltersMap) {
             this.checkedFiltersMap.forEach(
-                        (
-                            value: Set<string | number>, key: keyof IWatch) => {
+                (
+                    value: Set<string | number>, key: keyof IWatch) => {
 
-                            this.filters.filter((el: IFilter) => el.name === key)[0].showFilter = true;
+                    this.filters.filter((el: IFilter) => el.name === key)[0].showFilter = true;
 
-                            value.forEach((catItem) => {
-                                const categoryItem = document.getElementById(String(catItem)) as HTMLInputElement;
-                                categoryItem.checked = true;
-                            });
-                        });
+                    value.forEach((catItem) => {
+                        const categoryItem = document.getElementById(String(catItem)) as HTMLInputElement;
+                        categoryItem.checked = true;
+                    });
+                });
         }
     }
 }

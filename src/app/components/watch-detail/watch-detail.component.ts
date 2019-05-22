@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription, timer } from 'rxjs';
+import {Subject, Subscription, timer} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { WatchesService } from '../../services/watches.service';
@@ -26,7 +26,7 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
 
     private watchId!: number;
 
-    private alive: boolean = true;
+    private destroy$: Subject<void> = new Subject();
 
     constructor(
         private route: ActivatedRoute,
@@ -47,7 +47,7 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
 
         this.itemsService.items$
             .pipe(
-                takeUntil(timer(50))
+                takeUntil(this.destroy$)
             )
             .subscribe(() => {
                 this.itemsService.getItemById(this.watchId).subscribe((watch: IWatch) => {
@@ -57,7 +57,8 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this.alive = false;
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     public addWatchToCart(watchId: number): void {
