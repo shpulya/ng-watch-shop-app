@@ -54,8 +54,6 @@ export class ItemsComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-
-        console.log(this.route.snapshot.data.watches);
         if (this.route.snapshot.data.watches instanceof HttpErrorResponse) {
             console.error('Couldn\'t load data', this.route.snapshot.data);
         }

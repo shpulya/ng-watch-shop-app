@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { finalize, takeWhile } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+import { timer } from 'rxjs';
 
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IFilter } from '../../app.models';
@@ -156,7 +157,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
         this.route.queryParams
             .pipe(
-                // takeWhile(() => this.alive)
+                takeUntil(timer(50))
             )
             .subscribe(
             (queryParam: Params) => {

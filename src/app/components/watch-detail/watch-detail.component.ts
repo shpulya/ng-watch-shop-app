@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { WatchesService } from '../../services/watches.service';
 import { IWatch } from '../../app.models';
 import { CartService } from '../../services/cart.service';
-import { takeWhile } from 'rxjs/operators';
 
 @Component({
     selector: 'app-item-detail',
@@ -47,7 +47,7 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
 
         this.itemsService.items$
             .pipe(
-                takeWhile(() => this.alive)
+                takeUntil(timer(50))
             )
             .subscribe(() => {
                 this.itemsService.getItemById(this.watchId).subscribe((watch: IWatch) => {
