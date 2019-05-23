@@ -76,7 +76,7 @@ export class CartComponent implements OnInit {
                 });
             });
 
-            if (!Array.from(this.cartService.items$.getValue().keys()).length && Array.from(this.items.keys()).length) {
+            if (this.cartService.items$.getValue().size === 0 && !(this.items.size === 0)) {
                 this.items.clear();
                 this.watchesList = [];
             }
