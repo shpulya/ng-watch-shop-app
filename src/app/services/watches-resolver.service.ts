@@ -4,7 +4,7 @@ import {
     ActivatedRouteSnapshot,
     RouterStateSnapshot
 } from '@angular/router';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { IWatch } from '../app.models';
@@ -13,7 +13,7 @@ import { LoaderService } from './loader.service';
 @Injectable({
     providedIn: 'root'
 })
-export class ItemsResolverService implements Resolve<any> {
+export class WatchesResolverService implements Resolve<any> {
 
     constructor(
         private http: HttpClient,

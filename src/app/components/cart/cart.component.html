@@ -8,26 +8,26 @@
     <div class="cart__list">
         <div class="cart__list__title">Sum</div>
 
-        <div class="cart__list__item" *ngFor="let watch of watchesList">
-            <div class="cart__list__item__delete" (click)="deleteItem(watch!.id)"></div>
+        <div class="cart__list__item" *ngFor="let item of itemsList">
+            <div class="cart__list__item__delete" (click)="deleteItem(item!.id)"></div>
 
             <div class="cart__list__item__img">
-                <img src="../../../../assets/img/watches/{{watch.image}}" alt="{{watch.image}}">
+                <img src="../../../../assets/img/watches/{{item.image}}" alt="{{item.image}}">
             </div>
 
             <div class="cart__list__item__properties">
-                <div class="name">{{watch.name}}</div>
+                <div class="name">{{item.name}}</div>
 
                 <div class="calculating">
-                    <app-price-tag class="price" [price]="watch.price"></app-price-tag>
+                    <app-price-tag class="price" [price]="item.price"></app-price-tag>
 
                     <div class="calculating__counter">
-                        <div class="calculating__counter__reduce" (click)="reduceItemsCount(watch!.id)">&mdash;</div>
-                        <div class="calculating__counter__number">{{getItemsCount(watch)}}</div>
-                        <div class="calculating__counter__increase" (click)="increaseItemsCount(watch!.id)">+</div>
+                        <div class="calculating__counter__reduce" (click)="reduceItemsCount(item!.id)">&mdash;</div>
+                        <div class="calculating__counter__number">{{getItemsCount(item)}}</div>
+                        <div class="calculating__counter__increase" (click)="increaseItemsCount(item!.id)">+</div>
                     </div>
 
-                    <div class="cart__list__item__acc-price">${{getItemsCount(watch) * watch!.price}}</div>
+                    <div class="cart__list__item__acc-price">${{getItemsCount(item) * item!.price}}</div>
                 </div>
             </div>
         </div>

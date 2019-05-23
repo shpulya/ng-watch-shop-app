@@ -17,8 +17,7 @@ export abstract class ItemsViewController{
 
     constructor(
         private cartService: CartService
-    ) {
-    }
+    ) {}
 
     public addItemToCart(itemId: number): void {
         this.cartService.addItem(itemId);

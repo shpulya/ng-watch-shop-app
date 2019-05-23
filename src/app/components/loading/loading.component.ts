@@ -12,7 +12,6 @@ export class LoadingComponent implements OnInit {
 
     public isLoading$: Observable<boolean> = this.loaderService.isLoading$;
 
-
     constructor(
         private loaderService: LoaderService
     ) { }

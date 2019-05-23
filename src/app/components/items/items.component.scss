@@ -70,6 +70,11 @@
     grid-gap: 10px;
 }
 
+.search {
+    display: flex;
+    justify-items: stretch;
+}
+
 
 @media screen and (max-width: 600px) {
     .body {

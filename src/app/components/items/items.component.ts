@@ -7,11 +7,11 @@ import {
 } from '@angular/router';
 
 import { WatchesService } from '../../services/watches.service';
-import { IPrice, IWatch } from '../../app.models';
+import { IPrice, IWatch, IWatchDetails } from '../../app.models';
 import { HttpErrorResponse } from '@angular/common/http';
 
 
-type TFilterMap = Map<keyof IWatch, Set<string | number>>;
+type TFilterMap = Map<keyof IWatchDetails, Set<string | number>>;
 
 @Component({
     selector: 'app-watches',
@@ -38,7 +38,7 @@ export class ItemsComponent implements OnInit {
 
     public itemsCount: number = 0;
 
-    public categoriesFilter: TFilterMap = new Map<keyof IWatch, Set<string | number>>();
+    public categoriesFilter: TFilterMap = new Map<keyof IWatchDetails, Set<string | number>>();
 
     public priceFilter!: IPrice;
 
@@ -114,7 +114,7 @@ export class ItemsComponent implements OnInit {
             this.categoriesFilter.forEach(
                 (
                     values: Set<string | number>,
-                    category: keyof IWatch) => {
+                    category: keyof IWatchDetails) => {
                     this.filteredItems = this.filteredItems.filter((watch: IWatch) =>
                         values.has(watch[category]));
                 }
@@ -150,6 +150,7 @@ export class ItemsComponent implements OnInit {
 
         this.currentPage = currentPage;
         this.pagedItems = this.filteredItems.filter((watch: IWatch, i: number) => {
+
             return ((i >= (currentPage - 1) * countOnPage) && (i < currentPage * countOnPage));
         }
         );
@@ -166,7 +167,8 @@ export class ItemsComponent implements OnInit {
                     if (queryParam['sort']) {
                         this.orderBy = queryParam['sort'];
                     }
-                }, () => {
+                },
+                () => {
                     console.error('Can\'t get query Params');
                 });
     }

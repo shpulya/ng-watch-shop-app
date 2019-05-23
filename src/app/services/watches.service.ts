@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IWatch } from '../app.models';
 import { map } from 'rxjs/operators';
@@ -13,8 +14,7 @@ export class WatchesService {
 
     constructor(
         private http: HttpClient
-    ) {
-    }
+    ) {}
 
     public getWatches(): BehaviorSubject<Array<IWatch>> {
         if (this.items$.getValue().length) {

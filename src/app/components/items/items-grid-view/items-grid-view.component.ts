@@ -6,6 +6,4 @@ import { ItemsViewController } from '../items-view.controller';
     templateUrl: './items-grid-view.component.html',
     styleUrls: ['./items-grid-view.component.scss']
 })
-export class ItemsGridViewComponent extends ItemsViewController {
-
-}
+export class ItemsGridViewComponent extends ItemsViewController {}

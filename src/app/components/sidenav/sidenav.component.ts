@@ -4,10 +4,10 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { WatchesService } from '../../services/watches.service';
-import { IPrice, IWatch, IFilter } from '../../app.models';
+import { IPrice, IWatchDetails, IWatchFilter } from '../../app.models';
 import { FiltersService } from '../../services/filters.service';
 
-type TFilterMap = Map<keyof IWatch, Set<string | number>>;
+type TFilterMap = Map<keyof IWatchDetails, Set<string | number>>;
 
 @Component({
     selector: 'app-sidenav',
@@ -24,15 +24,15 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     public showPriceFilter: boolean = true;
 
-    public filtersMapKeys!: Array<keyof IWatch>;
+    public filtersMapKeys!: Array<keyof IWatchDetails>;
 
-    public checkedFiltersMapKeys!: Array<keyof IWatch>;
+    public checkedFiltersMapKeys!: Array<keyof IWatchDetails>;
 
-    public filtersMap: TFilterMap = new Map<keyof IWatch, Set<string | number>>();
+    public filtersMap: TFilterMap = new Map<keyof IWatchDetails, Set<string | number>>();
 
-    public checkedFiltersMap: TFilterMap = new Map<keyof IWatch, Set<string | number>>();
+    public checkedFiltersMap: TFilterMap = new Map<keyof IWatchDetails, Set<string | number>>();
 
-    public filters: Array<IFilter> = [
+    public filters: Array<IWatchFilter> = [
         {
             name: 'manufacturer',
             displayName: 'Manufacturer',
@@ -88,7 +88,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
         this.onPriceUpdate.emit(this.price);
     }
 
-    public onFilterChecked(category: keyof IWatch, value: string | number): void {
+    public onFilterChecked(category: keyof IWatchDetails, value: string | number): void {
 
         if (!this.checkedFiltersMap.has(category)) {
             const filtersSet: Set<string | number> = new Set();
@@ -127,7 +127,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
         this.onCategoriesUpdate.emit(this.checkedFiltersMap);
     }
 
-    public getDisplayCategoryName(category: keyof IWatch): string | undefined {
+    public getDisplayCategoryName(category: keyof IWatchDetails): string | undefined {
         for (const obj of this.filters) {
             if (obj.name === category) {
                 return obj.displayName;
@@ -136,7 +136,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     }
 
 
-    private updateFiltersMap(watches: Array<IWatch>): void {
+    private updateFiltersMap(watches: Array<IWatchDetails>): void {
 
         for (const filter of this.filters) {
 
@@ -170,11 +170,11 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
                     if (queryParam['categories']) {
                         const categoriesObject = JSON.parse(queryParam['categories']);
-                        const categoriesMap = new Map<keyof IWatch, Set<string | number>>();
+                        const categoriesMap = new Map<keyof IWatchDetails, Set<string | number>>();
 
                         Object.keys(categoriesObject).forEach((key: string) => {
                             categoriesObject[key] = new Set<string | number>(JSON.parse(categoriesObject[key]));
-                            categoriesMap.set(<keyof IWatch> key, categoriesObject[key]);
+                            categoriesMap.set(<keyof IWatchDetails> key, categoriesObject[key]);
                         });
 
                         this.checkedFiltersMap = categoriesMap;
@@ -192,9 +192,9 @@ export class SidenavComponent implements OnInit, OnDestroy {
         if (this.checkedFiltersMap) {
             this.checkedFiltersMap.forEach(
                 (
-                    value: Set<string | number>, key: keyof IWatch) => {
+                    value: Set<string | number>, key: keyof IWatchDetails) => {
 
-                    this.filters.filter((el: IFilter) => el.name === key)[0].showFilter = true;
+                    this.filters.filter((el: IWatchFilter) => el.name === key)[0].showFilter = true;
 
                     value.forEach((catItem) => {
                         const categoryItem = document.getElementById(String(catItem)) as HTMLInputElement;

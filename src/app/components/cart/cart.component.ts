@@ -13,7 +13,7 @@ export class CartComponent implements OnInit {
 
     public items: Map<IWatch, number> = new Map<IWatch, number>();
 
-    public watchesList: Array<IWatch> = [];
+    public itemsList: Array<IWatch> = [];
 
     constructor(
         private cartService: CartService,
@@ -58,9 +58,9 @@ export class CartComponent implements OnInit {
     private receiveItems(): void {
         this.cartService.items$.subscribe((items: Map<number, number>) => {
             items.forEach((count: number, itemId: number) => {
-                this.watchesService.getItemById(itemId).subscribe((watch: IWatch) => {
-                    if (watch) {
-                        this.items.set(watch, count);
+                this.watchesService.getItemById(itemId).subscribe((item: IWatch) => {
+                    if (item) {
+                        this.items.set(item, count);
                     }
 
                     if (this.items) {
@@ -72,15 +72,14 @@ export class CartComponent implements OnInit {
                         });
                     }
 
-                    this.watchesList = Array.from(this.items.keys());
+                    this.itemsList = Array.from(this.items.keys());
                 });
             });
 
             if (this.cartService.items$.getValue().size === 0 && !(this.items.size === 0)) {
                 this.items.clear();
-                this.watchesList = [];
+                this.itemsList = [];
             }
-
 
         });
     }

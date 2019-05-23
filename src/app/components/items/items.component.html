@@ -11,7 +11,10 @@
                 Smartwatches
             </span>
 
-            <input type="text" (change)="itemsSearch()" placeholder="Search">
+            <div class="search">
+                <input type="text" (change)="itemsSearch()" placeholder="Search" class="br">
+                <button class="br"><i class="fas fa-search"></i></button>
+            </div>
 
             <div class="mode-view-panel">
                 <label for="sorting">Sorting</label>
@@ -39,7 +42,12 @@
             </div>
         </div>
 
-        <div *ngIf="!pagedItems.length" class="container"> No items... </div>
+        <div
+            *ngIf="!pagedItems.length"
+            class="container">
+            No items...
+        </div>
+
         <ng-container *ngIf="pagedItems.length">
             <div class="container grid" *ngIf="viewMode === 'grid'">
                     <app-watches-grid-view

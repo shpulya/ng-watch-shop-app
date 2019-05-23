@@ -23,13 +23,13 @@ describe('AppComponent', () => {
     it(`should have as title 'ng-watch-shop-app'`, () => {
         const fixture = TestBed.createComponent(AppComponent);
         const app = fixture.debugElement.componentInstance;
-        expect(app.title).toEqual('ng-watch-shop-app');
+        expect(app.title).toEqual('ng-item-shop-app');
     });
 
     it('should render title in a h1 tag', () => {
         const fixture = TestBed.createComponent(AppComponent);
         fixture.detectChanges();
         const compiled = fixture.debugElement.nativeElement;
-        expect(compiled.querySelector('h1').textContent).toContain('Welcome to ng-watch-shop-app!');
+        expect(compiled.querySelector('h1').textContent).toContain('Welcome to ng-item-shop-app!');
     });
 });

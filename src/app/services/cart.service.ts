@@ -3,6 +3,8 @@ import { BehaviorSubject } from 'rxjs';
 
 import { CookieService } from 'ngx-cookie-service';
 
+type TItemsMap = Map<number, number>;
+
 @Injectable({
     providedIn: 'root'
 })
@@ -10,12 +12,12 @@ export class CartService {
 
     public isShowCart$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    public items$: BehaviorSubject<Map<number, number>> = new BehaviorSubject<Map<number, number>>(new Map());
+    public items$: BehaviorSubject<TItemsMap> = new BehaviorSubject<TItemsMap>(new Map());
 
     constructor(
         private cookieService: CookieService,
         private cookies: CookieService
-        ) {
+    ) {
         this.receiveCookiesItems();
     }
 

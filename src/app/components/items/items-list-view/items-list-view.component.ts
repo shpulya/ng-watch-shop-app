@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { ItemsViewController } from '../items-view.controller';
 
 @Component({
@@ -7,6 +8,4 @@ import { ItemsViewController } from '../items-view.controller';
     styleUrls: ['./items-list-view.component.scss']
 })
 
-export class ItemsListViewComponent extends ItemsViewController {
-
-}
+export class ItemsListViewComponent extends ItemsViewController {}

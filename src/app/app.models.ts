@@ -6,7 +6,7 @@ export interface IItem {
     description: string;
 }
 
-export interface IWatch extends IItem {
+export interface IWatchDetails {
     manufacturer: string;
     screenSize: number;
     screenType: string;
@@ -15,13 +15,16 @@ export interface IWatch extends IItem {
     romSize: string;
 }
 
+export interface IWatch extends IItem, IWatchDetails {
+}
+
 export interface IPrice {
     from: number;
     to: number;
 }
 
-export interface IFilter {
-    name: keyof IWatch;
+export interface IWatchFilter {
+    name: keyof IWatchDetails;
     displayName: string;
     showFilter: boolean;
 }

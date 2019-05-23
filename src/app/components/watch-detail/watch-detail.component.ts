@@ -8,7 +8,7 @@ import { IWatch } from '../../app.models';
 import { CartService } from '../../services/cart.service';
 
 @Component({
-    selector: 'app-item-detail',
+    selector: 'app-watch-detail',
     templateUrl: './watch-detail.component.html',
     styleUrls: ['./watch-detail.component.scss']
 })
@@ -30,7 +30,7 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
 
     constructor(
         private route: ActivatedRoute,
-        private itemsService: WatchesService,
+        private watchesService: WatchesService,
         private cartService: CartService) {
 
 
@@ -45,12 +45,12 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
             this.queryParams = queryParams;
         });
 
-        this.itemsService.items$
+        this.watchesService.items$
             .pipe(
                 takeUntil(this.destroy$)
             )
             .subscribe(() => {
-                this.itemsService.getItemById(this.watchId).subscribe((watch: IWatch) => {
+                this.watchesService.getItemById(this.watchId).subscribe((watch: IWatch) => {
                     this.watch = watch;
                 });
             });
