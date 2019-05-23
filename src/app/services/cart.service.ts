@@ -90,7 +90,7 @@ export class CartService {
                 itemsMap.set(item[0], item[1]);
             });
         }
-
+        console.log(this.items$);
         this.items$.next(itemsMap);
     }
 }

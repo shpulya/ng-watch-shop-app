@@ -57,19 +57,31 @@ export class CartComponent implements OnInit {
 
     private receiveItems(): void {
         this.cartService.items$.subscribe((items: Map<number, number>) => {
-            items.forEach((count, itemId) => {
+            items.forEach((count: number, itemId: number) => {
                 this.watchesService.getItemById(itemId).subscribe((watch: IWatch) => {
-                    this.items.set(watch, count);
+                    if (watch) {
+                        this.items.set(watch, count);
+                    }
+
+                    if (this.items) {
+                        this.items.forEach((c: number, item: IWatch) => {
+
+                            if (!items.has(item.id)) {
+                                this.items.delete(item);
+                            }
+                        });
+                    }
+
+                    this.watchesList = Array.from(this.items.keys());
                 });
             });
 
-            this.items.forEach((count, item) => {
-                if (!items.has(item.id)) {
-                    this.items.delete(item);
-                }
-            });
+            if (!Array.from(this.cartService.items$.getValue().keys()).length && Array.from(this.items.keys()).length) {
+                this.items.clear();
+                this.watchesList = [];
+            }
 
-            this.watchesList = Array.from(this.items.keys());
+
         });
     }
 }
