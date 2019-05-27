@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ItemsGridViewComponent } from './items-grid-view.component';
+import { WatchesListViewComponent } from './watches-list-view.component';
 
-describe('ItemsGridViewComponent', () => {
-    let component: ItemsGridViewComponent;
-    let fixture: ComponentFixture<ItemsGridViewComponent>;
+describe('ItemsListViewComponent', () => {
+    let component: WatchesListViewComponent;
+    let fixture: ComponentFixture<WatchesListViewComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ItemsGridViewComponent]
+            declarations: [WatchesListViewComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ItemsGridViewComponent);
+        fixture = TestBed.createComponent(WatchesListViewComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

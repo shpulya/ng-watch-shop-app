@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ItemsComponent } from './components/items/items.component';
 import { WatchDetailComponent } from './components/watch-detail/watch-detail.component';
 import { WatchesResolverService } from './services/watches-resolver.service';
+import { WatchDetailsResolverService } from './services/watch-details-resolver.service';
 
 const routes: Routes = [
     {
@@ -14,7 +15,11 @@ const routes: Routes = [
     },
     {
         path: 'item/:itemId',
-        component: WatchDetailComponent
+        component: WatchDetailComponent,
+        resolve: {
+            // watch: WatchDetailsResolverService
+            watches: WatchesResolverService
+        }
     }
 
 ];

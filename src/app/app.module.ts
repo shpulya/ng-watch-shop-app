@@ -9,14 +9,15 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { PriceTagComponent } from './components/price-tag/price-tag.component';
 import { ItemsComponent } from './components/items/items.component';
-import { ItemsGridViewComponent } from './components/items/items-grid-view/items-grid-view.component';
-import { ItemsListViewComponent } from './components/items/items-list-view/items-list-view.component';
+import { WatchesGridViewComponent } from './components/items/watches-grid-view/watches-grid-view.component';
+import { WatchesListViewComponent } from './components/items/watches-list-view/watches-list-view.component';
 import { CartComponent } from './components/cart/cart.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
 import { WatchDetailComponent } from './components/watch-detail/watch-detail.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { WatchDetailsResolverService } from './services/watch-details-resolver.service';
 
 @NgModule({
     declarations: [
@@ -24,8 +25,8 @@ import { LoadingComponent } from './components/loading/loading.component';
         HeaderComponent,
         PriceTagComponent,
         ItemsComponent,
-        ItemsGridViewComponent,
-        ItemsListViewComponent,
+        WatchesGridViewComponent,
+        WatchesListViewComponent,
         WatchDetailComponent,
         CartComponent,
         PaginationComponent,
@@ -40,7 +41,8 @@ import { LoadingComponent } from './components/loading/loading.component';
         FormsModule
     ],
     providers: [
-        CookieService
+        CookieService,
+        WatchDetailsResolverService
     ],
     bootstrap: [
         AppComponent

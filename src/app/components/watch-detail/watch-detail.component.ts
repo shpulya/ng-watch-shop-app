@@ -22,8 +22,6 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
 
     public queryParams!: Params;
 
-    private routeSubscription!: Subscription;
-
     private watchId!: number;
 
     private destroy$: Subject<void> = new Subject();
@@ -32,28 +30,18 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private watchesService: WatchesService,
         private cartService: CartService) {
-
-
     }
 
     public ngOnInit(): void {
-        this.routeSubscription = this.route.params.subscribe((params: Params) => {
-            this.watchId = parseInt(params['itemId'], 10);
-        });
 
         this.route.queryParams.subscribe((queryParams: Params) => {
             this.queryParams = queryParams;
         });
 
-        this.watchesService.items$
-            .pipe(
-                takeUntil(this.destroy$)
-            )
-            .subscribe(() => {
-                this.watchesService.getItemById(this.watchId).subscribe((watch: IWatch) => {
-                    this.watch = watch;
-                });
-            });
+        // this.watch = this.route.snapshot.data.watch;
+
+        this.watchId = parseInt(this.route.snapshot.params['itemId'], 10);
+        this.watch = this.route.snapshot.data.watches.filter((watch: IWatch) => watch.id === this.watchId)[0];
     }
 
     public ngOnDestroy(): void {
