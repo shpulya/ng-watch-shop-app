@@ -23,6 +23,9 @@ export class PaginationComponent implements OnChanges {
 
     public pages: Array<number> = [];
 
+    constructor(
+    ) {}
+
     public ngOnChanges(changes: SimpleChanges): void {
         const {itemsCount} = changes;
 

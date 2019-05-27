@@ -1,6 +1,6 @@
-import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
 import { CartService } from '../../services/cart.service';
-import { takeWhile } from 'rxjs/operators';
 
 @Component({
     selector: 'app-header',
@@ -9,15 +9,13 @@ import { takeWhile } from 'rxjs/operators';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-    @Output()
-    public showCartEmit: EventEmitter<boolean> = new EventEmitter<boolean>();
-
     public counter: number = 0;
 
     public alive: boolean = true;
 
-    constructor(private cartService: CartService) {
-    }
+    constructor(
+        private cartService: CartService
+    ) {}
 
     public ngOnInit(): void {
         this.getCounter();
@@ -28,19 +26,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     public getCounter(): void {
-        this.cartService.countWatches$
-            .pipe(
-                takeWhile(() => this.alive)
-            )
-            .subscribe((countWatches) => {
-                this.counter = countWatches;
-            })
-        ;
+        this.cartService.items$.subscribe(() => {
+            this.counter = this.cartService.countItemsInCart();
+        });
     }
 
     public showCart(): void {
         if (this.counter) {
-            this.showCartEmit.emit(true);
+            this.cartService.isShowCart$.next(true);
         }
     }
 

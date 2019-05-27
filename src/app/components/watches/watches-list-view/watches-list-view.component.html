@@ -3,16 +3,14 @@
         <img
             src="../../../../assets/img/watches/{{watch!.image}}"
             alt="{{watch!.image}}"
-            [routerLink]="['/watch/'+watch.id]"
-            [queryParams]="queryURLParams"
-            [skipLocationChange]="true">
+            [routerLink]="['/item/'+watch.id]"
+            [queryParams]="queryURLParams">
     </div>
 
     <div class="container__details">
         <div class="details-col">
-            <a [routerLink]="['/watch/'+watch!.id]"
-               [queryParams]="queryURLParams"
-               [skipLocationChange]>
+            <a [routerLink]="['/item/'+watch!.id]"
+               [queryParams]="queryURLParams">
                 {{watch!.name}}
             </a>
             <div class="specifications">
@@ -27,11 +25,11 @@
         <div class="price-col">
             <app-price-tag [price]="watch!.price"></app-price-tag>
             <div class="cart">
-                <img
+                <div  id="cart"><img
                     src="../../../../assets/img/cart.png"
-                    alt="Add to cart" id="cart"
-                    (click)="addWatchToCart(watch)">
-                <label for="cart" (click)="addWatchToCart(watch)">
+                    alt="Add to cart"
+                    (click)="addItemToCart(watch!.id)"></div>
+                <label for="cart" (click)="addItemToCart(watch!.id)">
                     Add to cart
                 </label>
             </div>

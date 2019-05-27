@@ -1,35 +1,29 @@
-export interface IWatch {
+export interface IItem {
     id: number;
-
     image: string;
-
     name: string;
-
-    description: string;
-
-    manufacturer: string;
-
-    screenSize: number;
-
-    screenType: string;
-
-    os: string;
-
-    ramSize: string;
-
-    romSize: string;
-
     price: number;
+    description: string;
 }
+
+export interface IWatchDetails {
+    manufacturer: string;
+    screenSize: number;
+    screenType: string;
+    os: string;
+    ramSize: string;
+    romSize: string;
+}
+
+export interface IWatch extends IItem, IWatchDetails {}
 
 export interface IPrice {
     from: number;
-
     to: number;
 }
 
-export interface IFilter {
-    name: keyof IWatch;
+export interface IWatchFilter {
+    name: keyof IWatchDetails;
     displayName: string;
     showFilter: boolean;
 }

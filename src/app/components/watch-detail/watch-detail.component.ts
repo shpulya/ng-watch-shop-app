@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Subject } from 'rxjs';
+
 import { WatchesService } from '../../services/watches.service';
 import { IWatch } from '../../app.models';
 import { CartService } from '../../services/cart.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-watch-detail',
     templateUrl: './watch-detail.component.html',
     styleUrls: ['./watch-detail.component.scss']
 })
-export class WatchDetailComponent implements OnInit {
+export class WatchDetailComponent implements OnInit, OnDestroy {
 
     public watch!: IWatch | null;
 
@@ -20,30 +22,33 @@ export class WatchDetailComponent implements OnInit {
 
     public queryParams!: Params;
 
-    private routeSubscription: Subscription;
-
-    private watchId!: number;
+    private destroy$: Subject<void> = new Subject();
 
     constructor(
         private route: ActivatedRoute,
         private watchesService: WatchesService,
-        private cartService: CartService) {
-
-        this.routeSubscription = route.params.subscribe((params: Params) => {
-            this.watchId = parseInt(params['watchId'], 10);
-        }
-        );
-    }
+        private cartService: CartService) {}
 
     public ngOnInit(): void {
-        this.watch = this.watchesService.getWatchById(this.watchId);
+
         this.route.queryParams.subscribe((queryParams: Params) => {
             this.queryParams = queryParams;
         });
+
+        if (this.route.snapshot.data.watches instanceof HttpErrorResponse) {
+            console.error('Couldn\'t load data', this.route.snapshot.data);
+        } else {
+            this.watch = this.route.snapshot.data.watch;
+        }
     }
 
-    public addWatchToCart(watch: IWatch): void {
-        this.cartService.addWatchToCart(watch);
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
+
+    public addWatchToCart(watchId: number): void {
+        this.cartService.addItem(watchId);
         this.isAdded = true;
 
         setTimeout(() => {

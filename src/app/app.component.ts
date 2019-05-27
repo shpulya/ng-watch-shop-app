@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 
+import { CartService } from './services/cart.service';
+
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -9,7 +12,12 @@ export class AppComponent {
 
     public isShowCart: boolean = false;
 
-    public openCart(isShowCart: boolean): void {
-        this.isShowCart = isShowCart;
+
+    constructor(
+        private cartService: CartService
+    ) {
+        this.cartService.isShowCart$.subscribe((isShow: boolean) => {
+            this.isShowCart = isShow;
+        });
     }
 }

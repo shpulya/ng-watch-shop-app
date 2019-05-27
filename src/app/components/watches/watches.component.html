@@ -11,6 +11,11 @@
                 Smartwatches
             </span>
 
+            <div class="search">
+                <input type="text" (change)="itemsSearch()" placeholder="Search" class="br">
+                <button class="br"><i class="fas fa-search"></i></button>
+            </div>
+
             <div class="mode-view-panel">
                 <label for="sorting">Sorting</label>
 
@@ -18,7 +23,7 @@
                     name="sorting"
                     id="sorting"
                     [(ngModel)]="orderBy"
-                    (change)="orderWatches()">
+                    (change)="orderItems()">
                     <option value="asc">Lowest Price</option>
                     <option value="desk">Highest Price</option>
                 </select>
@@ -37,37 +42,45 @@
             </div>
         </div>
 
-        <div class="container grid" *ngIf="viewMode === 'grid'">
-            <app-watches-grid-view
-                *ngFor="let watch of pagedWatches"
-                [watch]="watch"
-                [queryURLParams]="queryParams">
-            </app-watches-grid-view>
+        <div
+            *ngIf="!pagedItems.length"
+            class="container">
+            No items...
         </div>
 
-        <div class="container list" *ngIf="viewMode === 'list'">
-            <app-watches-list-view
-                *ngFor="let watch of pagedWatches"
-                [watch]="watch"
-                [queryURLParams]="queryParams">
-            </app-watches-list-view>
-        </div>
+        <ng-container *ngIf="pagedItems.length">
+            <div class="container grid" *ngIf="viewMode === 'grid'">
+                    <app-watches-grid-view
+                        *ngFor="let watch of pagedItems"
+                        [watch]="watch"
+                        [queryURLParams]="queryParams">
+                    </app-watches-grid-view>
+            </div>
+
+            <div class="container list" *ngIf="viewMode === 'list'">
+                <app-watches-list-view
+                    *ngFor="let watch of pagedItems"
+                    [watch]="watch"
+                    [queryURLParams]="queryParams">
+                </app-watches-list-view>
+            </div>
+        </ng-container>
 
         <hr *ngIf="viewMode === 'grid'">
         <app-pagination
-            *ngIf="watchesCount && viewMode === 'grid'"
+            *ngIf="itemsCount && viewMode === 'grid'"
             [currentPage]="currentPage"
-            [itemsCount]="watchesCount"
-            [countOnPage]="countOnGridPage"
-            (onPageUpdate)="outputWatchesOnPage($event)">
+            [itemsCount]="itemsCount"
+            [countOnPage]="countOnGrid"
+            (onPageUpdate)="outputItems($event)">
         </app-pagination>
 
         <app-pagination
-            *ngIf="watchesCount && viewMode === 'list'"
+            *ngIf="itemsCount && viewMode === 'list'"
             [currentPage]="currentPage"
-            [itemsCount]="watchesCount"
-            [countOnPage]="countOnLinePage"
-            (onPageUpdate)="outputWatchesOnPage($event)">
+            [itemsCount]="itemsCount"
+            [countOnPage]="countOnLine"
+            (onPageUpdate)="outputItems($event)">
         </app-pagination>
     </div>
 </div>

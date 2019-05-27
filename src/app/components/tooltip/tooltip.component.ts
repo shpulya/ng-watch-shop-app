@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
     selector: 'app-tooltip',
@@ -14,11 +14,7 @@ export class TooltipComponent implements OnChanges {
     public isClicked!: boolean;
 
 
-    public constructor() {
-    }
+    public constructor() {}
 
-    public ngOnChanges(changes: SimpleChanges): void {
-
-    }
-
+    public ngOnChanges(changes: SimpleChanges): void {}
 }

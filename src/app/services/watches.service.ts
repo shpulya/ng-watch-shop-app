@@ -1,52 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+
+import { Observable } from 'rxjs';
 import { IWatch } from '../app.models';
+import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
 })
 export class WatchesService {
 
-    public watches$: BehaviorSubject<Array<IWatch>> = new BehaviorSubject<Array<IWatch>>([]);
-
     constructor(
         private http: HttpClient
-    ) {
-    }
+    ) {}
 
     public getWatches(): Observable<Array<IWatch>> {
-        if (this.watches$.getValue().length) {
-            return this.watches$;
-        } else {
-            this.http.get<Array<IWatch>>('assets/data/watches.json').subscribe(
-                (watches: Array<IWatch>) => {
-                    this.watches$.next(watches);
-                },
-                () => {
-                    console.error('Can\'t load watches!');
-                }
-            );
-
-            return this.watches$;
-        }
-
+        return this.http.get<Array<IWatch>>('assets/data/watches.json');
     }
 
-    public getWatchById(id: number): IWatch | null {
-        const watches = this.watches$.getValue();
+    public getWatchById(id: number): Observable<IWatch> {
 
-        if (!watches || !watches.length) {
-            return null;
-        }
+        return this.http.get('assets/data/watches.json').pipe(map ((watches: any) => {
+            const filteredWatches = watches.filter((watch: IWatch) => watch.id === id);
 
-        for (const watch of watches) {
-            if (watch.id === id) {
-                return watch;
-            }
-        }
-
-        return null;
+            return (filteredWatches.length > 0) ? filteredWatches[0] : null;
+        }));
     }
-
 }

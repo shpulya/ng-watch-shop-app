@@ -2,15 +2,23 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { WatchesComponent } from './components/watches/watches.component';
 import { WatchDetailComponent } from './components/watch-detail/watch-detail.component';
+import { WatchesResolver } from './services/watches-resolver.service';
+import { WatchDetailsResolverService } from './services/watch-details-resolver.service';
 
 const routes: Routes = [
     {
         path: '',
-        component: WatchesComponent
+        component: WatchesComponent,
+        resolve: {
+            watches: WatchesResolver
+        }
     },
     {
-        path: 'watch/:watchId',
-        component: WatchDetailComponent
+        path: 'item/:itemId',
+        component: WatchDetailComponent,
+        resolve: {
+            watch: WatchDetailsResolverService
+        }
     }
 
 ];
@@ -19,5 +27,4 @@ const routes: Routes = [
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

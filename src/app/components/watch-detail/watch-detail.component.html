@@ -6,8 +6,7 @@
     </div>
     <div class="watch__data">
         <a [routerLink]="''"
-           [queryParams]="queryParams"
-           [skipLocationChange]="true">
+           [queryParams]="queryParams">
             Back to catalog
         </a>
         <span class="watch__data__name">{{watch!.name}}</span>
@@ -30,8 +29,8 @@
         <img
             src="../../../../assets/img/cart.png"
             alt="Add to cart" id="cart"
-            (click)="addWatchToCart(watch)">
-        <label for="cart" (click)="addWatchToCart(watch)">
+            (click)="addWatchToCart(watch!.id)">
+        <label for="cart" (click)="addWatchToCart(watch!.id)">
             Add to cart
         </label>
         <app-tooltip [isClicked]="isAdded" [message]="'Added to cart'"></app-tooltip>
