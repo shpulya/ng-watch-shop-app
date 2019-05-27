@@ -193,7 +193,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
             this.checkedFiltersMap.forEach(
                 (
                     value: Set<string | number>, key: keyof IWatchDetails) => {
-
                     this.filters.filter((el: IWatchFilter) => el.name === key)[0].showFilter = true;
 
                     value.forEach((catItem) => {

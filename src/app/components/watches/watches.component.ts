@@ -15,10 +15,10 @@ type TFilterMap = Map<keyof IWatchDetails, Set<string | number>>;
 
 @Component({
     selector: 'app-watches',
-    templateUrl: './items.component.html',
-    styleUrls: ['./items.component.scss']
+    templateUrl: './watches.component.html',
+    styleUrls: ['./watches.component.scss']
 })
-export class ItemsComponent implements OnInit {
+export class WatchesComponent implements OnInit {
 
     public viewMode: string = 'grid';
 

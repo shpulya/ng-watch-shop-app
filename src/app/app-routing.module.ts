@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ItemsComponent } from './components/items/items.component';
+import { WatchesComponent } from './components/watches/watches.component';
 import { WatchDetailComponent } from './components/watch-detail/watch-detail.component';
 import { WatchesResolverService } from './services/watches-resolver.service';
 import { WatchDetailsResolverService } from './services/watch-details-resolver.service';
@@ -8,7 +8,7 @@ import { WatchDetailsResolverService } from './services/watch-details-resolver.s
 const routes: Routes = [
     {
         path: '',
-        component: ItemsComponent,
+        component: WatchesComponent,
         resolve: {
             watches: WatchesResolverService
         }
@@ -17,8 +17,7 @@ const routes: Routes = [
         path: 'item/:itemId',
         component: WatchDetailComponent,
         resolve: {
-            // watch: WatchDetailsResolverService
-            watches: WatchesResolverService
+            watch: WatchDetailsResolverService
         }
     }
 

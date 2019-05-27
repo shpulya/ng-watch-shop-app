@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ItemsViewController } from '../items-view.controller';
+import { WatchesViewController } from '../watches-view.controller';
 
 @Component({
     selector: 'app-watches-list-view',
@@ -8,4 +8,4 @@ import { ItemsViewController } from '../items-view.controller';
     styleUrls: ['./watches-list-view.component.scss']
 })
 
-export class WatchesListViewComponent extends ItemsViewController {}
+export class WatchesListViewComponent extends WatchesViewController {}

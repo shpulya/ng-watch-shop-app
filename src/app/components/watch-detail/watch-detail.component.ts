@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 import { WatchesService } from '../../services/watches.service';
 import { IWatch } from '../../app.models';
 import { CartService } from '../../services/cart.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
     selector: 'app-watch-detail',
@@ -22,8 +22,6 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
 
     public queryParams!: Params;
 
-    private watchId!: number;
-
     private destroy$: Subject<void> = new Subject();
 
     constructor(
@@ -38,10 +36,11 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
             this.queryParams = queryParams;
         });
 
-        // this.watch = this.route.snapshot.data.watch;
-
-        this.watchId = parseInt(this.route.snapshot.params['itemId'], 10);
-        this.watch = this.route.snapshot.data.watches.filter((watch: IWatch) => watch.id === this.watchId)[0];
+        if (this.route.snapshot.data.watches instanceof HttpErrorResponse) {
+            console.error('Couldn\'t load data', this.route.snapshot.data);
+        } else {
+            this.watch = this.route.snapshot.data.watch;
+        }
     }
 
     public ngOnDestroy(): void {

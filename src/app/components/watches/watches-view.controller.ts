@@ -5,7 +5,7 @@ import { IWatch } from '../../app.models';
 import { CartService } from '../../services/cart.service';
 
 @Injectable()
-export abstract class ItemsViewController{
+export abstract class WatchesViewController{
 
     @Input()
     public readonly watch!: IWatch;

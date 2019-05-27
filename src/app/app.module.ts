@@ -8,9 +8,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { PriceTagComponent } from './components/price-tag/price-tag.component';
-import { ItemsComponent } from './components/items/items.component';
-import { WatchesGridViewComponent } from './components/items/watches-grid-view/watches-grid-view.component';
-import { WatchesListViewComponent } from './components/items/watches-list-view/watches-list-view.component';
+import { WatchesComponent } from './components/watches/watches.component';
+import { WatchesGridViewComponent } from './components/watches/watches-grid-view/watches-grid-view.component';
+import { WatchesListViewComponent } from './components/watches/watches-list-view/watches-list-view.component';
 import { CartComponent } from './components/cart/cart.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -24,7 +24,7 @@ import { WatchDetailsResolverService } from './services/watch-details-resolver.s
         AppComponent,
         HeaderComponent,
         PriceTagComponent,
-        ItemsComponent,
+        WatchesComponent,
         WatchesGridViewComponent,
         WatchesListViewComponent,
         WatchDetailComponent,
