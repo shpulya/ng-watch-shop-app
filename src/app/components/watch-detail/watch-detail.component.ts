@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { WatchesService } from '../../services/watches.service';
 import { IWatch } from '../../app.models';
 import { CartService } from '../../services/cart.service';
-import {HttpErrorResponse} from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-watch-detail',
@@ -27,8 +27,7 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute,
         private watchesService: WatchesService,
-        private cartService: CartService) {
-    }
+        private cartService: CartService) {}
 
     public ngOnInit(): void {
 

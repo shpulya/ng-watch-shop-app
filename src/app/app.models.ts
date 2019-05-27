@@ -15,8 +15,7 @@ export interface IWatchDetails {
     romSize: string;
 }
 
-export interface IWatch extends IItem, IWatchDetails {
-}
+export interface IWatch extends IItem, IWatchDetails {}
 
 export interface IPrice {
     from: number;

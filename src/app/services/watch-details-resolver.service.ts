@@ -26,8 +26,12 @@ export class WatchDetailsResolverService implements Resolve<any> {
     public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IWatch> | Observable<never> {
         const watchId = parseInt(route.params['itemId'], 10);
 
-        return this.watchesServiсe.getItemById(watchId).pipe(finalize (() => {
-            this.loaderService.stopLoading();
-        }));
+        return this.watchesServiсe.getWatchById(watchId).pipe(
+            catchError(error => {
+                return of(error);
+            }),
+            finalize (() => {
+                this.loaderService.stopLoading();
+            }));
     }
 }

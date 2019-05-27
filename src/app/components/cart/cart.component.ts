@@ -22,8 +22,7 @@ export class CartComponent implements OnInit {
         this.receiveItems();
     }
 
-    public ngOnInit(): void {
-    }
+    public ngOnInit(): void {}
 
     public closeCart(): void {
         this.cartService.isShowCart$.next(false);
@@ -58,7 +57,7 @@ export class CartComponent implements OnInit {
     private receiveItems(): void {
         this.cartService.items$.subscribe((items: Map<number, number>) => {
             items.forEach((count: number, itemId: number) => {
-                this.watchesService.getItemById(itemId).subscribe((item: IWatch) => {
+                this.watchesService.getWatchById(itemId).subscribe((item: IWatch) => {
                     if (item) {
                         this.items.set(item, count);
                     }

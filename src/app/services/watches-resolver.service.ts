@@ -14,7 +14,7 @@ import { WatchesService } from './watches.service';
 @Injectable({
     providedIn: 'root'
 })
-export class WatchesResolverService implements Resolve<any> {
+export class WatchesResolver implements Resolve<any> {
 
     constructor(
         private http: HttpClient,

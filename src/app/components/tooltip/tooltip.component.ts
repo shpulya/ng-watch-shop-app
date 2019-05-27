@@ -14,11 +14,7 @@ export class TooltipComponent implements OnChanges {
     public isClicked!: boolean;
 
 
-    public constructor() {
-    }
+    public constructor() {}
 
-    public ngOnChanges(changes: SimpleChanges): void {
-
-    }
-
+    public ngOnChanges(changes: SimpleChanges): void {}
 }

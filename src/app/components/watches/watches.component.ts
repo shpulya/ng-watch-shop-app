@@ -50,8 +50,7 @@ export class WatchesComponent implements OnInit {
         private itemsService: WatchesService,
         private route: ActivatedRoute,
         private router: Router
-    ) {
-    }
+    ) {}
 
     public ngOnInit(): void {
         if (this.route.snapshot.data.watches instanceof HttpErrorResponse) {
@@ -152,8 +151,7 @@ export class WatchesComponent implements OnInit {
         this.pagedItems = this.filteredItems.filter((watch: IWatch, i: number) => {
 
             return ((i >= (currentPage - 1) * countOnPage) && (i < currentPage * countOnPage));
-        }
-        );
+        });
     }
 
     private getQueryParams(): void {

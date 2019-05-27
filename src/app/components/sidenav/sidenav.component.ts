@@ -68,8 +68,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
         private router: Router,
         private route: ActivatedRoute,
         private filterService: FiltersService
-    ) {
-    }
+    ) {}
 
     public ngOnInit(): void {
         this.updateFiltersMap(this.route.snapshot.data.watches);

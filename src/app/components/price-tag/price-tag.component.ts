@@ -13,6 +13,5 @@ export class PriceTagComponent {
     @Input()
     public scale: number = 1;
 
-    constructor() {
-    }
+    constructor() {}
 }

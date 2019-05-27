@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-import { CookieService } from 'ngx-cookie-service';
+import { CookiesService } from './cookies.service';
 
 type TItemsMap = Map<number, number>;
 
@@ -15,8 +15,7 @@ export class CartService {
     public items$: BehaviorSubject<TItemsMap> = new BehaviorSubject<TItemsMap>(new Map());
 
     constructor(
-        private cookieService: CookieService,
-        private cookies: CookieService
+        private cookieService: CookiesService
     ) {
         this.receiveCookiesItems();
     }
@@ -78,21 +77,17 @@ export class CartService {
     }
 
     private setItemsToCookies(items: Map<number, number>): void {
-        this.cookieService.set('cartItems', JSON.stringify([...items]));
+        this.cookieService.setCookie('cartItems', JSON.stringify([...items]), 1);
     }
 
     private receiveCookiesItems(): void {
-        const cookiesItems = JSON.parse(this.cookies.get('cartItems'));
+        const cookiesItems = JSON.parse(this.cookieService.getCookie('cartItems') || '[]');
         const itemsMap = new Map();
 
-        if (!cookiesItems) {
-            return;
-        } else {
-            cookiesItems.forEach((item: Array<number>) => {
-                itemsMap.set(item[0], item[1]);
-            });
-        }
-        console.log(this.items$);
+        cookiesItems.forEach((item: Array<number>) => {
+            itemsMap.set(item[0], item[1]);
+        });
+
         this.items$.next(itemsMap);
     }
 }

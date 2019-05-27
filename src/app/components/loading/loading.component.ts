@@ -14,8 +14,7 @@ export class LoadingComponent implements OnInit {
 
     constructor(
         private loaderService: LoaderService
-    ) { }
+    ) {}
 
-    public ngOnInit(): void {
-    }
+    public ngOnInit(): void {}
 }

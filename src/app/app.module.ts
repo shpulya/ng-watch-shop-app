@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,7 +16,6 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
 import { WatchDetailComponent } from './components/watch-detail/watch-detail.component';
 import { LoadingComponent } from './components/loading/loading.component';
-import { WatchDetailsResolverService } from './services/watch-details-resolver.service';
 
 @NgModule({
     declarations: [
@@ -40,13 +38,9 @@ import { WatchDetailsResolverService } from './services/watch-details-resolver.s
         HttpClientModule,
         FormsModule
     ],
-    providers: [
-        CookieService,
-        WatchDetailsResolverService
-    ],
+    providers: [],
     bootstrap: [
         AppComponent
     ]
 })
-export class AppModule {
-}
+export class AppModule {}
