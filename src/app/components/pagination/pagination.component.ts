@@ -17,22 +17,19 @@ export class PaginationComponent implements OnChanges {
     public currentPage!: number;
 
     @Output()
-    public onPageUpdate: EventEmitter<number> = new EventEmitter<number>();
+    public pageUpdateEvent: EventEmitter<number> = new EventEmitter<number>();
 
     public countPages: number = 0;
 
     public pages: Array<number> = [];
 
-    constructor(
-    ) {}
-
     public ngOnChanges(changes: SimpleChanges): void {
+        this.pages = [];
         const {itemsCount} = changes;
 
         if (itemsCount) {
             this.countPages = Math.ceil(itemsCount.currentValue / this.countOnPage);
         }
-        this.pages = [];
 
         for (let i = 1; i < this.countPages + 1; i++) {
             this.pages.push(i);
@@ -40,7 +37,7 @@ export class PaginationComponent implements OnChanges {
     }
 
     public changeActivePage(page: number): void {
-        this.onPageUpdate.emit(page);
+        this.pageUpdateEvent.emit(page);
     }
 
 }

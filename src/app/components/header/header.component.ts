@@ -1,4 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 import { CartService } from '../../services/cart.service';
 
@@ -11,30 +13,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     public counter: number = 0;
 
-    public alive: boolean = true;
+    private destroy$: Subject<void> = new Subject();
 
     constructor(
         private cartService: CartService
     ) {}
 
     public ngOnInit(): void {
-        this.getCounter();
+        this.cartService.items$
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => {
+                this.counter = this.cartService.countItemsInCart();
+            });
     }
 
     public ngOnDestroy(): void {
-        this.alive = false;
-    }
-
-    public getCounter(): void {
-        this.cartService.items$.subscribe(() => {
-            this.counter = this.cartService.countItemsInCart();
-        });
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     public showCart(): void {
         if (this.counter) {
-            this.cartService.isShowCart$.next(true);
+            this.cartService.changeCartState(true);
         }
     }
-
 }

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { CartService } from '../../services/cart.service';
 import { IWatch } from '../../app.models';
-import { WatchesService } from '../../services/watches.service';
 
 @Component({
     selector: 'app-cart',
@@ -16,28 +15,30 @@ export class CartComponent implements OnInit {
     public itemsList: Array<IWatch> = [];
 
     constructor(
-        private cartService: CartService,
-        private watchesService: WatchesService
-    ) {
-        this.receiveItems();
-    }
+        private cartService: CartService
+    ) {}
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.cartService.items$.subscribe((items: Map<IWatch, number>) => {
+            this.items = items;
+            this.itemsList = Array.from(this.items.keys());
+        });
+    }
 
     public closeCart(): void {
-        this.cartService.isShowCart$.next(false);
+        this.cartService.changeCartState(false);
     }
 
-    public reduceItemsCount(itemId: number): void {
-        this.cartService.reduceCountItem(itemId);
+    public reduceItemsCount(item: IWatch): void {
+        this.cartService.reduceCountItem(item);
     }
 
-    public deleteItem(itemId: number): void {
-        this.cartService.deleteItem(itemId);
+    public increaseItemsCount(item: IWatch): void {
+        this.cartService.addItem(item);
     }
 
-    public increaseItemsCount(itemId: number): void {
-        this.cartService.addItem(itemId);
+    public deleteItem(item: IWatch): void {
+        this.cartService.deleteItem(item);
     }
 
     public getItemsCount(item: IWatch): number {
@@ -52,34 +53,5 @@ export class CartComponent implements OnInit {
         });
 
         return finalSum;
-    }
-
-    private receiveItems(): void {
-        this.cartService.items$.subscribe((items: Map<number, number>) => {
-            items.forEach((count: number, itemId: number) => {
-                this.watchesService.getWatchById(itemId).subscribe((item: IWatch) => {
-                    if (item) {
-                        this.items.set(item, count);
-                    }
-
-                    if (this.items) {
-                        this.items.forEach((c: number, item: IWatch) => {
-
-                            if (!items.has(item.id)) {
-                                this.items.delete(item);
-                            }
-                        });
-                    }
-
-                    this.itemsList = Array.from(this.items.keys());
-                });
-            });
-
-            if (this.cartService.items$.getValue().size === 0 && !(this.items.size === 0)) {
-                this.items.clear();
-                this.itemsList = [];
-            }
-
-        });
     }
 }

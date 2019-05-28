@@ -32,6 +32,7 @@
                 <label for="cart" (click)="addItemToCart(watch!.id)">
                     Add to cart
                 </label>
+                <app-tooltip [message]="'Added to cart'" [showTooltip$]="showTooltip$"></app-tooltip>
             </div>
         </div>
     </div>

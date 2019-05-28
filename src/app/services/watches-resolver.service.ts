@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+
 import { IWatch } from '../app.models';
 import { LoaderService } from './loader.service';
 import { WatchesService } from './watches.service';
@@ -17,7 +17,6 @@ import { WatchesService } from './watches.service';
 export class WatchesResolver implements Resolve<any> {
 
     constructor(
-        private http: HttpClient,
         private loaderService: LoaderService,
         private watchesService: WatchesService
         ) { }
@@ -25,12 +24,14 @@ export class WatchesResolver implements Resolve<any> {
     public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Array<IWatch>> | Observable<never> {
         this.loaderService.startLoading();
 
-        return this.watchesService.getWatches().pipe(
-            catchError(error => {
-                return of(error);
-            }),
-            finalize(() => {
-                this.loaderService.stopLoading();
-            }));
+        return this.watchesService.getWatches()
+            .pipe(
+                catchError(error => {
+                    return of(error);
+                }),
+                finalize(() => {
+                    this.loaderService.stopLoading();
+                })
+            );
     }
 }

@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
 
 import { WatchesService } from '../../services/watches.service';
 import { IWatch } from '../../app.models';
 import { CartService } from '../../services/cart.service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-watch-detail',
@@ -16,11 +16,9 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
 
     public watch!: IWatch | null;
 
-    public isAdded: boolean = false;
-
-    public price: string = '';
-
     public queryParams!: Params;
+
+    public showTooltip$: Subject<void> = new Subject();
 
     private destroy$: Subject<void> = new Subject();
 
@@ -47,13 +45,8 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
-    public addWatchToCart(watchId: number): void {
-        this.cartService.addItem(watchId);
-        this.isAdded = true;
-
-        setTimeout(() => {
-            this.isAdded = false;
-        }, 300);
+    public addWatchToCart(watch: IWatch): void {
+        this.cartService.addItem(watch);
+        this.showTooltip$.next();
     }
-
 }

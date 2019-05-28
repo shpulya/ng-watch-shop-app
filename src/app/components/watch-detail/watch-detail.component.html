@@ -22,7 +22,7 @@
     </div>
 
     <div class="watch__price">
-        <app-price-tag [price]="watch!.price" [scale]="2"></app-price-tag>
+        <app-price-tag [price]="watch!.price" [large]="true"></app-price-tag>
     </div>
 
     <div class="watch__cart">
@@ -30,9 +30,9 @@
             src="../../../../assets/img/cart.png"
             alt="Add to cart" id="cart"
             (click)="addWatchToCart(watch!.id)">
-        <label for="cart" (click)="addWatchToCart(watch!.id)">
+        <label for="cart" (click)="addWatchToCart(watch)">
             Add to cart
         </label>
-        <app-tooltip [isClicked]="isAdded" [message]="'Added to cart'"></app-tooltip>
+        <app-tooltip [message]="'Added to cart'" [showTooltip$]="showTooltip$"></app-tooltip>
     </div>
 </div>

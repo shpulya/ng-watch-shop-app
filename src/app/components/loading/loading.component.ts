@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 
 import { LoaderService } from '../../services/loader.service';
 
@@ -8,13 +7,18 @@ import { LoaderService } from '../../services/loader.service';
     templateUrl: './loading.component.html',
     styleUrls: ['./loading.component.scss']
 })
+
 export class LoadingComponent implements OnInit {
 
-    public isLoading$: Observable<boolean> = this.loaderService.isLoading$;
+    public hideLoading: boolean = false;
 
     constructor(
         private loaderService: LoaderService
     ) {}
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.loaderService.loading$.subscribe((loading: boolean) => {
+            this.hideLoading = !loading;
+        });
+    }
 }

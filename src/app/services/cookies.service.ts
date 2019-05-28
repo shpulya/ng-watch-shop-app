@@ -9,7 +9,6 @@ export class CookiesService {
     constructor() { }
 
     public getCookie(name: string): string {
-        debugger;
         const cookiesArr: Array<string> = document.cookie.split(';');
         const cookiesLength: number = cookiesArr.length;
         const cookieName = `${name}=`;
@@ -23,10 +22,6 @@ export class CookiesService {
         }
 
         return '';
-    }
-
-    public deleteCookie(name: string): void {
-        this.setCookie(name, '', -1);
     }
 
     public setCookie(name: string, value: string, expireDays: number, path: string = ''): void {

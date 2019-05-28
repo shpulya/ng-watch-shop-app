@@ -9,7 +9,7 @@
         <div class="cart__list__title">Sum</div>
 
         <div class="cart__list__item" *ngFor="let item of itemsList">
-            <div class="cart__list__item__delete" (click)="deleteItem(item!.id)"></div>
+            <div class="cart__list__item__delete" (click)="deleteItem(item)"></div>
 
             <div class="cart__list__item__img">
                 <img src="../../../../assets/img/watches/{{item.image}}" alt="{{item.image}}">
@@ -22,9 +22,9 @@
                     <app-price-tag class="price" [price]="item.price"></app-price-tag>
 
                     <div class="calculating__counter">
-                        <div class="calculating__counter__reduce" (click)="reduceItemsCount(item!.id)">&mdash;</div>
+                        <div class="calculating__counter__reduce" (click)="reduceItemsCount(item)">&mdash;</div>
                         <div class="calculating__counter__number">{{getItemsCount(item)}}</div>
-                        <div class="calculating__counter__increase" (click)="increaseItemsCount(item!.id)">+</div>
+                        <div class="calculating__counter__increase" (click)="increaseItemsCount(item)">+</div>
                     </div>
 
                     <div class="cart__list__item__acc-price">${{getItemsCount(item) * item!.price}}</div>

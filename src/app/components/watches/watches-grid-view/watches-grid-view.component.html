@@ -18,6 +18,7 @@
         <img
             src="../../../../assets/img/cart.png"
             alt="Add to cart"
-            (click)="addItemToCart(watch!.id)">
+            (click)="addItemToCart(watch)">
+        <app-tooltip [message]="'Added to cart'" [showTooltip$]="showTooltip$"></app-tooltip>
     </div>
 </div>

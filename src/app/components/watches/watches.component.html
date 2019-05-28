@@ -72,7 +72,7 @@
             [currentPage]="currentPage"
             [itemsCount]="itemsCount"
             [countOnPage]="countOnGrid"
-            (onPageUpdate)="outputItems($event)">
+            (pageUpdateEvent)="outputItems($event)">
         </app-pagination>
 
         <app-pagination
@@ -80,7 +80,7 @@
             [currentPage]="currentPage"
             [itemsCount]="itemsCount"
             [countOnPage]="countOnLine"
-            (onPageUpdate)="outputItems($event)">
+            (pageUpdateEvent)="outputItems($event)">
         </app-pagination>
     </div>
 </div>

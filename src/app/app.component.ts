@@ -16,7 +16,7 @@ export class AppComponent {
     constructor(
         private cartService: CartService
     ) {
-        this.cartService.isShowCart$.subscribe((isShow: boolean) => {
+        this.cartService.openCart$.subscribe((isShow: boolean) => {
             this.isShowCart = isShow;
         });
     }

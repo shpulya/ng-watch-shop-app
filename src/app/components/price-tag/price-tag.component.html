@@ -1,4 +1,4 @@
-<div class="price-tag {{scale === 2 ? 'price-tag_big' : ''}}">
+<div class="price-tag" [ngClass]="{'price-tag_big': large}">
     ${{price}}
-    <div class="price-tag__hole {{scale === 2 ? 'price-tag_big__hole' : ''}}"></div>
+    <div class="price-tag__hole " [ngClass]="{'price-tag_big__hole': large}"></div>
 </div>

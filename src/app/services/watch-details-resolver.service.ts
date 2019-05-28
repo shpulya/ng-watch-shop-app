@@ -4,12 +4,11 @@ import {
     ActivatedRouteSnapshot,
     RouterStateSnapshot
 } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
 
 import { IWatch } from '../app.models';
 import { LoaderService } from './loader.service';
-import { Observable, of } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
 import { WatchesService } from './watches.service';
 
 @Injectable({
@@ -18,20 +17,21 @@ import { WatchesService } from './watches.service';
 export class WatchDetailsResolverService implements Resolve<any> {
 
     constructor(
-        private http: HttpClient,
         private loaderService: LoaderService,
-        private watchesServiсe: WatchesService
+        private watchesService: WatchesService
     ) { }
 
     public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IWatch> | Observable<never> {
         const watchId = parseInt(route.params['itemId'], 10);
 
-        return this.watchesServiсe.getWatchById(watchId).pipe(
-            catchError(error => {
-                return of(error);
-            }),
-            finalize (() => {
-                this.loaderService.stopLoading();
-            }));
+        return this.watchesService.getWatchById(watchId)
+            .pipe(
+                catchError(error => {
+                    return of(error);
+                }),
+                finalize (() => {
+                    this.loaderService.stopLoading();
+                })
+            );
     }
 }

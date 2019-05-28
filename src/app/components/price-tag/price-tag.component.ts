@@ -11,7 +11,5 @@ export class PriceTagComponent {
     public readonly price!: number;
 
     @Input()
-    public scale: number = 1;
-
-    constructor() {}
+    public readonly large!: boolean;
 }

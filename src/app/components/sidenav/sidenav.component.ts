@@ -88,7 +88,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
     }
 
     public onFilterChecked(category: keyof IWatchDetails, value: string | number): void {
-
         if (!this.checkedFiltersMap.has(category)) {
             const filtersSet: Set<string | number> = new Set();
 
@@ -136,7 +135,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
 
     private updateFiltersMap(watches: Array<IWatchDetails>): void {
-
         for (const filter of this.filters) {
 
             const setPropsByFilter = new Set();
@@ -154,7 +152,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
     }
 
     private getQueryParams(): void {
-
         this.route.queryParams
             .pipe(
                 takeUntil(this.destroy$)
@@ -187,7 +184,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
     }
 
     private setInitialFilters(): void {
-
         if (this.checkedFiltersMap) {
             this.checkedFiltersMap.forEach(
                 (

@@ -9,10 +9,10 @@ type TFilterMap = Map<keyof IWatch, Set<string | number>>;
 })
 export class FiltersService {
 
-    constructor(private router: Router) { }
+    constructor(private router: Router) {}
 
     public setCategoriesToUrl(categoriesMap: TFilterMap): void {
-        const categories: any = {};
+        const categories = Object.create(null);
 
         categoriesMap.forEach((value: Set<string | number>, key: string) => {
             categories[key] = JSON.stringify([...value]);
@@ -25,16 +25,15 @@ export class FiltersService {
             {
                 queryParams: queryParams,
                 queryParamsHandling: 'merge'
-            });
+            }
+        );
     }
 
     public setPriceToUrl(price: string): void {
-        const queryParams: Params = { price: price };
-
         this.router.navigate(
             ['.'],
             {
-                queryParams: queryParams,
+                queryParams: { price: price },
                 queryParamsHandling: 'merge'
             });
     }
