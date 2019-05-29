@@ -41,8 +41,6 @@ export class CartService {
             const it = items.get(item.id);
 
             if (!it) {
-                console.log('oops');
-
                 return;
             }
 
@@ -53,8 +51,6 @@ export class CartService {
             }));
         }
 
-        console.log('item', item);
-        console.log('items', items);
         this.countItemsInCart();
         this.setItemsToCookies(items);
     }
@@ -81,6 +77,12 @@ export class CartService {
                 item: item.item,
                 count: item.count - 1
             });
+        items.delete(id);
+        if (item.count > 1) {
+            items.set(id, {
+                item: item.item,
+                count: item.count - 1
+            });
         }
 
         this.items$.next(items);
@@ -97,10 +99,12 @@ export class CartService {
         }
 
         items.delete(id);
-        items.set(id, {
-            item: item.item,
-            count: item.count + 1
-        });
+        if (item.count > 1) {
+            items.set(id, {
+                item: item.item,
+                count: item.count + 1
+            });
+        }
 
         this.items$.next(items);
         this.countItemsInCart();
