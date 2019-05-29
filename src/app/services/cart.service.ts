@@ -97,10 +97,6 @@ export class CartService {
         ;
     }
 
-    public changeCartState(show: boolean): void {
-        this.opened$.next(show);
-    }
-
     public open(): void {
         this.opened$.next(true);
     }

@@ -25,7 +25,8 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute,
         private watchesService: WatchesService,
-        private cartService: CartService) {}
+        private cartService: CartService
+    ) {}
 
     public ngOnInit(): void {
 

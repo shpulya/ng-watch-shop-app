@@ -7,5 +7,4 @@ import { WatchesViewController } from '../watches-view.controller';
     templateUrl: './watches-list-view.component.html',
     styleUrls: ['./watches-list-view.component.scss']
 })
-
 export class WatchesListViewComponent extends WatchesViewController {}

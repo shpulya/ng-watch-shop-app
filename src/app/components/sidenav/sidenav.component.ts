@@ -186,16 +186,14 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     private setInitialFilters(): void {
         if (this.checkedFiltersMap) {
-            this.checkedFiltersMap.forEach(
-                (
-                    value: Set<string | number>, key: keyof IWatchDetails) => {
-                    this.filters.filter((el: IWatchFilter) => el.name === key)[0].showFilter = true;
+            this.checkedFiltersMap.forEach((value: Set<string | number>, key: keyof IWatchDetails) => {
+                this.filters.filter((el: IWatchFilter) => el.name === key)[0].showFilter = true;
 
-                    value.forEach((catItem) => {
-                        const categoryItem = document.getElementById(String(catItem)) as HTMLInputElement;
-                        categoryItem.checked = true;
-                    });
+                value.forEach((catItem) => {
+                    const categoryItem = document.getElementById(String(catItem)) as HTMLInputElement;
+                    categoryItem.checked = true;
                 });
+            });
         }
     }
 }

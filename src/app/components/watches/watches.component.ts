@@ -93,30 +93,28 @@ export class WatchesComponent implements OnInit {
     public onCategoriesFilter(filtersMap$: TFilterMap): void {
         this.categoriesFilter = filtersMap$;
         this.filterWatchesByCategory();
-        this.route.queryParams.subscribe((queryParams: Params) => {
-            this.queryParams = queryParams;
-        }, () => {
-            console.error('Can\'t get \'Categories\' query params');
-        });
+        this.route.queryParams.subscribe(
+            (queryParams: Params) => {
+                this.queryParams = queryParams;
+            },
+            () => {
+                console.error('Can\'t get \'Categories\' query params');
+            }
+        );
     }
 
     public filterWatchesByCategory(): void {
         this.filteredItems = this.watches;
 
         if (this.categoriesFilter) {
-            this.categoriesFilter.forEach(
-                (
-                    values: Set<string | number>,
-                    category: keyof IWatchDetails) => {
-                    this.filteredItems = this.filteredItems.filter((watch: IWatch) =>
-                        values.has(watch[category]));
-                }
-            );
+            this.categoriesFilter.forEach((values: Set<string | number>, category: keyof IWatchDetails) => {
+                this.filteredItems = this.filteredItems.filter((watch: IWatch) => values.has(watch[category]));
+            });
         }
 
         if (this.priceFilter) {
             this.filteredItems = this.filteredItems.filter((watch: IWatch) =>
-                watch.price >= this.priceFilter.from && watch.price <= this.priceFilter.to
+                (watch.price >= this.priceFilter.from && watch.price <= this.priceFilter.to)
             );
         }
 
@@ -130,7 +128,8 @@ export class WatchesComponent implements OnInit {
             {
                 queryParams: {sort: this.orderBy},
                 queryParamsHandling: 'merge'
-            });
+            }
+        );
 
         this.filteredItems = (this.orderBy === 'asc')
             ? this.filteredItems.sort((a: IWatch, b: IWatch) => a.price - b.price)
@@ -143,7 +142,6 @@ export class WatchesComponent implements OnInit {
 
         this.currentPage = currentPage;
         this.pagedItems = this.filteredItems.filter((watch: IWatch, i: number) => {
-
             return ((i >= (currentPage - 1) * countOnPage) && (i < currentPage * countOnPage));
         });
     }
@@ -183,5 +181,4 @@ export class WatchesComponent implements OnInit {
 
         this.onPage(1);
     }
-
 }
