@@ -1,15 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import {
-    Event,
-    Router,
-    ActivatedRoute,
-    Params
-} from '@angular/router';
+import { Event, Router, ActivatedRoute, Params } from '@angular/router';
 
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IWatchDetails } from '../../app.models';
 import { HttpErrorResponse } from '@angular/common/http';
-
 
 type TFilterMap = Map<keyof IWatchDetails, Set<string | number>>;
 
