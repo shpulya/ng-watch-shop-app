@@ -25,31 +25,19 @@ export class CartService {
 
     public addItem(item: IItem): void {
         const items: TCartMap = this.items$.getValue();
+        const count = (items.get(item.id)) ? items.get(item.id)!.count : 1;
 
-        if (!items.has(item.id)) {
-            this.items$.next(items.set(item.id, {
-                item: {
-                    id: item.id,
-                    image: item.image,
-                    name: item.name,
-                    price: item.price,
-                    description: item.description
-                },
-                count: 1
-            }));
-        } else {
-            const it = items.get(item.id);
-
-            if (!it) {
-                return;
-            }
-
-            items.delete(item.id);
-            this.items$.next(items.set(item.id, {
-                item: it.item,
-                count: it.count + 1
-            }));
-        }
+        items.delete(item.id);
+        this.items$.next(items.set(item.id, {
+            item: {
+                id: item.id,
+                image: item.image,
+                name: item.name,
+                price: item.price,
+                description: item.description
+            },
+            count: count + 1
+        }));
 
         this.countItemsInCart();
         this.setItemsToCookies(items);
@@ -77,12 +65,6 @@ export class CartService {
                 item: item.item,
                 count: item.count - 1
             });
-        items.delete(id);
-        if (item.count > 1) {
-            items.set(id, {
-                item: item.item,
-                count: item.count - 1
-            });
         }
 
         this.items$.next(items);
@@ -99,12 +81,10 @@ export class CartService {
         }
 
         items.delete(id);
-        if (item.count > 1) {
-            items.set(id, {
-                item: item.item,
-                count: item.count + 1
-            });
-        }
+        items.set(id, {
+            item: item.item,
+            count: item.count + 1
+        });
 
         this.items$.next(items);
         this.countItemsInCart();
