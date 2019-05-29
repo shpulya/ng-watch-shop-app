@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { CookiesService } from './cookies.service';
-import { IWatch } from '../app.models';
+import { ICart, IItem } from '../app.models';
 import { WatchesService } from './watches.service';
 
-type TCartMap = Map<IWatch, number>;
+type TCartMap = Map<number, ICart> ;
 
 @Injectable({
     providedIn: 'root'
@@ -23,45 +23,82 @@ export class CartService {
         this.receiveCookiesItems();
     }
 
-    public addItem(item: IWatch): void {
+    public addItem(item: IItem): void {
         const items: TCartMap = this.items$.getValue();
 
-        if (!items.has(item)) {
-            this.items$.next(items.set(item, 1));
+        if (!items.has(item.id)) {
+            this.items$.next(items.set(item.id, {
+                item: {
+                    id: item.id,
+                    image: item.image,
+                    name: item.name,
+                    price: item.price,
+                    description: item.description
+                },
+                count: 1
+            }));
         } else {
-            const watchCount = items.get(item);
+            const it = items.get(item.id);
 
-            if (!watchCount) {
+            if (!it) {
+                console.log('oops');
                 return;
             }
 
-            this.items$.getValue().delete(item);
-            this.items$.next(items.set(item, watchCount + 1));
+            items.delete(item.id);
+            this.items$.next(items.set(item.id, {
+                item: it.item,
+                count: it.count + 1
+            }));
         }
 
         this.countItemsInCart();
         this.setItemsToCookies(items);
     }
 
-    public deleteItem(item: IWatch): void {
+    public deleteItem(id: number): void {
         const items: TCartMap = this.items$.getValue();
-        items.delete(item);
+        items.delete(id);
         this.items$.next(items);
         this.countItemsInCart();
         this.setItemsToCookies(items);
     }
 
-    public reduceCountItem(item: IWatch): void {
+    public reduceCountItem(id: number): void {
         const items: TCartMap = this.items$.getValue();
-        const itemsCount = this.items$.getValue().get(item);
+        const item = items.get(id);
 
-        if (!itemsCount) {
+        if (!item) {
             return;
         }
 
-        items.delete(item);
-        if (itemsCount > 1) {
-            items.set(item, itemsCount - 1);
+        items.delete(id);
+        if (item.count > 1) {
+            items.set(id, {
+                item: item.item,
+                count: item.count - 1
+            });
+        }
+
+        this.items$.next(items);
+        this.countItemsInCart();
+        this.setItemsToCookies(items);
+    }
+
+    public increaseCountItem(id: number): void {
+        const items: TCartMap = this.items$.getValue();
+        const item = items.get(id);
+
+        if (!item) {
+            return;
+        }
+
+        items.delete(id);
+        if (item.count > 1) {
+            items.set(id, {
+                item: item.item,
+                count: item.count + 1
+            });
         }
 
         this.items$.next(items);
@@ -73,7 +110,7 @@ export class CartService {
         return Array.from(this.items$
             .getValue()
             .values())
-            .reduce((acc: number, currentCount: number) => acc + currentCount, 0);
+            .reduce((acc: number, currentItem: ICart) => acc + currentItem.count, 0);
     }
 
     public changeCartState(show: boolean): void {
@@ -83,8 +120,8 @@ export class CartService {
     private setItemsToCookies(items: TCartMap): void {
         const transformItems: Map<number, number> = new Map<number, number>();
 
-        items.forEach((count: number, item: IWatch) => {
-            transformItems.set(item.id, count);
+        items.forEach((item: ICart, id: number) => {
+            transformItems.set(id, item.count);
         });
 
         this.cookieService.setCookie('cartItems', JSON.stringify([...transformItems]), 1);
@@ -92,13 +129,24 @@ export class CartService {
 
     private receiveCookiesItems(): void {
         const cookiesItems = JSON.parse(this.cookieService.getCookie('cartItems') || '[]');
-        const itemsMap: Map<IWatch, number> = new Map<IWatch, number>();
+        const itemsMap: TCartMap = new Map<number, ICart>();
 
         cookiesItems.forEach((item: Array<number>) => {
-            this.watchesService.getWatchById(item[0]).subscribe((watch: IWatch) => {
-                itemsMap.set(watch, item[1]);
-                this.items$.next(itemsMap);
-            });
+            this.watchesService
+                .getWatchById(item[0])
+                .subscribe((i: IItem) => {
+                    itemsMap.set(i.id, {
+                        item: {
+                            id: i.id,
+                            image: i.image,
+                            name: i.name,
+                            price: i.price,
+                            description: i.description
+                        },
+                        count: item[1]
+                    });
+                    this.items$.next(itemsMap);
+                });
         });
     }
 }

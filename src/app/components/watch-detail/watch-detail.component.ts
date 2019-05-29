@@ -4,7 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
 
 import { WatchesService } from '../../services/watches.service';
-import { IWatch } from '../../app.models';
+import { IItem, IWatch } from '../../app.models';
 import { CartService } from '../../services/cart.service';
 
 @Component({
