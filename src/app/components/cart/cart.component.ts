@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CartService } from '../../services/cart.service';
-import { IWatch } from '../../app.models';
+import { ICart, IItem } from '../../app.models';
 
 @Component({
     selector: 'app-cart',
@@ -10,18 +10,18 @@ import { IWatch } from '../../app.models';
 })
 export class CartComponent implements OnInit {
 
-    public items: Map<IWatch, number> = new Map<IWatch, number>();
+    public items: Map<number, ICart> = new Map<number, ICart>();
 
-    public itemsList: Array<IWatch> = [];
+    public itemsList: Array<IItem> = [];
 
     constructor(
         private cartService: CartService
     ) {}
 
     public ngOnInit(): void {
-        this.cartService.items$.subscribe((items: Map<IWatch, number>) => {
+        this.cartService.items$.subscribe((items: Map<number, ICart>) => {
             this.items = items;
-            this.itemsList = Array.from(this.items.keys());
+            this.itemsList = Array.from(this.items.values()).map(item => item.item);
         });
     }
 
@@ -29,27 +29,27 @@ export class CartComponent implements OnInit {
         this.cartService.changeCartState(false);
     }
 
-    public reduceItemsCount(item: IWatch): void {
-        this.cartService.reduceCountItem(item);
+    public reduceItemsCount(id: number): void {
+        this.cartService.reduceCountItem(id);
     }
 
-    public increaseItemsCount(item: IWatch): void {
-        this.cartService.addItem(item);
+    public increaseItemsCount(id: number): void {
+        this.cartService.increaseCountItem(id);
     }
 
-    public deleteItem(item: IWatch): void {
-        this.cartService.deleteItem(item);
+    public deleteItem(id: number): void {
+        this.cartService.deleteItem(id);
     }
 
-    public getItemsCount(item: IWatch): number {
-        return this.items.get(item) || 0;
+    public getItemsCount(id: number): number {
+        return this.items.get(id)!.count || 0;
     }
 
     public getFinalSum(): number {
         let finalSum = 0;
 
-        this.items.forEach((acc: number, item: IWatch) => {
-            finalSum += acc * item.price;
+        this.items.forEach((item: ICart, id: number) => {
+            finalSum += item.count * item.item.price;
         });
 
         return finalSum;

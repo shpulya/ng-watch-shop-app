@@ -22,8 +22,8 @@ export abstract class WatchesViewController {
         private cartService: CartService
     ) {}
 
-    public addItemToCart(item: IWatch): void {
-        this.cartService.addItem(item);
+    public addItemToCart(watch: IWatch): void {
+        this.cartService.addItem(watch);
         this.isAdded = true;
         this.showTooltip$.next();
     }

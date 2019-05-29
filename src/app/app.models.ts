@@ -27,3 +27,8 @@ export interface IWatchFilter {
     displayName: string;
     showFilter: boolean;
 }
+
+export interface ICart {
+    item: IItem;
+    count: number;
+}
