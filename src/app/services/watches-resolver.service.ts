@@ -15,7 +15,7 @@ export class WatchesResolver implements Resolve<any> {
     constructor(
         private loaderService: LoaderService,
         private watchesService: WatchesService
-        ) { }
+    ) {}
 
     public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Array<IWatch>> | Observable<never> {
         this.loaderService.startLoading();

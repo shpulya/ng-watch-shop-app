@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     public showCart(): void {
         if (this.counter) {
-            this.cartService.changeCartState(true);
+            this.cartService.open();
         }
     }
 }

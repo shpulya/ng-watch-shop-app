@@ -1,9 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Event, Router, ActivatedRoute, Params } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IWatchDetails } from '../../app.models';
-import { HttpErrorResponse } from '@angular/common/http';
 
 type TFilterMap = Map<keyof IWatchDetails, Set<string | number>>;
 
@@ -53,7 +53,7 @@ export class WatchesComponent implements OnInit {
         this.getQueryParams();
         this.getWatches();
         this.calculateItemsOnGrid();
-        this.outputItems(this.currentPage);
+        this.onPage(this.currentPage);
     }
 
     public getWatches(): void {
@@ -62,7 +62,7 @@ export class WatchesComponent implements OnInit {
             this.filteredItems = this.watches;
             this.orderItems();
             this.itemsCount = this.watches.length;
-            this.outputItems(1);
+            this.onPage(1);
         }
     }
 
@@ -77,10 +77,10 @@ export class WatchesComponent implements OnInit {
             });
 
         this.calculateItemsOnGrid();
-        this.outputItems(1);
+        this.onPage(1);
     }
 
-    public receivePriceFilter(priceFilter: IPrice): void {
+    public onPriceFilter(priceFilter: IPrice): void {
         this.priceFilter = priceFilter;
         this.filterWatchesByCategory();
         this.route.queryParams.subscribe((queryParams: Params) => {
@@ -90,7 +90,7 @@ export class WatchesComponent implements OnInit {
         });
     }
 
-    public receiveCategoriesFilter(filtersMap$: TFilterMap): void {
+    public onCategoriesFilter(filtersMap$: TFilterMap): void {
         this.categoriesFilter = filtersMap$;
         this.filterWatchesByCategory();
         this.route.queryParams.subscribe((queryParams: Params) => {
@@ -121,7 +121,7 @@ export class WatchesComponent implements OnInit {
         }
 
         this.itemsCount = this.filteredItems.length;
-        this.outputItems(1);
+        this.onPage(1);
     }
 
     public orderItems(): void {
@@ -135,10 +135,10 @@ export class WatchesComponent implements OnInit {
         this.filteredItems = (this.orderBy === 'asc')
             ? this.filteredItems.sort((a: IWatch, b: IWatch) => a.price - b.price)
             : this.filteredItems.sort((a: IWatch, b: IWatch) => b.price - a.price);
-        this.outputItems(1);
+        this.onPage(1);
     }
 
-    public outputItems(currentPage: number): void {
+    public onPage(currentPage: number): void {
         const countOnPage = this.viewMode === 'grid' ? this.countOnGrid : this.countOnLine;
 
         this.currentPage = currentPage;
@@ -181,7 +181,7 @@ export class WatchesComponent implements OnInit {
             this.countOnGrid = 6;
         }
 
-        this.outputItems(1);
+        this.onPage(1);
     }
 
 }

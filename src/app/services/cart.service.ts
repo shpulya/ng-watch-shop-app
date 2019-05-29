@@ -12,7 +12,7 @@ type TCartMap = Map<number, ICart> ;
 })
 export class CartService {
 
-    public openCart$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public opened$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     public items$: BehaviorSubject<TCartMap> = new BehaviorSubject<TCartMap>(new Map());
 
@@ -28,14 +28,9 @@ export class CartService {
         const count = (items.get(item.id)) ? items.get(item.id)!.count : 1;
 
         items.delete(item.id);
+
         this.items$.next(items.set(item.id, {
-            item: {
-                id: item.id,
-                image: item.image,
-                name: item.name,
-                price: item.price,
-                description: item.description
-            },
+            item: item,
             count: count + 1
         }));
 
@@ -45,7 +40,9 @@ export class CartService {
 
     public deleteItem(id: number): void {
         const items: TCartMap = this.items$.getValue();
+
         items.delete(id);
+
         this.items$.next(items);
         this.countItemsInCart();
         this.setItemsToCookies(items);
@@ -60,6 +57,7 @@ export class CartService {
         }
 
         items.delete(id);
+
         if (item.count > 1) {
             items.set(id, {
                 item: item.item,
@@ -68,6 +66,7 @@ export class CartService {
         }
 
         this.items$.next(items);
+
         this.countItemsInCart();
         this.setItemsToCookies(items);
     }
@@ -87,19 +86,27 @@ export class CartService {
         });
 
         this.items$.next(items);
+
         this.countItemsInCart();
         this.setItemsToCookies(items);
     }
 
     public countItemsInCart(): number {
-        return Array.from(this.items$
-            .getValue()
-            .values())
-            .reduce((acc: number, currentItem: ICart) => acc + currentItem.count, 0);
+        return Array.from(this.items$.getValue().values())
+            .reduce((acc: number, currentItem: ICart) => acc + currentItem.count, 0)
+        ;
     }
 
     public changeCartState(show: boolean): void {
-        this.openCart$.next(show);
+        this.opened$.next(show);
+    }
+
+    public open(): void {
+        this.opened$.next(true);
+    }
+
+    public close(): void {
+        this.opened$.next(false);
     }
 
     private setItemsToCookies(items: TCartMap): void {
@@ -119,18 +126,14 @@ export class CartService {
         cookiesItems.forEach((item: Array<number>) => {
             this.watchesService
                 .getWatchById(item[0])
-                .subscribe((i: IItem) => {
-                    itemsMap.set(i.id, {
-                        item: {
-                            id: i.id,
-                            image: i.image,
-                            name: i.name,
-                            price: i.price,
-                            description: i.description
-                        },
-                        count: item[1]
-                    });
-                    this.items$.next(itemsMap);
+                .subscribe((i: IItem | null) => {
+                    if (i) {
+                        itemsMap.set(i.id, {
+                            item: i,
+                            count: item[1]
+                        });
+                        this.items$.next(itemsMap);
+                    }
                 });
         });
     }

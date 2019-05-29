@@ -26,7 +26,7 @@ export class CartComponent implements OnInit {
     }
 
     public closeCart(): void {
-        this.cartService.changeCartState(false);
+        this.cartService.close();
     }
 
     public reduceItemsCount(id: number): void {

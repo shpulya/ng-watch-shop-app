@@ -18,11 +18,12 @@ export class WatchesService {
         return this.http.get<Array<IWatch>>('assets/data/watches.json');
     }
 
-    public getWatchById(id: number): Observable<IWatch> {
-        return this.getWatches().pipe(map ((watches: any) => {
-            const filteredWatches = watches.filter((watch: IWatch) => watch.id === id);
+    public getWatchById(id: number): Observable<IWatch | null> {
+        return this.getWatches()
+            .pipe(map((watches: Array<IWatch>) => {
+                const filteredWatches = watches.filter((watch: IWatch) => watch.id === id);
 
-            return (filteredWatches.length > 0) ? filteredWatches[0] : null;
-        }));
+                return (filteredWatches.length > 0) ? filteredWatches[0] : null;
+            }));
     }
 }

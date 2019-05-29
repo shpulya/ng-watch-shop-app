@@ -17,10 +17,10 @@ type TFilterMap = Map<keyof IWatchDetails, Set<string | number>>;
 export class SidenavComponent implements OnInit, OnDestroy {
 
     @Output()
-    public onCategoriesUpdate: EventEmitter<TFilterMap> = new EventEmitter<TFilterMap>();
+    public categoriesUpdateEvent: EventEmitter<TFilterMap> = new EventEmitter<TFilterMap>();
 
     @Output()
-    public onPriceUpdate: EventEmitter<IPrice> = new EventEmitter<IPrice>();
+    public priceUpdateEvent: EventEmitter<IPrice> = new EventEmitter<IPrice>();
 
     public showPriceFilter: boolean = true;
 
@@ -73,6 +73,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.updateFiltersMap(this.route.snapshot.data.watches);
         this.getQueryParams();
+
         setTimeout(() => this.setInitialFilters());
     }
 
@@ -84,7 +85,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     public setPrice(priceKey: keyof IPrice, value: number): void {
         this.price[priceKey] = value;
         this.filterService.setPriceToUrl(JSON.stringify(this.price));
-        this.onPriceUpdate.emit(this.price);
+        this.priceUpdateEvent.emit(this.price);
     }
 
     public onFilterChecked(category: keyof IWatchDetails, value: string | number): void {
@@ -92,8 +93,9 @@ export class SidenavComponent implements OnInit, OnDestroy {
             const filtersSet: Set<string | number> = new Set();
 
             filtersSet.add(value);
+
             this.checkedFiltersMap.set(category, filtersSet);
-            this.onCategoriesUpdate.emit(this.checkedFiltersMap);
+            this.categoriesUpdateEvent.emit(this.checkedFiltersMap);
             this.checkedFiltersMapKeys = Array.from(this.checkedFiltersMap.keys());
             this.filterService.setCategoriesToUrl(this.checkedFiltersMap);
 
@@ -107,10 +109,9 @@ export class SidenavComponent implements OnInit, OnDestroy {
         }
 
         if (currentCategory && currentCategory.has(value)) {
-            currentCategory.delete(value);
-
             const categoryItem = document.getElementById(String(value)) as HTMLInputElement;
 
+            currentCategory.delete(value);
             categoryItem.checked = false;
         } else if (currentCategory && !currentCategory.has(value)) {
             currentCategory.add(value);
@@ -122,7 +123,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
         this.filterService.setCategoriesToUrl(this.checkedFiltersMap);
         this.checkedFiltersMapKeys = Array.from(this.checkedFiltersMap.keys());
-        this.onCategoriesUpdate.emit(this.checkedFiltersMap);
+        this.categoriesUpdateEvent.emit(this.checkedFiltersMap);
     }
 
     public getDisplayCategoryName(category: keyof IWatchDetails): string | undefined {
@@ -161,7 +162,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
                     if (queryParam['price']) {
                         this.price = JSON.parse(queryParam['price']);
-                        this.onPriceUpdate.emit(this.price);
+                        this.priceUpdateEvent.emit(this.price);
                     }
 
                     if (queryParam['categories']) {
@@ -177,7 +178,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
                         this.checkedFiltersMapKeys = Array.from(this.checkedFiltersMap.keys());
                     }
 
-                    this.onCategoriesUpdate.emit(this.checkedFiltersMap);
+                    this.categoriesUpdateEvent.emit(this.checkedFiltersMap);
                 }
             );
 
