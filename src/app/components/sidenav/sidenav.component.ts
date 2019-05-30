@@ -141,7 +141,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
             const setPropsByFilter = new Set();
 
             for (const watch of watches) {
-
                 if (watch.hasOwnProperty(filter.name)) {
                     setPropsByFilter.add(watch[filter.name]);
                 }
@@ -159,7 +158,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
             )
             .subscribe(
                 (queryParam: Params) => {
-
                     if (queryParam['price']) {
                         this.price = JSON.parse(queryParam['price']);
                         this.priceUpdateEvent.emit(this.price);

@@ -68,7 +68,6 @@ export class WatchesComponent implements OnInit {
 
     public changeViewMode(view: string): void {
         this.viewMode = view;
-
         this.router.navigate(
             ['.'],
             {
@@ -76,7 +75,6 @@ export class WatchesComponent implements OnInit {
                 queryParamsHandling: 'merge'
             }
         );
-
         this.calculateItemsOnGrid();
         this.onPage(1);
     }
@@ -154,7 +152,6 @@ export class WatchesComponent implements OnInit {
         this.route.queryParams
             .subscribe(
                 (queryParam: Params) => {
-
                     if (queryParam['view']) {
                         this.viewMode = queryParam['view'];
                     }

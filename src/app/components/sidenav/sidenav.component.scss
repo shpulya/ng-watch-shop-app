@@ -34,19 +34,12 @@ label {
         color: #0082b3;
         line-height: 25px;
 
-        .arrow_down, .arrow_left {
+        .arrow {
             width: 10px;
             height: 10px;
             border-color: #0082b3;
             border-style: solid;
             transform: rotate(45deg);
-        }
-
-        .arrow_left {
-            border-width: 0 0 1px 1px;
-        }
-
-        .arrow_down {
             border-width: 0 1px 1px 0;
             margin-top: -10px;
         }
@@ -112,10 +105,6 @@ label {
 
 }
 
-.hide {
-    display: none;
-}
-
 .check-container {
     display: flex;
     align-items: center;
@@ -173,6 +162,23 @@ label {
     .checkmark:after {
         content: "";
         position: absolute;
+        display: none;
+    }
+}
+
+.close {
+    .filter-header {
+        .arrow {
+            border-width: 0 0 1px 1px;
+            margin-top: 0;
+        }
+    }
+
+    .price {
+        display: none;
+    }
+
+    .check-container {
         display: none;
     }
 }

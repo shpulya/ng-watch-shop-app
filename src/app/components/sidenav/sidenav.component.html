@@ -1,7 +1,9 @@
 <div class="sidenav">
     <div class="sidenav__header">Filters</div>
 
-    <div class="sidenav__applied" *ngIf="checkedFiltersMapKeys && checkedFiltersMapKeys.length">Applied filters</div>
+    <div class="sidenav__applied" *ngIf="checkedFiltersMapKeys && checkedFiltersMapKeys.length">
+        Applied filters
+    </div>
     <div class="checked_filters" *ngFor="let filter of checkedFiltersMapKeys">
         <span>{{getDisplayCategoryName(filter)}}:</span>
         <div class="checked_category_item" *ngFor="let property of checkedFiltersMap!.get(filter)">
@@ -12,12 +14,12 @@
     <hr *ngIf="checkedFiltersMapKeys && checkedFiltersMapKeys.length">
 
     <ul>
-        <li>
+        <li [ngClass]="{'close': !showPriceFilter}">
             <div class="filter-header" (click)="showPriceFilter = !showPriceFilter">Price
-                <div class="arrow {{showPriceFilter ? 'arrow_down': 'arrow_left'}}"></div>
+                <div class="arrow"></div>
             </div>
 
-            <div class="price {{showPriceFilter ? '' : 'hide'}}">
+            <div class="price">
                 <input
                     class="price_from"
                     type="number"
@@ -37,19 +39,19 @@
             </div>
             <hr *ngIf="!showPriceFilter">
         </li>
-        <li *ngFor="let filter of filtersMapKeys; let i = index">
+        <li *ngFor="let filter of filtersMapKeys; let i = index"  [ngClass]="{'close': !filters[i].showFilter}">
             <div class="filter-header"
                  (click)="filters[i].showFilter = !filters[i].showFilter">{{filters[i].displayName}}
-                <div class="arrow {{filters[i].showFilter ? 'arrow_down': 'arrow_left'}}"></div>
+                <div class="arrow"></div>
             </div>
 
             <label
                 *ngFor="let property of filtersMap!.get(filter)"
-                class=" {{filters[i].showFilter? 'check-container' : 'hide'}}">
+                class="check-container">
                 <input
                     type="checkbox"
-                    id="{{property}}"
-                    value="{{property}}"
+                    [id]="property"
+                    [value]="property"
                     (change)="onFilterChecked(filter, property)"/>
                 <span class="checkmark"></span>
                 {{property}}
