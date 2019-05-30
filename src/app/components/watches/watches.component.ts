@@ -74,7 +74,8 @@ export class WatchesComponent implements OnInit {
             {
                 queryParams: {view: view},
                 queryParamsHandling: 'merge'
-            });
+            }
+        );
 
         this.calculateItemsOnGrid();
         this.onPage(1);
@@ -83,11 +84,14 @@ export class WatchesComponent implements OnInit {
     public onPriceFilter(priceFilter: IPrice): void {
         this.priceFilter = priceFilter;
         this.filterWatchesByCategory();
-        this.route.queryParams.subscribe((queryParams: Params) => {
-            this.queryParams = queryParams;
-        }, () => {
-            console.error('Can\'t get \'Price\' query params');
-        });
+        this.route.queryParams.subscribe(
+            (queryParams: Params) => {
+                this.queryParams = queryParams;
+            },
+            () => {
+                console.error('Can\'t get \'Price\' query params');
+            }
+        );
     }
 
     public onCategoriesFilter(filtersMap$: TFilterMap): void {

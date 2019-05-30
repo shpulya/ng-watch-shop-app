@@ -25,7 +25,8 @@ export class CartService {
 
     public addItem(item: IItem): void {
         const items: TCartMap = this.items$.getValue();
-        const count = (items.get(item.id)) ? items.get(item.id)!.count : 1;
+        const searchedItem = items.get(item.id);
+        const count = (searchedItem) ? searchedItem.count : 0;
 
         items.delete(item.id);
 

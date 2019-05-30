@@ -42,7 +42,13 @@ export class CartComponent implements OnInit {
     }
 
     public getItemsCount(id: number): number {
-        return this.items.get(id)!.count || 0;
+        const item = this.items.get(id);
+
+        if (!item) {
+            return 0;
+        }
+
+        return item.count;
     }
 
     public getFinalSum(): number {
