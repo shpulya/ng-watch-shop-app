@@ -22,8 +22,7 @@
                 <select
                     name="sorting"
                     id="sorting"
-                    [(ngModel)]="orderBy"
-                    (change)="orderItems()">
+                    (change)="orderItems($event.target.value)">
                     <option value="asc">Lowest Price</option>
                     <option value="desk">Highest Price</option>
                 </select>
@@ -72,7 +71,7 @@
             [currentPage]="currentPage"
             [itemsCount]="itemsCount"
             [countOnPage]="countOnGrid"
-            (pageUpdateEvent)="onPage($event)">
+            (pageUpdateEvent)="selectPage($event)">
         </app-pagination>
 
         <app-pagination
@@ -80,7 +79,7 @@
             [currentPage]="currentPage"
             [itemsCount]="itemsCount"
             [countOnPage]="countOnLine"
-            (pageUpdateEvent)="onPage($event)">
+            (pageUpdateEvent)="selectPage($event)">
         </app-pagination>
     </div>
 </div>

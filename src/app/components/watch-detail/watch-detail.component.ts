@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { WatchesService } from '../../services/watches.service';
 import { IWatch } from '../../app.models';
 import { CartService } from '../../services/cart.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-watch-detail',
@@ -29,10 +30,12 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
     ) {}
 
     public ngOnInit(): void {
-
-        this.route.queryParams.subscribe((queryParams: Params) => {
-            this.queryParams = queryParams;
-        });
+        this.route.queryParams
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((queryParams: Params) => {
+                this.queryParams = queryParams;
+            })
+        ;
 
         if (this.route.snapshot.data.watches instanceof HttpErrorResponse) {
             console.error('Couldn\'t load data', this.route.snapshot.data);

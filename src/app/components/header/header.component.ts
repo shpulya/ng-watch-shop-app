@@ -24,7 +24,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe(() => {
                 this.counter = this.cartService.countItemsInCart();
-            });
+            })
+        ;
     }
 
     public ngOnDestroy(): void {

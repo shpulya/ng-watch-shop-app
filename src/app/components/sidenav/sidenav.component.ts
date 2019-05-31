@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectorRef, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -14,7 +14,7 @@ type TFilterMap = Map<keyof IWatchDetails, Set<string | number>>;
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent implements OnInit, OnDestroy {
+export class SidenavComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @Output()
     public categoriesUpdateEvent: EventEmitter<TFilterMap> = new EventEmitter<TFilterMap>();
@@ -24,15 +24,15 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     public showPriceFilter: boolean = true;
 
-    public filtersMapKeys!: Array<keyof IWatchDetails>;
+    public filtersCategories!: Array<keyof IWatchDetails>;
 
-    public checkedFiltersMapKeys!: Array<keyof IWatchDetails>;
+    public checkedFiltersCategories!: Array<keyof IWatchDetails>;
 
-    public filtersMap: TFilterMap = new Map<keyof IWatchDetails, Set<string | number>>();
+    public filters: TFilterMap = new Map();
 
-    public checkedFiltersMap: TFilterMap = new Map<keyof IWatchDetails, Set<string | number>>();
+    public checkedFilters: TFilterMap = new Map();
 
-    public filters: Array<IWatchFilter> = [
+    public filtersConfig: Array<IWatchFilter> = [
         {
             name: 'manufacturer',
             displayName: 'Manufacturer',
@@ -67,91 +67,12 @@ export class SidenavComponent implements OnInit, OnDestroy {
         private watchesService: WatchesService,
         private router: Router,
         private route: ActivatedRoute,
-        private filterService: FiltersService
+        private filterService: FiltersService,
+        private changeDetectorRef: ChangeDetectorRef
     ) {}
 
     public ngOnInit(): void {
         this.updateFiltersMap(this.route.snapshot.data.watches);
-        this.getQueryParams();
-
-        setTimeout(() => this.setInitialFilters());
-    }
-
-    public ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    public setPrice(priceKey: keyof IPrice, value: number): void {
-        this.price[priceKey] = value;
-        this.filterService.setPriceToUrl(JSON.stringify(this.price));
-        this.priceUpdateEvent.emit(this.price);
-    }
-
-    public onFilterChecked(category: keyof IWatchDetails, value: string | number): void {
-        if (!this.checkedFiltersMap.has(category)) {
-            const filtersSet: Set<string | number> = new Set();
-
-            filtersSet.add(value);
-
-            this.checkedFiltersMap.set(category, filtersSet);
-            this.categoriesUpdateEvent.emit(this.checkedFiltersMap);
-            this.checkedFiltersMapKeys = Array.from(this.checkedFiltersMap.keys());
-            this.filterService.setCategoriesToUrl(this.checkedFiltersMap);
-
-            return;
-        }
-
-        const currentCategory = this.checkedFiltersMap.get(category);
-
-        if (!currentCategory) {
-            return;
-        }
-
-        if (currentCategory && currentCategory.has(value)) {
-            const categoryItem = document.getElementById(String(value)) as HTMLInputElement;
-
-            currentCategory.delete(value);
-            categoryItem.checked = false;
-        } else if (currentCategory && !currentCategory.has(value)) {
-            currentCategory.add(value);
-        }
-
-        if (currentCategory && !currentCategory.size) {
-            this.checkedFiltersMap.delete(category);
-        }
-
-        this.filterService.setCategoriesToUrl(this.checkedFiltersMap);
-        this.checkedFiltersMapKeys = Array.from(this.checkedFiltersMap.keys());
-        this.categoriesUpdateEvent.emit(this.checkedFiltersMap);
-    }
-
-    public getDisplayCategoryName(category: keyof IWatchDetails): string | undefined {
-        for (const obj of this.filters) {
-            if (obj.name === category) {
-                return obj.displayName;
-            }
-        }
-    }
-
-
-    private updateFiltersMap(watches: Array<IWatchDetails>): void {
-        for (const filter of this.filters) {
-
-            const setPropsByFilter = new Set();
-
-            for (const watch of watches) {
-                if (watch.hasOwnProperty(filter.name)) {
-                    setPropsByFilter.add(watch[filter.name]);
-                }
-            }
-            this.filtersMap.set(filter.name, setPropsByFilter);
-        }
-
-        this.filtersMapKeys = Array.from(this.filtersMap.keys());
-    }
-
-    private getQueryParams(): void {
         this.route.queryParams
             .pipe(
                 takeUntil(this.destroy$)
@@ -172,26 +93,113 @@ export class SidenavComponent implements OnInit, OnDestroy {
                             categoriesMap.set(<keyof IWatchDetails> key, categoriesObject[key]);
                         });
 
-                        this.checkedFiltersMap = categoriesMap;
-                        this.checkedFiltersMapKeys = Array.from(this.checkedFiltersMap.keys());
+                        this.checkedFilters = categoriesMap;
+                        this.checkedFiltersCategories = Array.from(this.checkedFilters.keys());
                     }
 
-                    this.categoriesUpdateEvent.emit(this.checkedFiltersMap);
+                    this.categoriesUpdateEvent.emit(this.checkedFilters);
                 }
-            );
+            )
+        ;
+    }
 
+    public ngAfterViewInit(): void {
+        this.setInitialFilters();
+        this.changeDetectorRef.detectChanges();
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
+
+    public setPrice(priceKey: keyof IPrice, value: number): void {
+        this.price[priceKey] = value;
+        this.filterService.setPriceToUrl(JSON.stringify(this.price));
+        this.priceUpdateEvent.emit(this.price);
+    }
+
+    public onFilterChecked(category: keyof IWatchDetails, value: string | number): void {
+        if (!this.checkedFilters.has(category)) {
+            const filtersSet: Set<string | number> = new Set();
+
+            filtersSet.add(value);
+
+            this.checkedFilters.set(category, filtersSet);
+            this.categoriesUpdateEvent.emit(this.checkedFilters);
+            this.checkedFiltersCategories = Array.from(this.checkedFilters.keys());
+            this.filterService.setCategoriesToUrl(this.checkedFilters);
+
+            return;
+        }
+
+        const currentCategory = this.checkedFilters.get(category);
+
+        if (!currentCategory) {
+            return;
+        }
+
+        if (currentCategory && currentCategory.has(value)) {
+            currentCategory.delete(value);
+        } else if (currentCategory && !currentCategory.has(value)) {
+            currentCategory.add(value);
+        }
+
+        if (currentCategory && !currentCategory.size) {
+            this.checkedFilters.delete(category);
+        }
+
+        this.filterService.setCategoriesToUrl(this.checkedFilters);
+        this.checkedFiltersCategories = Array.from(this.checkedFilters.keys());
+        this.categoriesUpdateEvent.emit(this.checkedFilters);
+    }
+
+    public getFilterStatus(category: keyof IWatchDetails, value: string | number): boolean {
+        const currentCategory = this.checkedFilters.get(category);
+
+        if (!currentCategory) {
+            return false;
+        }
+
+        if (currentCategory && currentCategory.has(value)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public getDisplayCategoryName(category: keyof IWatchDetails): string | undefined {
+        for (const obj of this.filtersConfig) {
+            if (obj.name === category) {
+                return obj.displayName;
+            }
+        }
+    }
+
+
+    private updateFiltersMap(watches: Array<IWatchDetails>): void {
+        for (const filter of this.filtersConfig) {
+
+            const setPropsByFilter = new Set();
+
+            for (const watch of watches) {
+                if (watch.hasOwnProperty(filter.name)) {
+                    setPropsByFilter.add(watch[filter.name]);
+                }
+            }
+            this.filters.set(filter.name, setPropsByFilter);
+        }
+
+        this.filtersCategories = Array.from(this.filters.keys());
     }
 
     private setInitialFilters(): void {
-        if (this.checkedFiltersMap) {
-            this.checkedFiltersMap.forEach((value: Set<string | number>, key: keyof IWatchDetails) => {
-                this.filters.filter((el: IWatchFilter) => el.name === key)[0].showFilter = true;
-
-                value.forEach((catItem) => {
-                    const categoryItem = document.getElementById(String(catItem)) as HTMLInputElement;
-                    categoryItem.checked = true;
-                });
-            });
+        if (!this.checkedFilters) {
+            return;
         }
+
+        this.checkedFilters.forEach((value: Set<string | number>, key: keyof IWatchDetails) => {
+            this.filtersConfig.filter((el: IWatchFilter) => el.name === key)[0].showFilter = true;
+        });
     }
 }

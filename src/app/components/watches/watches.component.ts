@@ -1,9 +1,11 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Event, Router, ActivatedRoute, Params } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch, IWatchDetails } from '../../app.models';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
 type TFilterMap = Map<keyof IWatchDetails, Set<string | number>>;
 
@@ -12,7 +14,7 @@ type TFilterMap = Map<keyof IWatchDetails, Set<string | number>>;
     templateUrl: './watches.component.html',
     styleUrls: ['./watches.component.scss']
 })
-export class WatchesComponent implements OnInit {
+export class WatchesComponent implements OnInit, OnDestroy {
 
     public viewMode: string = 'grid';
 
@@ -32,13 +34,17 @@ export class WatchesComponent implements OnInit {
 
     public itemsCount: number = 0;
 
-    public categoriesFilter: TFilterMap = new Map<keyof IWatchDetails, Set<string | number>>();
+    public categoriesFilter: TFilterMap = new Map();
 
     public priceFilter!: IPrice;
 
     public queryParams!: Params;
 
     private screenWidth!: number;
+
+    private resize$: Subject<void> = new Subject();
+
+    private destroy$: Subject<void> = new Subject();
 
     constructor(
         private itemsService: WatchesService,
@@ -47,23 +53,74 @@ export class WatchesComponent implements OnInit {
     ) {}
 
     public ngOnInit(): void {
+        this.resize$
+            .pipe(
+                debounceTime(100),
+                takeUntil(this.destroy$)
+            )
+            .subscribe(() => {
+                this.screenWidth = window.innerWidth;
+
+                if (this.screenWidth > 1730) {
+                    this.countOnGrid = 10;
+                }
+
+                if (this.screenWidth > 1480 && this.screenWidth <= 1730) {
+                    this.countOnGrid = 8;
+                }
+
+                if (this.screenWidth > 1230 && this.screenWidth <= 1480) {
+                    this.countOnGrid = 6;
+                }
+
+                if (this.route.snapshot.data.watches) {
+                    this.watches = this.route.snapshot.data.watches;
+                    this.filteredItems = [...this.watches];
+                    this.orderItems('asc');
+                    this.itemsCount = this.watches.length;
+                    this.selectPage(1);
+                }
+            })
+        ;
+
+        this.calculateItemsOnGrid();
+
         if (this.route.snapshot.data.watches instanceof HttpErrorResponse) {
             console.error('Couldn\'t load data', this.route.snapshot.data);
         }
-        this.getQueryParams();
-        this.getWatches();
-        this.calculateItemsOnGrid();
-        this.onPage(this.currentPage);
+
+        this.route.queryParams
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(
+                (queryParam: Params) => {
+                    if (queryParam['view']) {
+                        this.viewMode = queryParam['view'];
+                    }
+                    if (queryParam['sort']) {
+                        this.orderBy = queryParam['sort'];
+                    }
+                },
+                () => {
+                    console.error('Can\'t get query Params');
+                })
+        ;
+
+        this.route.queryParams
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(
+                (queryParams: Params) => {
+                    this.queryParams = queryParams;
+                },
+                () => {
+                    console.error('Can\'t get \'Categories\' query params');
+                }
+            )
+        ;
     }
 
-    public getWatches(): void {
-        if (this.route.snapshot.data.watches) {
-            this.watches = this.route.snapshot.data.watches;
-            this.filteredItems = this.watches;
-            this.orderItems();
-            this.itemsCount = this.watches.length;
-            this.onPage(1);
-        }
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     public changeViewMode(view: string): void {
@@ -76,37 +133,21 @@ export class WatchesComponent implements OnInit {
             }
         );
         this.calculateItemsOnGrid();
-        this.onPage(1);
+        this.selectPage(1);
     }
 
     public onPriceFilter(priceFilter: IPrice): void {
         this.priceFilter = priceFilter;
         this.filterWatchesByCategory();
-        this.route.queryParams.subscribe(
-            (queryParams: Params) => {
-                this.queryParams = queryParams;
-            },
-            () => {
-                console.error('Can\'t get \'Price\' query params');
-            }
-        );
     }
 
-    public onCategoriesFilter(filtersMap$: TFilterMap): void {
-        this.categoriesFilter = filtersMap$;
+    public onCategoriesFilter(filtersMap: TFilterMap): void {
+        this.categoriesFilter = filtersMap;
         this.filterWatchesByCategory();
-        this.route.queryParams.subscribe(
-            (queryParams: Params) => {
-                this.queryParams = queryParams;
-            },
-            () => {
-                console.error('Can\'t get \'Categories\' query params');
-            }
-        );
     }
 
     public filterWatchesByCategory(): void {
-        this.filteredItems = this.watches;
+        this.filteredItems = [...this.watches];
 
         if (this.categoriesFilter) {
             this.categoriesFilter.forEach((values: Set<string | number>, category: keyof IWatchDetails) => {
@@ -121,10 +162,11 @@ export class WatchesComponent implements OnInit {
         }
 
         this.itemsCount = this.filteredItems.length;
-        this.onPage(1);
+        this.selectPage(1);
     }
 
-    public orderItems(): void {
+    public orderItems(orderBy: string): void {
+        this.orderBy = orderBy;
         this.router.navigate(
             ['.'],
             {
@@ -133,13 +175,13 @@ export class WatchesComponent implements OnInit {
             }
         );
 
-        this.filteredItems = (this.orderBy === 'asc')
-            ? this.filteredItems.sort((a: IWatch, b: IWatch) => a.price - b.price)
-            : this.filteredItems.sort((a: IWatch, b: IWatch) => b.price - a.price);
-        this.onPage(1);
+        this.watches = (this.orderBy === 'asc')
+            ? this.watches.sort((a: IWatch, b: IWatch) => a.price - b.price)
+            : this.watches.sort((a: IWatch, b: IWatch) => b.price - a.price);
+        this.selectPage(1);
     }
 
-    public onPage(currentPage: number): void {
+    public selectPage(currentPage: number): void {
         const countOnPage = this.viewMode === 'grid' ? this.countOnGrid : this.countOnLine;
 
         this.currentPage = currentPage;
@@ -148,38 +190,8 @@ export class WatchesComponent implements OnInit {
         });
     }
 
-    private getQueryParams(): void {
-        this.route.queryParams
-            .subscribe(
-                (queryParam: Params) => {
-                    if (queryParam['view']) {
-                        this.viewMode = queryParam['view'];
-                    }
-                    if (queryParam['sort']) {
-                        this.orderBy = queryParam['sort'];
-                    }
-                },
-                () => {
-                    console.error('Can\'t get query Params');
-                });
-    }
-
     @HostListener('window:resize', ['$event'])
     private calculateItemsOnGrid(event?: Event): void {
-        this.screenWidth = window.innerWidth;
-
-        if (this.screenWidth > 1730) {
-            this.countOnGrid = 10;
-        }
-
-        if (this.screenWidth > 1480 && this.screenWidth <= 1730) {
-            this.countOnGrid = 8;
-        }
-
-        if (this.screenWidth > 1230 && this.screenWidth <= 1480) {
-            this.countOnGrid = 6;
-        }
-
-        this.onPage(1);
+        this.resize$.next();
     }
 }

@@ -1,12 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-tooltip',
     templateUrl: './tooltip.component.html',
     styleUrls: ['./tooltip.component.scss']
 })
-export class TooltipComponent implements OnInit {
+export class TooltipComponent implements OnInit, OnDestroy {
 
     @Input()
     public message: string = '';
@@ -16,13 +17,23 @@ export class TooltipComponent implements OnInit {
 
     public showTooltip: boolean = false;
 
-    public ngOnInit(): void {
-        this.showTooltip$.subscribe(() => {
-            this.showTooltip = true;
+    private destroy$: Subject<void> = new Subject();
 
-            setTimeout(() => {
-                this.showTooltip = false;
-            }, 300);
-        });
+    public ngOnInit(): void {
+        this.showTooltip$
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => {
+                this.showTooltip = true;
+
+                setTimeout(() => {
+                    this.showTooltip = false;
+                }, 300);
+            })
+        ;
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }
