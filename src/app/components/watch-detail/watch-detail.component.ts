@@ -19,8 +19,6 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
 
     public queryParams!: Params;
 
-    public showTooltip$: Subject<void> = new Subject();
-
     private destroy$: Subject<void> = new Subject();
 
     constructor(
@@ -51,6 +49,5 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
 
     public addWatchToCart(watch: IWatch): void {
         this.cartService.addItem(watch);
-        this.showTooltip$.next();
     }
 }

@@ -29,10 +29,10 @@
         <img
             src="../../../../assets/img/cart.png"
             alt="Add to cart" id="cart"
-            (click)="addWatchToCart(watch)">
-        <label for="cart" (click)="addWatchToCart(watch)">
+            (click)="addWatchToCart(watch); tooltip.show()">
+        <label for="cart" (click)="addWatchToCart(watch); tooltip.show()">
             Add to cart
         </label>
-        <app-tooltip [message]="'Added to cart'" [showTooltip$]="showTooltip$"></app-tooltip>
+        <app-tooltip #tooltip [message]="'Added to cart'"></app-tooltip>
     </div>
 </div>
