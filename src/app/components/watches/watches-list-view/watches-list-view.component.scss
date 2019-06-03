@@ -32,8 +32,9 @@
             font-size: 18px;
         }
 
-        .specifications, .description {
-            color: #666666;
+        .specifications,
+        .description {
+            color: #666;
             font-size: 12px;
             padding-top: 20px;
         }
@@ -45,21 +46,22 @@
         flex-direction: column;
         justify-content: space-between;
         width: 100px;
+    }
+}
 
-        .cart {
-            display: flex;
-            align-items: center;
+.cart {
+    display: flex;
+    align-items: center;
 
-            #cart {
+    #cart {
+        width: 32px;
+        height: 32px;
+
+        > img {
+            width: 30px;
+
+            &:hover {
                 width: 32px;
-                height: 32px;
-                > img {
-                    width: 30px;
-
-                    &:hover {
-                        width: 32px;
-                    }
-                }
             }
         }
     }

@@ -13,9 +13,8 @@
         padding: 0 50px;
         border-right: 1px solid #979797;
         justify-content: flex-start;
-        color: #333333;
+        color: #333;
         font-size: 12px;
-
 
         a {
             color: #0082b3;
@@ -37,6 +36,7 @@
         > img {
             width: 300px;
         }
+
         padding-right: 50px;
     }
 
@@ -64,7 +64,6 @@
             opacity: 0.65;
         }
     }
-
 }
 
 @media screen and (max-width: 1024px) {
@@ -78,7 +77,6 @@
         padding: 20px;
 
         &__data {
-
             a {
                 padding-bottom: 20px;
             }

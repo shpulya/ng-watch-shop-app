@@ -8,14 +8,14 @@
     <div class="cart__list">
         <div class="cart__list__title">Sum</div>
 
-        <div class="cart__list__item" *ngFor="let item of itemsList">
-            <div class="cart__list__item__delete" (click)="deleteItem(item.id)"></div>
+        <div class="cart__list__item item" *ngFor="let item of itemsList">
+            <div class="item__delete" (click)="deleteItem(item.id)"></div>
 
-            <div class="cart__list__item__img">
+            <div class="item__img">
                 <img src="../../../../assets/img/watches/{{item.image}}" alt="{{item.image}}">
             </div>
 
-            <div class="cart__list__item__properties">
+            <div class="item__properties">
                 <div class="name">{{item.name}}</div>
 
                 <div class="calculating">
@@ -27,7 +27,7 @@
                         <div class="calculating__counter__increase" (click)="increaseItemsCount(item.id)">+</div>
                     </div>
 
-                    <div class="cart__list__item__acc-price">${{getItemsCount(item.id) * item!.price}}</div>
+                    <div class="item__acc-price">${{getItemsCount(item.id) * item!.price}}</div>
                 </div>
             </div>
         </div>

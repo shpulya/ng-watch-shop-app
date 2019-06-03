@@ -190,6 +190,10 @@ export class WatchesComponent implements OnInit, OnDestroy {
         });
     }
 
+    public search(): void {
+
+    }
+
     @HostListener('window:resize', ['$event'])
     private calculateItemsOnGrid(event?: Event): void {
         this.resize$.next();

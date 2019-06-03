@@ -8,13 +8,13 @@ label {
 
     &__header {
         background-color: #84bfbd;
-        color: #ffffff;
+        color: #fff;
         padding: 10px 25px;
         font-size: 24px;
     }
 
     &__applied {
-        color: #333333;
+        color: #333;
         padding: 30px 25px 5px 25px;
         font-size: 18px;
         font-weight: 700;
@@ -69,7 +69,8 @@ label {
     position: relative;
 }
 
-.delete:before, .delete:after{
+.delete::before,
+.delete::after {
     content: '';
     position: absolute;
     border-color: #373737;
@@ -80,29 +81,29 @@ label {
     margin-top: -1em;
     width: 17px;
 }
-.delete:before {
+
+.delete::before {
     transform: rotate(45deg);
     border-width: 1px 0 0 0;
 }
 
-.delete:after {
-    transform: translate(12px)rotate(-45deg);
+.delete::after {
+    transform: translate(12px) rotate(-45deg);
     border-width: 1px 0 0 0;
 }
-
 
 .price {
     margin-bottom: 15px;
     margin-top: 3px;
 }
 
-.price_from, .price_to {
+.price_from,
+.price_to {
     width: 100px;
     height: 29px;
     border-radius: 5px;
     padding-left: 10px;
     border: 1px solid #979797;
-
 }
 
 .check-container {
@@ -114,13 +115,8 @@ label {
     cursor: pointer;
     font-size: 14px;
     height: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
-}
 
-.check-container {
     input {
         position: absolute;
         opacity: 0;
@@ -139,30 +135,25 @@ label {
         border-radius: 5px;
     }
 
-    input:checked ~ .checkmark:after {
+    input:checked ~ .checkmark::after {
         display: block;
     }
 
-    .checkmark:after {
+    .checkmark::after {
         left: 7px;
         top: 3px;
         width: 5px;
         height: 8px;
         border: solid #0082b3;
         border-width: 0 2px 2px 0;
-        -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
         transform: rotate(45deg);
+        content: '';
+        position: absolute;
+        display: none;
     }
 
     &:hover input ~ .checkmark {
         background-color: #ccc;
-    }
-
-    .checkmark:after {
-        content: "";
-        position: absolute;
-        display: none;
     }
 }
 
@@ -188,4 +179,3 @@ label {
         width: 100%;
     }
 }
-

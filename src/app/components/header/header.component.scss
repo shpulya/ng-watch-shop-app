@@ -4,7 +4,6 @@
     background-color: #ededed;
 
     &__logo {
-
         display: inline-block;
         cursor: pointer;
 
@@ -14,7 +13,6 @@
     }
 
     &__cart {
-
         float: right;
         position: relative;
         line-height: 90px;
@@ -31,10 +29,10 @@
             width: 18px;
             height: 18px;
             background-color: #e2380b;
-            border: 1px solid #ffffff;
+            border: 1px solid #fff;
             top: -5px;
             right: -5px;
-            color: #ffffff;
+            color: #fff;
             font-size: 14px;
             display: flex;
             justify-content: center;

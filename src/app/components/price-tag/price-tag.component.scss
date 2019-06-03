@@ -1,7 +1,7 @@
 .price-tag {
     display: flex;
     font-size: 18px;
-    color: #ffffff;
+    color: #fff;
     padding: 6px 5px 6px 16px;
     position: relative;
     background-color: #84bfbd;
@@ -15,12 +15,11 @@
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background: #ffffff;
+        background: #fff;
         margin-left: 10px;
     }
 
-
-    &:after {
+    &::after {
         content: '';
         position: absolute;
         top: -10px;
@@ -28,10 +27,10 @@
         width: 18px;
         height: 18px;
         border-radius: 50%;
-        background: #ffffff;
+        background: #fff;
     }
 
-    &:before {
+    &::before {
         content: '';
         position: absolute;
         bottom: -10px;
@@ -39,7 +38,7 @@
         width: 18px;
         height: 18px;
         border-radius: 50%;
-        background: #ffffff;
+        background: #fff;
     }
 }
 
@@ -53,14 +52,14 @@
         margin-left: 30px;
     }
 
-    &:after {
+    &::after {
         top: -20px;
         right: -20px;
         width: 35px;
         height: 35px;
     }
 
-    &:before {
+    &::before {
         bottom: -20px;
         right: -20px;
         width: 35px;

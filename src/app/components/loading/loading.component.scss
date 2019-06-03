@@ -11,6 +11,7 @@
     transform: translateY(-50%) translateX(-50%);
     width: 100px;
     z-index: 1;
+
     @include start;
 }
 
@@ -21,7 +22,8 @@
     left: 0;
     right: 0;
     background: rgba(255, 255, 255, 0.4);
-    @include  start;
+
+    @include start;
 }
 
 .disappearing {
