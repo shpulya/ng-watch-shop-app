@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ChangeDetectorRef, EventEmitter, OnDestroy, OnInit, Output, Input} from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectorRef, EventEmitter, OnDestroy, OnInit, Output, Input } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -75,7 +75,9 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewInit {
     ) {}
 
     public ngOnInit(): void {
-        this.updateFiltersMap(this.route.snapshot.data.watches);
+        if (this.showFilterCategories) {
+            this.updateFiltersMap(this.route.snapshot.data.watches);
+        }
         this.route.queryParams
             .pipe(
                 takeUntil(this.destroy$)

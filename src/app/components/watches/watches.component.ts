@@ -195,8 +195,8 @@ export class WatchesComponent implements OnInit, OnDestroy {
         });
     }
 
-    public search(): void {
-        this.overlay = false;
+    public showOverlay(show: boolean): void {
+        this.overlay = show;
     }
 
     @HostListener('window:resize', ['$event'])

@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Injectable, Injector } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { IWatch } from '../app.models';
 
@@ -11,7 +11,8 @@ type TFilterMap = Map<keyof IWatch, Set<string | number>>;
 export class FiltersService {
 
     constructor(
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute
     ) {}
 
     public setCategoriesToUrl(categoriesMap: TFilterMap): void {
@@ -32,11 +33,11 @@ export class FiltersService {
 
     public setPriceToUrl(price: string): void {
         this.router.navigate(
-            ['.'],
+            [this.router.url.split('?')[0] ],
             {
                 queryParams: { price: price },
-                queryParamsHandling: 'merge'
-            }
+                queryParamsHandling: 'merge',
+            },
         );
     }
 }

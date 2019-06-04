@@ -1,12 +1,19 @@
 <div class="body">
     <app-sidenav
-        (categoriesUpdateEvent)="onCategoriesFilter($event)"
-        (priceUpdateEvent)="onPriceFilter($event)">
+        (priceUpdateEvent)="onPriceFilter($event)"
+        [showFilterCategories]="false">
     </app-sidenav>
 
     <div class="main-content">
+        <app-mode-view-menu
+            (sorting)="orderItems($event)"
+            (view)="displayView($event)"
+            (overlay)="showOverlay($event)">
+        </app-mode-view-menu>
 
-        <app-mode-view-menu (sorting)="orderItems($event)" (view)="changeViewMode($event)" (overlay)="showOverlay($event)"></app-mode-view-menu>
+        <div>
+            Searched {{pagedItems.length}} watches by "{{searchedText}}"
+        </div>
 
         <div
             *ngIf="!pagedItems.length"
@@ -16,11 +23,11 @@
 
         <ng-container *ngIf="pagedItems.length">
             <div class="container grid" *ngIf="viewMode === 'grid'">
-                    <app-watches-grid-view
-                        *ngFor="let watch of pagedItems"
-                        [watch]="watch"
-                        [queryURLParams]="queryParams">
-                    </app-watches-grid-view>
+                <app-watches-grid-view
+                    *ngFor="let watch of pagedItems"
+                    [watch]="watch"
+                    [queryURLParams]="queryParams">
+                </app-watches-grid-view>
             </div>
 
             <div class="container list" *ngIf="viewMode === 'list'">
@@ -51,3 +58,4 @@
     </div>
 </div>
 <div   [ngClass]="{'overlay': overlay}"></div>
+
