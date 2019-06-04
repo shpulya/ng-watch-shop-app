@@ -4,6 +4,7 @@ import { WatchesComponent } from './components/watches/watches.component';
 import { WatchDetailComponent } from './components/watch-detail/watch-detail.component';
 import { WatchesResolver } from './services/watches-resolver.service';
 import { WatchDetailsResolverService } from './services/watch-details-resolver.service';
+import { SearchedItemsComponent } from './components/searched-items/searched-items.component';
 
 const routes: Routes = [
     {
@@ -19,6 +20,10 @@ const routes: Routes = [
         resolve: {
             watch: WatchDetailsResolverService
         }
+    },
+    {
+        path: 'searchedItems/:searchedText',
+        component: SearchedItemsComponent
     }
 
 ];

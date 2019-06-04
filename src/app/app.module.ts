@@ -15,6 +15,8 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
 import { WatchDetailComponent } from './components/watch-detail/watch-detail.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { SearchedItemsComponent } from './components/searched-items/searched-items.component';
+import { ModeViewMenuComponent } from './components/mode-view-menu/mode-view-menu.component';
 
 @NgModule({
     declarations: [
@@ -29,7 +31,9 @@ import { LoadingComponent } from './components/loading/loading.component';
         PaginationComponent,
         SidenavComponent,
         TooltipComponent,
-        LoadingComponent
+        LoadingComponent,
+        SearchedItemsComponent,
+        ModeViewMenuComponent
     ],
     imports: [
         BrowserModule,

@@ -40,6 +40,10 @@ export class WatchesComponent implements OnInit, OnDestroy {
 
     public queryParams!: Params;
 
+    public overlay: boolean = false;
+
+    public searchHints: Array<string> = [];
+
     private screenWidth!: number;
 
     private resize$: Subject<void> = new Subject();
@@ -49,7 +53,8 @@ export class WatchesComponent implements OnInit, OnDestroy {
     constructor(
         private itemsService: WatchesService,
         private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private watchesService: WatchesService
     ) {}
 
     public ngOnInit(): void {
@@ -191,7 +196,7 @@ export class WatchesComponent implements OnInit, OnDestroy {
     }
 
     public search(): void {
-
+        this.overlay = false;
     }
 
     @HostListener('window:resize', ['$event'])

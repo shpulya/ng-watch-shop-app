@@ -26,4 +26,12 @@ export class WatchesService {
                 return (filteredWatches.length > 0) ? filteredWatches[0] : null;
             }));
     }
+
+    public getSearchedItemsByName(name: string): Observable<Array<IWatch>> {
+        return this.getWatches()
+            .pipe(map((watches: Array<IWatch>) => {
+                return watches
+                    .filter((watch: IWatch) => watch.name.toLowerCase().includes(name.toLowerCase()));
+            }));
+    }
 }

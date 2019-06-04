@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ChangeDetectorRef, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import {AfterViewInit, Component, ChangeDetectorRef, EventEmitter, OnDestroy, OnInit, Output, Input} from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -15,6 +15,9 @@ type TFilterMap = Map<keyof IWatchDetails, Set<string | number>>;
     styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit, OnDestroy, AfterViewInit {
+
+    @Input()
+    public showFilterCategories: boolean = true;
 
     @Output()
     public categoriesUpdateEvent: EventEmitter<TFilterMap> = new EventEmitter<TFilterMap>();
