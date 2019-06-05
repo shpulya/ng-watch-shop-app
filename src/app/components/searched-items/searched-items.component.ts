@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch } from '../../app.models';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -11,8 +11,6 @@ import { Subject } from 'rxjs';
     styleUrls: ['./searched-items.component.scss']
 })
 export class SearchedItemsComponent implements OnInit {
-
-    public searchedWatches: Array<IWatch> = [];
 
     public searchedText: string = '';
 
@@ -44,13 +42,12 @@ export class SearchedItemsComponent implements OnInit {
 
     constructor(
         private watchesService: WatchesService,
-        private route: ActivatedRoute,
-        private router: Router
+        private route: ActivatedRoute
     ) { }
 
     public ngOnInit(): void {
-        this.route.params.subscribe(routeParams => {
-            this.searchedText = routeParams.searchedText;
+        this.route.params.subscribe(params => {
+            this.searchedText = params.searchedText;
 
             this.watchesService.getSearchedItemsByName(this.searchedText)
                 .subscribe((searchedNames: Array<IWatch>) => {

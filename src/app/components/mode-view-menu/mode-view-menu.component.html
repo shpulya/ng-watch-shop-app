@@ -3,25 +3,6 @@
         Smartwatches
     </span>
 
-    <div class="search">
-        <input
-            type="text"
-            placeholder="Search"
-            class="br"
-            (click)="showOverlay()"
-            #inputText>
-        <button class="br" [routerLink]="['/searched/' + inputText.value]" (click)="hideOverlay()">
-            <i class="fas fa-search"></i>
-        </button>
-        <div>
-            <ul>
-                <li *ngFor="let hint of searchHints">
-                    {{hint}}
-                </li>
-            </ul>
-        </div>
-    </div>
-
     <div class="mode-view-panel">
         <label for="sorting">Sorting</label>
 

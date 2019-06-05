@@ -3,6 +3,28 @@
         <img src="../../../assets/img/logo.png" alt="">
     </div>
 
+    <div class="search">
+        <div class="search__input">
+            <input
+                type="text"
+                placeholder="Search"
+                class="search__input__text"
+                (click)="overlay = true"
+                (input)="showHint(inputText)"
+                [(ngModel)]="inputText">
+            <a class="search__input__submit" [routerLink]="['/searched/' + inputText]" (click)="cancelSearching()">
+                <i class="fas fa-search"></i>
+            </a>
+        </div>
+        <div class="search__hints" *ngIf="searchHints.length">
+            <ul>
+                <li *ngFor="let hint of searchHints" (click)="chooseHint(hint)">
+                    {{hint}}
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <div class="header__cart" (click)="showCart()">
         <img src="../../../assets/img/cart.png" alt="Cart" class="{{counter ? '' : 'disabled'}}">
 
@@ -11,3 +33,5 @@
         </div>
     </div>
 </div>
+
+<div   [ngClass]="{'overlay': overlay}" (click)="cancelSearching()" ></div>

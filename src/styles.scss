@@ -18,11 +18,12 @@ a {
     text-decoration: none;
 }
 
+ul {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     margin: 0;
-}
-
-.search {
-    border-radius: 5px;
 }

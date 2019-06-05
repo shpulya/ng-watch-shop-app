@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-mode-view-menu',
@@ -19,10 +18,7 @@ export class ModeViewMenuComponent implements OnInit {
 
     public viewMode: string = 'grid';
 
-    public searchHints: Array<string> = [];
-
     constructor(
-        private router: Router
     ) { }
 
     public ngOnInit(): void {
@@ -34,13 +30,5 @@ export class ModeViewMenuComponent implements OnInit {
 
     public changeViewMode(view: string): void {
         this.view.emit(view);
-    }
-
-    public hideOverlay(): void {
-        this.overlay.emit(false);
-    }
-
-    public showOverlay(): void {
-        this.overlay.emit(true);
     }
 }

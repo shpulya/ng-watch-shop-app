@@ -40,10 +40,6 @@ export class WatchesComponent implements OnInit, OnDestroy {
 
     public queryParams!: Params;
 
-    public overlay: boolean = false;
-
-    public searchHints: Array<string> = [];
-
     private screenWidth!: number;
 
     private resize$: Subject<void> = new Subject();
@@ -53,8 +49,7 @@ export class WatchesComponent implements OnInit, OnDestroy {
     constructor(
         private itemsService: WatchesService,
         private route: ActivatedRoute,
-        private router: Router,
-        private watchesService: WatchesService
+        private router: Router
     ) {}
 
     public ngOnInit(): void {
@@ -193,10 +188,6 @@ export class WatchesComponent implements OnInit, OnDestroy {
         this.pagedItems = this.filteredItems.filter((watch: IWatch, i: number) => {
             return ((i >= (currentPage - 1) * countOnPage) && (i < currentPage * countOnPage));
         });
-    }
-
-    public showOverlay(show: boolean): void {
-        this.overlay = show;
     }
 
     @HostListener('window:resize', ['$event'])

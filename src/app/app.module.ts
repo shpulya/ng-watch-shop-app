@@ -17,6 +17,7 @@ import { WatchDetailComponent } from './components/watch-detail/watch-detail.com
 import { LoadingComponent } from './components/loading/loading.component';
 import { SearchedItemsComponent } from './components/searched-items/searched-items.component';
 import { ModeViewMenuComponent } from './components/mode-view-menu/mode-view-menu.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -38,7 +39,8 @@ import { ModeViewMenuComponent } from './components/mode-view-menu/mode-view-men
     imports: [
         BrowserModule,
         AppRoutingModule,
-        HttpClientModule
+        HttpClientModule,
+        FormsModule
     ],
     providers: [],
     bootstrap: [
