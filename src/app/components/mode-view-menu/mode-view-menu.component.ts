@@ -29,6 +29,7 @@ export class ModeViewMenuComponent implements OnInit {
     }
 
     public changeViewMode(view: string): void {
+        this.viewMode = view;
         this.view.emit(view);
     }
 }

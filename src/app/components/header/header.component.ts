@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 
 import { CartService } from '../../services/cart.service';
 import { WatchesService } from '../../services/watches.service';
-import { IWatch } from '../../app.models';
+import { IItem } from '../../app.models';
 
 @Component({
     selector: 'app-header',
@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     public overlay: boolean = false;
 
-    public searchHints: Array<string> = [];
+    public watches: Array<IItem> = [];
 
     public inputText: string = '';
 
@@ -48,26 +48,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
     }
 
-    public showHint(text: string): void {
-        this.searchHints.push(text);
-        this.watchesService.getSearchedItemsByName(text)
+    public showHint(searchText: string): void {
+        this.watchesService.getSearchedItemsByName(searchText)
             .pipe(
                 debounceTime(1000),
                 takeUntil(this.destroy$)
             )
-            .subscribe((watches: Array<IWatch>) => {
-                this.searchHints = watches.map((watch: IWatch) => watch.name);
+            .subscribe((items: Array<IItem>) => {
+                this.watches = items;
             })
         ;
     }
 
-    public chooseHint(text: string): void {
-        this.inputText = text;
-        this.searchHints = [];
-    }
-
     public cancelSearching(): void {
         this.overlay = false;
-        this.searchHints = [];
+        this.watches = [];
     }
 }

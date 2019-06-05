@@ -12,14 +12,18 @@
                 (click)="overlay = true"
                 (input)="showHint(inputText)"
                 [(ngModel)]="inputText">
-            <a class="search__input__submit" [routerLink]="['/searched/' + inputText]" (click)="cancelSearching()">
+            <a
+                class="search__input__submit"
+                [routerLink]="['/searched/']"
+                [queryParams]="{searchedText: inputText}"
+                (click)="cancelSearching()">
                 <i class="fas fa-search"></i>
             </a>
         </div>
-        <div class="search__hints" *ngIf="searchHints.length">
+        <div class="search__hints" *ngIf="watches.length">
             <ul>
-                <li *ngFor="let hint of searchHints" (click)="chooseHint(hint)">
-                    {{hint}}
+                <li *ngFor="let watch of watches" [routerLink]="['/item/' + watch.id]" (click)="cancelSearching()">
+                    {{watch.name}}
                 </li>
             </ul>
         </div>

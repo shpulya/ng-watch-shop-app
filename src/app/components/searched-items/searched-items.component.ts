@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { WatchesService } from '../../services/watches.service';
 import { IPrice, IWatch } from '../../app.models';
-import { ActivatedRoute, Params } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
+import { ActivatedRoute, Event, Params } from '@angular/router';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
     templateUrl: './searched-items.component.html',
     styleUrls: ['./searched-items.component.scss']
 })
-export class SearchedItemsComponent implements OnInit {
+export class SearchedItemsComponent implements OnInit, OnDestroy {
 
     public searchedText: string = '';
 
@@ -23,8 +23,6 @@ export class SearchedItemsComponent implements OnInit {
     public countOnLine: number = 5;
 
     public currentPage: number = 1;
-
-    public itemsCount: number = 0;
 
     public queryParams!: Params;
 
@@ -40,23 +38,57 @@ export class SearchedItemsComponent implements OnInit {
 
     public orderBy: string = 'asc';
 
+    private resize$: Subject<void> = new Subject();
+
+    private screenWidth!: number;
+
     constructor(
         private watchesService: WatchesService,
         private route: ActivatedRoute
     ) { }
 
     public ngOnInit(): void {
-        this.route.params.subscribe(params => {
-            this.searchedText = params.searchedText;
+        this.resize$
+            .pipe(
+                debounceTime(100),
+                takeUntil(this.destroy$)
+            )
+            .subscribe(() => {
+                this.screenWidth = window.innerWidth;
 
-            this.watchesService.getSearchedItemsByName(this.searchedText)
-                .subscribe((searchedNames: Array<IWatch>) => {
-                    this.watches = searchedNames;
-                    this.filteredItems = [...this.watches];
-                    this.selectPage(1);
-                })
-            ;
-        });
+                if (this.screenWidth > 1730) {
+                    this.countOnGrid = 10;
+                }
+
+                if (this.screenWidth > 1480 && this.screenWidth <= 1730) {
+                    this.countOnGrid = 8;
+                }
+
+                if (this.screenWidth > 1230 && this.screenWidth <= 1480) {
+                    this.countOnGrid = 6;
+                }
+
+
+                this.route.queryParams.subscribe(params => {
+                    this.searchedText = params.searchedText;
+                    this.watchesService.getSearchedItemsByName(this.searchedText)
+                        .pipe(takeUntil(this.destroy$))
+                        .subscribe((searchedNames: Array<IWatch>) => {
+                            this.watches = searchedNames;
+                            this.filteredItems = [...this.watches];
+                            this.selectPage(1);
+                        })
+                    ;
+                });
+            })
+        ;
+
+        this.calculateItemsOnGrid();
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     public displayView(view: string): void {
@@ -92,5 +124,10 @@ export class SearchedItemsComponent implements OnInit {
 
     public showOverlay(show: boolean): void {
         this.overlay = show;
+    }
+
+    @HostListener('window:resize', ['$event'])
+    private calculateItemsOnGrid(event?: Event): void {
+        this.resize$.next();
     }
 }
