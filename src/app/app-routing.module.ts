@@ -22,8 +22,8 @@ const routes: Routes = [
         }
     },
     {
-        path: 'searched/:searchedText',
-        component: SearchedItemsComponent
+        path: 'searched',
+        component: SearchedItemsComponent,
     }
 
 ];

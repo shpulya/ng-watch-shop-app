@@ -28,18 +28,16 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
     ) {}
 
     public ngOnInit(): void {
-        this.route.queryParams
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((queryParams: Params) => {
-                this.queryParams = queryParams;
-            })
-        ;
+        this.route.data.subscribe((data) => {
+            this.watch = data.watch;
 
-        if (this.route.snapshot.data.watches instanceof HttpErrorResponse) {
-            console.error('Couldn\'t load data', this.route.snapshot.data);
-        } else {
-            this.watch = this.route.snapshot.data.watch;
-        }
+            this.route.queryParams
+                .pipe(takeUntil(this.destroy$))
+                .subscribe((queryParams: Params) => {
+                    this.queryParams = queryParams;
+                })
+            ;
+        });
     }
 
     public ngOnDestroy(): void {

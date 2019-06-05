@@ -12,7 +12,7 @@
         </app-mode-view-menu>
 
         <div>
-            Searched {{pagedItems.length}} watches by "{{searchedText}}"
+            Searched {{filteredItems.length}} watches by "{{searchedText}}"
         </div>
 
         <div
@@ -41,17 +41,17 @@
 
         <hr *ngIf="viewMode === 'grid'">
         <app-pagination
-            *ngIf="itemsCount && viewMode === 'grid'"
+            *ngIf="filteredItems.length && viewMode === 'grid'"
             [currentPage]="currentPage"
-            [itemsCount]="itemsCount"
+            [itemsCount]="filteredItems.length"
             [countOnPage]="countOnGrid"
             (pageUpdateEvent)="selectPage($event)">
         </app-pagination>
 
         <app-pagination
-            *ngIf="itemsCount && viewMode === 'list'"
+            *ngIf="filteredItems.length && viewMode === 'list'"
             [currentPage]="currentPage"
-            [itemsCount]="itemsCount"
+            [itemsCount]="filteredItems.length"
             [countOnPage]="countOnLine"
             (pageUpdateEvent)="selectPage($event)">
         </app-pagination>

@@ -68,22 +68,25 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
                     this.countOnGrid = 6;
                 }
 
-
-                this.route.queryParams.subscribe(params => {
-                    this.searchedText = params.searchedText;
-                    this.watchesService.getSearchedItemsByName(this.searchedText)
-                        .pipe(takeUntil(this.destroy$))
-                        .subscribe((searchedNames: Array<IWatch>) => {
-                            this.watches = searchedNames;
-                            this.filteredItems = [...this.watches];
-                            this.selectPage(1);
-                        })
-                    ;
-                });
+                this.selectPage(this.currentPage);
             })
         ;
 
         this.calculateItemsOnGrid();
+
+        this.route.queryParams.subscribe(params => {
+            if (this.searchedText !== params.searchedText) {
+                this.searchedText = params.searchedText;
+                this.watchesService.getSearchedItemsByName(this.searchedText)
+                    .pipe(takeUntil(this.destroy$))
+                    .subscribe((searchedWatches: Array<IWatch>) => {
+                        this.watches = searchedWatches;
+                        this.filteredItems = [...this.watches];
+                        this.selectPage(1);
+                    })
+                ;
+            }
+        });
     }
 
     public ngOnDestroy(): void {
@@ -101,12 +104,12 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
         this.pagedItems = this.filteredItems.filter((watch: IWatch, i: number) => {
             return ((i >= (currentPage - 1) * countOnPage) && (i < currentPage * countOnPage));
         });
+        console.log('selectPage', this.pagedItems);
     }
 
     public onPriceFilter(priceFilter: IPrice): void {
         this.priceFilter = priceFilter;
         this.filteredItems = [...this.watches];
-        console.log(priceFilter);
         this.filteredItems = this.filteredItems.filter((watch: IWatch) =>
             (watch.price >= (this.priceFilter.from || 0) && watch.price <= (this.priceFilter.to || 99999))
         );
@@ -115,10 +118,9 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
 
     public orderItems(orderBy: string): void {
         this.orderBy = orderBy;
-
-        this.watches = (this.orderBy === 'asc')
-            ? this.watches.sort((a: IWatch, b: IWatch) => a.price - b.price)
-            : this.watches.sort((a: IWatch, b: IWatch) => b.price - a.price);
+        this.filteredItems = (this.orderBy === 'asc')
+            ? this.filteredItems.sort((a: IWatch, b: IWatch) => a.price - b.price)
+            : this.filteredItems.sort((a: IWatch, b: IWatch) => b.price - a.price);
         this.selectPage(1);
     }
 
