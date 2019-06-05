@@ -58,7 +58,8 @@
     overflow: visible;
     flex-direction: column;
 
-    &__input, &__hints {
+    &__input,
+    &__hints {
         width: 200px;
     }
 
@@ -78,8 +79,6 @@
         background-color: #fff;
     }
 }
-
-
 
 .overlay {
     position: absolute;

@@ -52,7 +52,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.searchHints.push(text);
         this.watchesService.getSearchedItemsByName(text)
             .pipe(
-                debounceTime(500),
+                debounceTime(1000),
                 takeUntil(this.destroy$)
             )
             .subscribe((watches: Array<IWatch>) => {
