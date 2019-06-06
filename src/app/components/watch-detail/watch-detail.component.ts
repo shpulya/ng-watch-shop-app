@@ -33,9 +33,14 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
 
             this.route.queryParams
                 .pipe(takeUntil(this.destroy$))
-                .subscribe((queryParams: Params) => {
-                    this.queryParams = queryParams;
-                })
+                .subscribe(
+                    (queryParams: Params) => {
+                        this.queryParams = queryParams;
+                    },
+                    () => {
+                        alert(`Can't get query params!`);
+                    }
+                )
             ;
         });
     }

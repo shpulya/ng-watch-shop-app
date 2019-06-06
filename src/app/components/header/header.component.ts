@@ -31,9 +31,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.cartService.items$
             .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.counter = this.cartService.countItemsInCart();
-            })
+            .subscribe(
+                () => {
+                    this.counter = this.cartService.countItemsInCart();
+                },
+                () => {
+                    alert(`Cart is empty!`);
+                }
+            )
         ;
     }
 
@@ -54,9 +59,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 debounceTime(1000),
                 takeUntil(this.destroy$)
             )
-            .subscribe((items: Array<IItem>) => {
-                this.watches = items;
-            })
+            .subscribe(
+                (items: Array<IItem>) => {
+                    this.watches = items;
+                },
+                () => {
+                    alert(`Can't get items by name!`);
+                }
+            )
         ;
     }
 

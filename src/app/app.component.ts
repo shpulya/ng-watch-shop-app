@@ -20,9 +20,12 @@ export class AppComponent implements OnDestroy {
     ) {
         this.cartService.opened$
             .pipe(takeUntil(this.destroy$))
-            .subscribe((isShow: boolean) => {
-                this.isShowCart = isShow;
-            })
+            .subscribe(
+                (isShow: boolean) => {
+                    this.isShowCart = isShow;
+                },
+                () => alert(`Couldn't open Cart`)
+            )
         ;
     }
 

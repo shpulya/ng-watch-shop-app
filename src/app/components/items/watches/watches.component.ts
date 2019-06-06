@@ -2,8 +2,8 @@ import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Event, Router, ActivatedRoute, Params } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { WatchesService } from '../../services/watches.service';
-import { IPrice, IWatch, IWatchDetails } from '../../app.models';
+import { WatchesService } from '../../../services/watches.service';
+import { IPrice, IWatch, IWatchDetails } from '../../../app.models';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
@@ -58,30 +58,34 @@ export class WatchesComponent implements OnInit, OnDestroy {
                 debounceTime(100),
                 takeUntil(this.destroy$)
             )
-            .subscribe(() => {
-                this.screenWidth = window.innerWidth;
+            .subscribe(
+                () => {
+                    this.screenWidth = window.innerWidth;
 
-                if (this.screenWidth > 1730) {
-                    this.countOnGrid = 10;
-                }
+                    if (this.screenWidth > 1730) {
+                        this.countOnGrid = 10;
+                    }
 
-                if (this.screenWidth > 1480 && this.screenWidth <= 1730) {
-                    this.countOnGrid = 8;
-                }
+                    if (this.screenWidth > 1480 && this.screenWidth <= 1730) {
+                        this.countOnGrid = 8;
+                    }
 
-                if (this.screenWidth > 1230 && this.screenWidth <= 1480) {
-                    this.countOnGrid = 6;
-                }
+                    if (this.screenWidth > 1230 && this.screenWidth <= 1480) {
+                        this.countOnGrid = 6;
+                    }
 
-                if (this.route.snapshot.data.watches) {
-                    this.watches = this.route.snapshot.data.watches;
-                    this.filteredItems = [...this.watches];
-                    this.orderItems('asc');
-                    this.itemsCount = this.watches.length;
-                    this.selectPage(1);
+                    if (this.route.snapshot.data.watches) {
+                        this.watches = this.route.snapshot.data.watches;
+                        this.filteredItems = [...this.watches];
+                        this.orderItems('asc');
+                        this.itemsCount = this.watches.length;
+                        this.selectPage(1);
+                    }
+                },
+                () => {
+                    alert(`Error with resizing window!`);
                 }
-            })
-        ;
+        );
 
         this.calculateItemsOnGrid();
 
@@ -102,7 +106,8 @@ export class WatchesComponent implements OnInit, OnDestroy {
                 },
                 () => {
                     console.error('Can\'t get query Params');
-                })
+                }
+            )
         ;
 
         this.route.queryParams

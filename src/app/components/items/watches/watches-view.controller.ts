@@ -1,8 +1,8 @@
 import { Input, Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 
-import { IWatch } from '../../app.models';
-import { CartService } from '../../services/cart.service';
+import { IWatch } from '../../../app.models';
+import { CartService } from '../../../services/cart.service';
 
 @Injectable()
 export abstract class WatchesViewController {

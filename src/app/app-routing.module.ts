@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { WatchesComponent } from './components/watches/watches.component';
+import { WatchesComponent } from './components/items/watches/watches.component';
 import { WatchDetailComponent } from './components/watch-detail/watch-detail.component';
 import { WatchesResolver } from './services/watches-resolver.service';
 import { WatchDetailsResolverService } from './services/watch-details-resolver.service';
-import { SearchedItemsComponent } from './components/searched-items/searched-items.component';
+import { SearchedItemsComponent } from './components/items/searched-items/searched-items.component';
 
 const routes: Routes = [
     {

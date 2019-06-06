@@ -1,6 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { WatchesService } from '../../services/watches.service';
-import { IPrice, IWatch } from '../../app.models';
+import { WatchesService } from '../../../services/watches.service';
+import { IPrice, IWatch } from '../../../app.models';
 import { ActivatedRoute, Event, Params } from '@angular/router';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
