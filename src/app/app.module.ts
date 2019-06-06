@@ -18,6 +18,7 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { SearchedItemsComponent } from './components/searched-items/searched-items.component';
 import { ModeViewMenuComponent } from './components/mode-view-menu/mode-view-menu.component';
 import { FormsModule } from '@angular/forms';
+import { ItemsListComponent } from './components/items-list/items-list.component';
 
 @NgModule({
     declarations: [
@@ -34,7 +35,8 @@ import { FormsModule } from '@angular/forms';
         TooltipComponent,
         LoadingComponent,
         SearchedItemsComponent,
-        ModeViewMenuComponent
+        ModeViewMenuComponent,
+        ItemsListComponent,
     ],
     imports: [
         BrowserModule,
