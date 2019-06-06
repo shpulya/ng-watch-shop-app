@@ -85,13 +85,13 @@ export class ItemsListComponent implements OnInit, OnChanges {
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
+        const {items} = changes;
         if (
-            changes.items
-            && changes.items.currentValue
-            && Array.isArray(changes.items.currentValue)
+            items
+            && items.currentValue
+            && Array.isArray(items.currentValue)
         ) {
-            this.itemsCount = changes.items.currentValue.length;
-            this.orderItems('asc');
+            this.itemsCount = items.currentValue.length;
         }
     }
 
@@ -130,6 +130,7 @@ export class ItemsListComponent implements OnInit, OnChanges {
     }
 
     public selectPage(currentPage: number, items: Array<IItem> = this.items): void {
+        console.log('i`m here');
         const countOnPage = this.viewMode === 'grid'
             ? this.countOnGrid
             : this.countOnLine

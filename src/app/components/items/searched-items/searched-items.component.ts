@@ -1,5 +1,5 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Event, Params } from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -21,8 +21,6 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
 
     public destroy$: Subject<void> = new Subject();
 
-    public queryParams!: Params;
-
     public watches: Array<IWatch> = [];
 
     public filteredItems: Array<IWatch> = [];
@@ -30,8 +28,6 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
     public overlay: boolean = false;
 
     public priceFilter!: IPrice;
-
-    private resize$: Subject<void> = new Subject();
 
     constructor(
         private watchesService: WatchesService,
@@ -65,10 +61,5 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
         this.filteredItems = this.filteredItems.filter((watch: IWatch) =>
             (watch.price >= (this.priceFilter.from || 0) && watch.price <= (this.priceFilter.to || 99999))
         );
-    }
-
-    @HostListener('window:resize', ['$event'])
-    private calculateItemsOnGrid(event?: Event): void {
-        this.resize$.next();
     }
 }

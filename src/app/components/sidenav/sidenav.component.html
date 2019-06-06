@@ -2,7 +2,7 @@
     <div class="sidenav__header">Filters</div>
 
     <div class="sidenav__applied" *ngIf="checkedFiltersCategories && checkedFiltersCategories.length">
-        Applied filtersConfig
+        Applied filters
     </div>
     <div class="checked_filters" *ngFor="let filter of checkedFiltersCategories">
         <span>{{getDisplayCategoryName(filter)}}:</span>
