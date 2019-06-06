@@ -5,56 +5,26 @@
     </app-sidenav>
 
     <div class="main-content">
-        <app-mode-view-menu
-            (sorting)="orderItems($event)"
-            (view)="displayView($event)"
-            (overlay)="showOverlay($event)">
-        </app-mode-view-menu>
+        <app-items-list
+            [items]="filteredItems"
+            [gridViewItemTemplate]="gridViewItem"
+            [lineViewItemTemplate]="lineViewItem">
 
-        <div>
-            Searched {{filteredItems.length}} watches by "{{searchedText}}"
-        </div>
-
-        <div
-            *ngIf="!pagedItems.length"
-            class="container">
-            No items...
-        </div>
-
-        <ng-container *ngIf="pagedItems.length">
-            <div class="container grid" *ngIf="viewMode === 'grid'">
+            <ng-template #gridViewItem let-watch let-queryParams="queryParams">
                 <app-watches-grid-view
-                    *ngFor="let watch of pagedItems"
                     [watch]="watch"
                     [queryURLParams]="queryParams">
                 </app-watches-grid-view>
-            </div>
+            </ng-template>
 
-            <div class="container list" *ngIf="viewMode === 'list'">
+            <ng-template #lineViewItem let-watch let-queryParams="queryParams">
                 <app-watches-list-view
-                    *ngFor="let watch of pagedItems"
                     [watch]="watch"
                     [queryURLParams]="queryParams">
                 </app-watches-list-view>
-            </div>
-        </ng-container>
+            </ng-template>
+        </app-items-list>
 
-        <hr *ngIf="viewMode === 'grid'">
-        <app-pagination
-            *ngIf="filteredItems.length && viewMode === 'grid'"
-            [currentPage]="currentPage"
-            [itemsCount]="filteredItems.length"
-            [countOnPage]="countOnGrid"
-            (pageUpdateEvent)="selectPage($event)">
-        </app-pagination>
-
-        <app-pagination
-            *ngIf="filteredItems.length && viewMode === 'list'"
-            [currentPage]="currentPage"
-            [itemsCount]="filteredItems.length"
-            [countOnPage]="countOnLine"
-            (pageUpdateEvent)="selectPage($event)">
-        </app-pagination>
     </div>
 </div>
 <div   [ngClass]="{'overlay': overlay}"></div>

@@ -5,6 +5,7 @@ import { WatchDetailComponent } from './components/watch-detail/watch-detail.com
 import { WatchesResolver } from './services/watches-resolver.service';
 import { WatchDetailsResolverService } from './services/watch-details-resolver.service';
 import { SearchedItemsComponent } from './components/items/searched-items/searched-items.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
     {
@@ -24,6 +25,10 @@ const routes: Routes = [
     {
         path: 'searched',
         component: SearchedItemsComponent,
+    },
+    {
+        path: '**',
+        component: PageNotFoundComponent
     }
 
 ];

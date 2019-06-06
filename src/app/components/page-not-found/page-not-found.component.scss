@@ -1,0 +1,15 @@
+.error {
+    font-size: 48px;
+    display: flex;
+    align-items: center;
+    color: #333;
+    flex-direction: column;
+
+    p {
+        display: block;
+    }
+
+    .huge {
+        font-size: 84px;
+    }
+}

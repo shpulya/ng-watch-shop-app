@@ -18,6 +18,8 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { SearchedItemsComponent } from './components/items/searched-items/searched-items.component';
 import { ModeViewMenuComponent } from './components/mode-view-menu/mode-view-menu.component';
 import { FormsModule } from '@angular/forms';
+import { ItemsListComponent } from './components/items/items-list/items-list.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
     declarations: [
@@ -34,7 +36,9 @@ import { FormsModule } from '@angular/forms';
         TooltipComponent,
         LoadingComponent,
         SearchedItemsComponent,
-        ModeViewMenuComponent
+        ModeViewMenuComponent,
+        ItemsListComponent,
+        PageNotFoundComponent
     ],
     imports: [
         BrowserModule,
