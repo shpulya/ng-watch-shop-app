@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ChangeDetectorRef, EventEmitter, OnDestroy, OnInit, Output, Input } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 import { WatchesService } from '../../services/watches.service';
@@ -78,34 +77,24 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.showFilterCategories) {
             this.updateFiltersMap(this.route.snapshot.data.watches);
         }
-        this.route.queryParams
-            .pipe(
-                takeUntil(this.destroy$)
-            )
-            .subscribe(
-                (queryParam: Params) => {
-                    if (queryParam['price']) {
-                        this.price = JSON.parse(queryParam['price']);
-                        this.priceUpdateEvent.emit(this.price);
-                    }
+        if (this.route.snapshot.queryParams['price']) {
+            this.price = JSON.parse(this.route.snapshot.queryParams['price']);
+            this.priceUpdateEvent.emit(this.price);
+        }
 
-                    if (queryParam['categories']) {
-                        const categoriesObject = JSON.parse(queryParam['categories']);
-                        const categoriesMap = new Map<keyof IWatchDetails, Set<string | number>>();
+        if (this.route.snapshot.queryParams['categories']) {
+            const categoriesObject = JSON.parse(this.route.snapshot.queryParams['categories']);
+            const categoriesMap = new Map<keyof IWatchDetails, Set<string | number>>();
 
-                        Object.keys(categoriesObject).forEach((key: string) => {
-                            categoriesObject[key] = new Set<string | number>(JSON.parse(categoriesObject[key]));
-                            categoriesMap.set(<keyof IWatchDetails> key, categoriesObject[key]);
-                        });
+            Object.keys(categoriesObject).forEach((key: string) => {
+                categoriesObject[key] = new Set<string | number>(JSON.parse(categoriesObject[key]));
+                categoriesMap.set(<keyof IWatchDetails> key, categoriesObject[key]);
+            });
 
-                        this.checkedFilters = categoriesMap;
-                        this.checkedFiltersCategories = Array.from(this.checkedFilters.keys());
-                    }
-
-                    this.categoriesUpdateEvent.emit(this.checkedFilters);
-                }
-            )
-        ;
+            this.checkedFilters = categoriesMap;
+            this.checkedFiltersCategories = Array.from(this.checkedFilters.keys());
+            this.categoriesUpdateEvent.emit(this.checkedFilters);
+        }
     }
 
     public ngAfterViewInit(): void {

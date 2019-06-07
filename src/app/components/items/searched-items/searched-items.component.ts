@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -43,7 +43,7 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
                     .subscribe((searchedWatches: Array<IWatch>) => {
                         this.watches = searchedWatches;
                         this.filteredItems = [...this.watches];
-                        this.itemsListRef.selectPage(1);
+                        this.itemsListRef.selectPage(1, this.filteredItems);
                     })
                 ;
             }
@@ -61,5 +61,6 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
         this.filteredItems = this.filteredItems.filter((watch: IWatch) =>
             (watch.price >= (this.priceFilter.from || 0) && watch.price <= (this.priceFilter.to || 99999))
         );
+        this.itemsListRef.selectPage(1, this.filteredItems);
     }
 }

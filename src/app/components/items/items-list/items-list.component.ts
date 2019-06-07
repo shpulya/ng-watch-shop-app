@@ -13,7 +13,7 @@ import { IItem } from '../../../app.models';
 export class ItemsListComponent implements OnInit, OnChanges {
 
     @Input()
-    public readonly items: Array<IItem> = [];
+    public items: Array<IItem> = [];
 
     @Input()
     public readonly gridViewItemTemplate!: TemplateRef<any>;
@@ -86,11 +86,13 @@ export class ItemsListComponent implements OnInit, OnChanges {
 
     public ngOnChanges(changes: SimpleChanges): void {
         const {items} = changes;
+
         if (
             items
             && items.currentValue
             && Array.isArray(items.currentValue)
         ) {
+            this.items = items.currentValue;
             this.itemsCount = items.currentValue.length;
         }
     }
@@ -130,7 +132,6 @@ export class ItemsListComponent implements OnInit, OnChanges {
     }
 
     public selectPage(currentPage: number, items: Array<IItem> = this.items): void {
-        console.log('i`m here');
         const countOnPage = this.viewMode === 'grid'
             ? this.countOnGrid
             : this.countOnLine

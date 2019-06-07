@@ -51,19 +51,20 @@ export class WatchesComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
+    public onCategoriesFilter(filtersMap: TFilterMap): void {
+        this.categoriesFilter = filtersMap;
+        this.categoriesFilter.forEach((values: Set<string | number>, category: keyof IWatchDetails) => {
+            this.filteredItems = this.filteredItems.filter((watch: IWatch) => values.has(watch[category]));
+        });
+        this.itemsListRef.selectPage(1, this.filteredItems);
+    }
+
     public onPriceFilter(priceFilter: IPrice): void {
         this.priceFilter = priceFilter;
         this.filteredItems = [...this.watches];
         this.filteredItems = this.filteredItems.filter((watch: IWatch) =>
             (watch.price >= (this.priceFilter.from || 0) && watch.price <= (this.priceFilter.to || 99999))
         );
-    }
-
-    public onCategoriesFilter(filtersMap: TFilterMap): void {
-        this.categoriesFilter = filtersMap;
-        this.filteredItems = [...this.watches];
-        this.categoriesFilter.forEach((values: Set<string | number>, category: keyof IWatchDetails) => {
-            this.filteredItems = this.filteredItems.filter((watch: IWatch) => values.has(watch[category]));
-        });
+        this.itemsListRef.selectPage(1, this.filteredItems);
     }
 }
