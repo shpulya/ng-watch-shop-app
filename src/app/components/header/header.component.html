@@ -9,22 +9,39 @@
                 type="text"
                 placeholder="Search"
                 class="search__input__text"
-                (click)="overlay = true"
                 (input)="showHint(inputText)"
-                [(ngModel)]="inputText">
-            <a
+                [(ngModel)]="inputText"
+            >
+            <button
                 class="search__input__submit"
                 [routerLink]="['/searched/']"
                 [queryParams]="{searchedText: inputText}"
-                (click)="cancelSearching()">
+                (click)="cancelSearching()"
+            >
                 <i class="fas fa-search"></i>
-            </a>
+            </button>
         </div>
         <div class="search__hints" *ngIf="watches.length">
             <ul>
-                <li *ngFor="let watch of watches" [routerLink]="['/item/' + watch.id]" (click)="cancelSearching()">
-                    {{watch.name}}
+                <li *ngFor="let watch of watches; let i = index" (click)="cancelSearching()">
+                    <div class="search__hints__item" *ngIf="i < 5">
+                        <a [routerLink]="['/item/' + watch.id]">{{watch.name}}</a>
+                    </div>
                 </li>
+                <ng-template #extraSearchedItems>
+                    <li *ngFor="let watch of watches; let i = index" (click)="cancelSearching()">
+                        <div class="search__hints__item" *ngIf="i >= 5 && showExtraItems">
+                            <a [routerLink]="['/item/' + watch.id]">{{watch.name}}</a>
+                        </div>
+                    </li>
+                </ng-template>
+                <ng-template [ngIf]="!showExtraItems && watches.length > 5" [ngIfElse]="extraSearchedItems">
+                    <li>
+                        <div class="search__hints__item search__hints__item-extra"  (click)="showExtraItems = true">
+                            Show more ({{watches.length - 5}})
+                        </div>
+                    </li>
+                </ng-template>
             </ul>
         </div>
     </div>

@@ -21,12 +21,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     public inputText: string = '';
 
+    public showExtraItems: boolean = false;
+
+    public showHint!: (text: string) => void;
+
     private destroy$: Subject<void> = new Subject();
 
     constructor(
         private cartService: CartService,
         private watchesService: WatchesService
-    ) {}
+    ) {
+        this.showHint = this.showHintsFactory();
+    }
 
     public ngOnInit(): void {
         this.cartService.items$
@@ -53,25 +59,41 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
     }
 
-    public showHint(searchText: string): void {
-        this.watchesService.getSearchedItemsByName(searchText)
+    public cancelSearching(): void {
+        this.overlay = false;
+        this.watches = [];
+    }
+
+    private showHintsFactory(): (text: string) => void {
+        const subject = new Subject<string>();
+
+        subject
             .pipe(
                 debounceTime(1000),
                 takeUntil(this.destroy$)
             )
-            .subscribe(
-                (items: Array<IItem>) => {
-                    this.watches = items;
-                },
-                () => {
-                    alert(`Can't get items by name!`);
-                }
-            )
-        ;
-    }
+            .subscribe((searchText: string) => {
+                this.showExtraItems = false;
+                this.overlay = true;
 
-    public cancelSearching(): void {
-        this.overlay = false;
-        this.watches = [];
+                this.watchesService.getSearchedItemsByName(searchText)
+                    .pipe(
+                        takeUntil(this.destroy$)
+                    )
+                    .subscribe(
+                        (items: Array<IItem>) => {
+                            console.log('hi');
+                            this.watches = items;
+                        },
+                        () => {
+                            alert(`Can't get items by name!`);
+                        }
+                    )
+                ;
+            })
+
+        return (text: string) => {
+            subject.next(text);
+        };
     }
 }

@@ -28,10 +28,12 @@ export class WatchesService {
     }
 
     public getSearchedItemsByName(name: string): Observable<Array<IWatch>> {
+        const pattern = new RegExp(`^` + name.toLowerCase());
+
         return this.getWatches()
             .pipe(map((watches: Array<IWatch>) => {
                 return watches
-                    .filter((watch: IWatch) => watch.name.toLowerCase().includes(name.toLowerCase()));
+                    .filter((watch: IWatch) => watch.name.toLowerCase().match(pattern));
             }));
     }
 }
