@@ -32,6 +32,10 @@ export class WatchesService {
 
         return this.getWatches()
             .pipe(map((watches: Array<IWatch>) => {
+                if (!name) {
+                    return [];
+                }
+
                 return watches
                     .filter((watch: IWatch) => watch.name.toLowerCase().match(pattern));
             }));
