@@ -5,12 +5,14 @@ label {
 .sidenav {
     width: 320px;
     padding-top: 30px;
+    cursor: pointer;
 
     &__header {
         background-color: #84bfbd;
         color: #fff;
         padding: 10px 25px;
         font-size: 24px;
+        cursor: auto;
     }
 
     &__applied {
@@ -27,7 +29,6 @@ label {
     }
 
     .filter-header {
-        padding-bottom: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
