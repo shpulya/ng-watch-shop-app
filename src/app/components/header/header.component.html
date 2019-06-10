@@ -9,6 +9,7 @@
                 type="text"
                 placeholder="Search"
                 class="search__input__text"
+                [ngClass]="{'search__input__text_open': watches.length}"
                 (input)="showHint(inputText)"
                 [(ngModel)]="inputText"
             >
@@ -48,7 +49,6 @@
 
     <div class="header__cart" (click)="showCart()">
         <img src="../../../assets/img/cart.png" alt="Cart" class="{{counter ? '' : 'disabled'}}">
-
         <div class="header__cart__counter {{counter.toString(10).length > 1 ? 'header__cart__counter_resize' : ''}}" *ngIf="counter">
             {{counter}}
         </div>

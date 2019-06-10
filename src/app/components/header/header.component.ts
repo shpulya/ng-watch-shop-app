@@ -25,6 +25,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     public showHint!: (text: string) => void;
 
+    private subject$: Subject<string> = new Subject();
+
     private destroy$: Subject<void> = new Subject();
 
     constructor(
@@ -46,28 +48,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 }
             )
         ;
-    }
 
-    public ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    public showCart(): void {
-        if (this.counter) {
-            this.cartService.open();
-        }
-    }
-
-    public cancelSearching(): void {
-        this.overlay = false;
-        this.watches = [];
-    }
-
-    private showHintsFactory(): (text: string) => void {
-        const subject = new Subject<string>();
-
-        subject
+        this.subject$
             .pipe(
                 debounceTime(1000),
                 takeUntil(this.destroy$)
@@ -91,9 +73,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
                     )
                 ;
             })
+        ;
+    }
 
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
+
+    public showCart(): void {
+        if (this.counter) {
+            this.cartService.open();
+        }
+    }
+
+    public cancelSearching(): void {
+        this.overlay = false;
+        this.watches = [];
+    }
+
+    private showHintsFactory(): (text: string) => void {
         return (text: string) => {
-            subject.next(text);
+            this.subject$.next(text);
         };
     }
 }
