@@ -1,0 +1,56 @@
+<div class="header">
+    <div class="header__logo" [routerLink]="''">
+        <img src="../../../../assets/img/logo.png" alt="">
+    </div>
+
+    <div class="search">
+        <div class="search__input">
+            <input
+                type="text"
+                placeholder="Enter your search text"
+                class="search__input__text"
+                [ngClass]="{'search__input__text_open': watches.length}"
+                (input)="showHint($event.target.value)"
+                [value]="inputText"
+            >
+            <button
+                class="search__input__submit"
+                [routerLink]="['/searched/']"
+                [queryParams]="{searchedText: inputText}"
+                (click)="cancelSearching()"
+            >
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="search__hints" *ngIf="watches.length">
+            <ul>
+                <li *ngFor="let watch of watches; let i = index" (click)="cancelSearching(); clearEditField()">
+                    <div class="search__hints__item" *ngIf="i < 5">
+                        <a [routerLink]="['/watch/' + watch.id]">{{watch.name}}</a>
+                    </div>
+                </li>
+                <li *ngIf="!showExtraItems && watches.length > 5; else extraSearchedItems">
+                    <div class="search__hints__item search__hints__item-extra"  (click)="showExtraItems = true">
+                        Show more ({{watches.length - 5}})
+                    </div>
+                </li>
+                <ng-template #extraSearchedItems>
+                    <li *ngFor="let watch of watches; let i = index" (click)="cancelSearching()">
+                        <div class="search__hints__item" *ngIf="i >= 5 && showExtraItems">
+                            <a [routerLink]="['/watch/' + watch.id]">{{watch.name}}</a>
+                        </div>
+                    </li>
+                </ng-template>
+            </ul>
+        </div>
+    </div>
+
+    <div class="header__cart" (click)="showCart()">
+        <img src="../../../../assets/img/cart.png" alt="Cart" class="{{counter ? '' : 'disabled'}}">
+        <div class="header__cart__counter {{counter.toString(10).length > 1 ? 'header__cart__counter_resize' : ''}}" *ngIf="counter">
+            {{counter}}
+        </div>
+    </div>
+</div>
+
+<div [ngClass]="{'overlay': overlay}" (click)="cancelSearching()"></div>

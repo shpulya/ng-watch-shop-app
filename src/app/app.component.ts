@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 
-import { CartService } from './services/cart.service';
+import { CartService } from './core/services/cart.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

@@ -1,0 +1,24 @@
+<div class="grid_item">
+    <img
+        src="../../../../assets/img/wristbands/{{wristband.image}}"
+        alt="{{wristband.image}}"
+        [routerLink]="['/wristband/' + wristband.id]"
+        [queryParams]="queryURLParams">
+
+    <a [routerLink]="['/wristband/'+wristband.id]"
+       [queryParams]="queryURLParams">
+        {{wristband.name}}</a>
+
+    <div class="description">
+        {{wristband.fitFor}}, {{wristband.material}}
+    </div>
+
+    <div class="footer">
+        <app-price-tag [price]="wristband.price"></app-price-tag>
+        <img
+            src="../../../../../../assets/img/cart.png"
+            alt="Add to cart"
+            (click)="addItemToCart(wristband); tooltip.show()">
+        <app-tooltip #tooltip [message]="'Added to cart'"></app-tooltip>
+    </div>
+</div>

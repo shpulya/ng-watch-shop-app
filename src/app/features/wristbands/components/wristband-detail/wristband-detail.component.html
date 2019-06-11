@@ -1,0 +1,37 @@
+<div class="wristband">
+    <div class="wristband__img">
+        <img
+            src="../../../../assets/img/wristbands/{{wristband!.image}}"
+            alt="{{wristband!.image}}">
+    </div>
+    <div class="wristband__data">
+        <a [routerLink]="''"
+           [queryParams]="queryParams">
+            Back to catalog
+        </a>
+        <span class="wristband__data__name">{{wristband!.name}}</span>
+
+        <div class="wristband__data__specifications">
+            Fit For: {{wristband!.fitFor}}, Material: {{wristband!.material}}
+        </div>
+
+        <div class="wristband__data__description">
+            {{wristband!.description}}
+        </div>
+    </div>
+
+    <div class="wristband__price">
+        <app-price-tag [price]="wristband!.price" [large]="true"></app-price-tag>
+    </div>
+
+    <div class="wristband__cart">
+        <img
+            src="../../../../assets/img/cart.png"
+            alt="Add to cart" id="cart"
+            (click)="addWristbandToCart(wristband); tooltip.show()">
+        <label for="cart" (click)="addWristbandToCart(wristband); tooltip.show()">
+            Add to cart
+        </label>
+        <app-tooltip #tooltip [message]="'Added to cart'"></app-tooltip>
+    </div>
+</div>

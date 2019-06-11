@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="watch-img-col">
+        <img
+            src="../../../../assets/img/watches/{{watch!.image}}"
+            alt="{{watch!.image}}"
+            [routerLink]="['/watch/'+watch.id]"
+            [queryParams]="queryURLParams">
+    </div>
+
+    <div class="container__details">
+        <div class="details-col">
+            <a [routerLink]="['/watch/'+watch!.id]"
+               [queryParams]="queryURLParams">
+                {{watch!.name}}
+            </a>
+            <div class="specifications">
+                {{watch!.os}}, {{watch!.ramSize}} RAM, {{watch!.romSize}} ROM
+            </div>
+
+            <div class="description">
+                {{watch!.description}}
+            </div>
+        </div>
+
+        <div class="price-col">
+            <app-price-tag [price]="watch!.price"></app-price-tag>
+            <div class="cart">
+                <div  id="cart"><img
+                    src="../../../../../../assets/img/cart.png"
+                    alt="Add to cart"
+                    (click)="addItemToCart(watch); tooltip.show()"></div>
+                <label for="cart" (click)="addItemToCart(watch); tooltip.show()">
+                    Add to cart
+                </label>
+                <app-tooltip #tooltip [message]="'Added to cart'"></app-tooltip>
+            </div>
+        </div>
+    </div>
+</div>
+

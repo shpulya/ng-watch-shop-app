@@ -1,0 +1,75 @@
+.container {
+    align-items: stretch;
+    margin: 30px 10px;
+    display: flex;
+    flex-direction: row;
+
+    &__details {
+        width: calc(100% - 100px);
+        display: flex;
+        flex-direction: row;
+        border-bottom: 1px solid #979797;
+        padding-bottom: 50px;
+    }
+
+    .wristband-img-col {
+        width: 100px;
+        padding-right: 20px;
+
+        > img {
+            width: 100%;
+            cursor: pointer;
+        }
+    }
+
+    .details-col {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        width: calc(100% - 100px);
+
+        > a {
+            color: #0082b3;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .specifications,
+        .description {
+            color: #666;
+            font-size: 12px;
+            padding-top: 20px;
+        }
+    }
+
+    .price-col {
+        display: flex;
+        align-items: stretch;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100px;
+    }
+}
+
+.cart {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    #cart {
+        width: 32px;
+        height: 32px;
+
+        > img {
+            width: 30px;
+
+            &:hover {
+                width: 32px;
+            }
+        }
+    }
+
+    label {
+        cursor: pointer;
+    }
+}

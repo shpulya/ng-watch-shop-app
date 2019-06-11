@@ -4,6 +4,7 @@ export interface IItem {
     name: string;
     price: number;
     description: string;
+    type: string;
 }
 
 export interface IWatchDetails {
@@ -15,7 +16,17 @@ export interface IWatchDetails {
     romSize: string;
 }
 
+export interface IWristbandDetails {
+    fitFor: string;
+    material: number;
+    width: string;
+    length: string;
+    color: string;
+}
+
 export interface IWatch extends IItem, IWatchDetails {}
+
+export interface IWristband extends IItem, IWristbandDetails{}
 
 export interface IPrice {
     from: number;
@@ -24,6 +35,12 @@ export interface IPrice {
 
 export interface IWatchFilter {
     name: keyof IWatchDetails;
+    displayName: string;
+    showFilter: boolean;
+}
+
+export interface IWristbandFilter {
+    name: keyof IWristbandDetails;
     displayName: string;
     showFilter: boolean;
 }
