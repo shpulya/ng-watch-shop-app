@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { CartService } from '../../services/cart.service';
 import { WatchesService } from '../../../features/watches/services/watches.service';
 import { IItem } from '../../../app.models';
+import { WristbandsService } from '../../../features/wristbands/services/wristbands.service';
 
 @Component({
     selector: 'app-header',
@@ -17,7 +18,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     public overlay: boolean = false;
 
-    public watches: Array<IItem> = [];
+    public items: Array<IItem> = [];
 
     public inputText: string = '';
 
@@ -29,7 +30,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     constructor(
         private cartService: CartService,
-        private watchesService: WatchesService
+        private watchesService: WatchesService,
+        private wristbandsService: WristbandsService
     ) {}
 
     public ngOnInit(): void {
@@ -48,14 +50,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 this.overlay = true;
                 this.inputText = searchText;
 
-                this.watchesService.getSearchedItemsByName(searchText)
+                this.watchesService.getSearchedWatchesByName(searchText)
                     .pipe(
                         takeUntil(this.destroy$)
                     )
                     .subscribe(
-                        (items: Array<IItem>) => {
-                            console.log('hi');
-                            this.watches = items;
+                        (watches: Array<IItem>) => {
+                            this.items = this.items.concat(watches);
+                        },
+                        () => {
+                            alert(`Can't get items by name!`);
+                        }
+                    )
+                ;
+
+                this.wristbandsService.getSearchedWristbandsByName(searchText)
+                    .pipe(
+                        takeUntil(this.destroy$)
+                    )
+                    .subscribe(
+                        (wristbands: Array<IItem>) => {
+                            this.items = this.items.concat(wristbands);
                         },
                         () => {
                             alert(`Can't get items by name!`);
@@ -79,11 +94,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     public showHint(text: string): void {
         this.search$.next(text);
+        document.body.style.overflow = 'hidden';
     }
 
     public cancelSearching(): void {
         this.overlay = false;
-        this.watches = [];
+        this.items = [];
+        document.body.style.overflow = 'auto';
     }
 
     public clearEditField(): void {

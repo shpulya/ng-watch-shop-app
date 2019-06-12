@@ -1,14 +1,26 @@
 .categories {
     display: flex;
     flex-direction: row;
+    justify-content: center;
 
     &__dir {
         width: 200px;
-        height: 200px;
         border: 1px solid #979797;
+        margin: 40px;
+        position: relative;
 
         img {
-
+            width: 100%;
         }
+    }
+
+    &__header {
+        text-align: center;
+        padding: 15px;
+        background-color: #60bcb9;
+        color: #fff;
+        position: absolute;
+        bottom: 0;
+        width: calc(100% - 29px);
     }
 }

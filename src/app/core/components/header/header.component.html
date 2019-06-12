@@ -9,7 +9,7 @@
                 type="text"
                 placeholder="Enter your search text"
                 class="search__input__text"
-                [ngClass]="{'search__input__text_open': watches.length}"
+                [ngClass]="{'search__input__text_open': items.length}"
                 (input)="showHint($event.target.value)"
                 [value]="inputText"
             >
@@ -22,22 +22,22 @@
                 <i class="fas fa-search"></i>
             </button>
         </div>
-        <div class="search__hints" *ngIf="watches.length">
+        <div class="search__hints" *ngIf="items.length">
             <ul>
-                <li *ngFor="let watch of watches; let i = index" (click)="cancelSearching(); clearEditField()">
+                <li *ngFor="let item of items; let i = index" (click)="cancelSearching(); clearEditField()">
                     <div class="search__hints__item" *ngIf="i < 5">
-                        <a [routerLink]="['/watch/' + watch.id]">{{watch.name}}</a>
+                        <a [routerLink]="['/' + item.type + '/' + item.id]">{{item.name}}</a>
                     </div>
                 </li>
-                <li *ngIf="!showExtraItems && watches.length > 5; else extraSearchedItems">
+                <li *ngIf="!showExtraItems && items.length > 5; else extraSearchedItems">
                     <div class="search__hints__item search__hints__item-extra"  (click)="showExtraItems = true">
-                        Show more ({{watches.length - 5}})
+                        Show more ({{items.length - 5}})
                     </div>
                 </li>
                 <ng-template #extraSearchedItems>
-                    <li *ngFor="let watch of watches; let i = index" (click)="cancelSearching()">
+                    <li *ngFor="let item of items; let i = index" (click)="cancelSearching()">
                         <div class="search__hints__item" *ngIf="i >= 5 && showExtraItems">
-                            <a [routerLink]="['/watch/' + watch.id]">{{watch.name}}</a>
+                            <a [routerLink]="['/' + item.type + '/' + item.id]">{{item.name}}</a>
                         </div>
                     </li>
                 </ng-template>

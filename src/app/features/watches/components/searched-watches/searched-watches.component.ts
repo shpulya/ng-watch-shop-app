@@ -38,7 +38,7 @@ export class SearchedWatchesComponent implements OnInit, OnDestroy {
         this.route.queryParams.subscribe(params => {
             if (this.searchedText !== params.searchedText) {
                 this.searchedText = params.searchedText;
-                this.watchesService.getSearchedItemsByName(this.searchedText)
+                this.watchesService.getSearchedWatchesByName(this.searchedText)
                     .pipe(takeUntil(this.destroy$))
                     .subscribe((searchedWatches: Array<IWatch>) => {
                         this.watches = searchedWatches;

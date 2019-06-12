@@ -41,7 +41,10 @@
         </li>
 
         <ng-container *ngIf="showFilterCategories">
-            <li *ngFor="let filter of filtersCategories; let i = index" [ngClass]="{'close': !filtersConfig[i].showFilter}">
+            <li
+                *ngFor="let filter of filtersCategories; let i = index"
+                [ngClass]="{'close': !filtersConfig[i].showFilter}"
+            >
                 <div class="filter-header"
                      (click)="filtersConfig[i].showFilter = !filtersConfig[i].showFilter">{{filtersConfig[i].displayName}}
                     <div class="arrow"></div>

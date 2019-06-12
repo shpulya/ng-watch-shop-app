@@ -9,7 +9,7 @@
         "material": "Stainless Steel",
         "width": "20mm",
         "length": "235mm",
-        "color": "Bisque,white,DarkKhaki,orange,red,RosyBrown,Gray,Green,Teal,Wheat,MediumVioletRed",
+        "color": "white",
         "price": 5
     },
     {
@@ -22,7 +22,7 @@
         "material": "Stainless Steel",
         "width": "20mm",
         "length": "235mm",
-        "color": "Bisque,white,DarkKhaki,orange,red,RosyBrown,Gray,Green,Teal,Wheat,MediumVioletRed",
+        "color": "gray",
         "price": 3
     },
     {
@@ -35,7 +35,7 @@
         "material": "Silicone",
         "width": "20mm",
         "length": "230mm",
-        "color": "blue,black,White,orange,red,cyan,Gray,Green,OldLace,SeaGreen",
+        "color": "black",
         "price": 4
     },
     {
@@ -48,7 +48,7 @@
         "material": "Stainless Steel",
         "width": "40mm,44mm",
         "length": "230mm",
-        "color": "blue,black,White,orange,red,cyan,Gray,Green,OldLace,SeaGreen",
+        "color": "white",
         "price": 10
     },
     {
@@ -61,7 +61,7 @@
         "material": "Silicone",
         "width": "40mm",
         "length": "96+132mm",
-        "color": "blue,black,White,orange,red,cyan,Gray,Green,OldLace,pink,Aqua",
+        "color": "gray",
         "price": 5
     },
     {
@@ -74,7 +74,7 @@
         "material": "Nylon",
         "width": "40mm/44mm",
         "length": "172mm",
-        "color": "Bisque,white,DarkKhaki,orange,red,RosyBrown,Gray,Green,Teal,Wheat,MediumVioletRed",
+        "color": "red",
         "price": 7
     },
     {
@@ -87,7 +87,7 @@
         "material": "Stainless Steel",
         "width": "22mm",
         "length": "230mm",
-        "color": "Black,Silver,DarkKhaki,MistyRose",
+        "color": "black",
         "price": 9
     },
     {
@@ -100,7 +100,7 @@
         "material": "Silicone",
         "width": "20mm",
         "length": "98+135mm",
-        "color": "Black,Silver,DarkKhaki,MistyRose,Cyan,AntiqueWhite,DarkOrange,Turquoise",
+        "color": "silver",
         "price": 9
     }
 ]

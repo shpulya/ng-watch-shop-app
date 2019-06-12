@@ -27,7 +27,7 @@ export class WatchesService {
             }));
     }
 
-    public getSearchedItemsByName(name: string): Observable<Array<IWatch>> {
+    public getSearchedWatchesByName(name: string): Observable<Array<IWatch>> {
         const pattern = new RegExp(`\\b` + name.toLowerCase());
 
         return this.getWatches()

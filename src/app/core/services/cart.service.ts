@@ -2,15 +2,27 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { CookiesService } from './cookies.service';
-import { ICart, IItem } from '../../app.models';
+import { ICart, IItem, IShortItemInfo, IType } from '../../app.models';
 import { WatchesService } from '../../features/watches/services/watches.service';
+import { WristbandsService } from '../../features/wristbands/services/wristbands.service';
 
-type TCartMap = Map<number, ICart> ;
+type TCartMap = Map<string, ICart> ;
 
 @Injectable({
     providedIn: 'root'
 })
 export class CartService {
+
+    public types: Array<IType> = [
+        {
+            type: 'watch',
+            pluralType: 'watches'
+        },
+        {
+            type: 'wristband',
+            pluralType: 'wristbands'
+        }
+    ];
 
     public opened$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -18,19 +30,21 @@ export class CartService {
 
     constructor(
         private cookieService: CookiesService,
-        private watchesService: WatchesService
+        private watchesService: WatchesService,
+        private wristbandsService: WristbandsService
     ) {
         this.receiveCookiesItems();
     }
 
     public addItem(item: IItem): void {
+        const {id, type} = item;
         const items: TCartMap = this.items$.getValue();
-        const searchedItem = items.get(item.id);
+        const searchedItem = items.get(`${id}#${type}`);
         const count = (searchedItem) ? searchedItem.count : 0;
 
-        items.delete(item.id);
+        items.delete(`${id}#${type}`);
 
-        this.items$.next(items.set(item.id, {
+        this.items$.next(items.set(`${id}#${type}`, {
             item: item,
             count: count + 1
         }));
@@ -39,28 +53,28 @@ export class CartService {
         this.setItemsToCookies(items);
     }
 
-    public deleteItem(id: number): void {
+    public deleteItem(i: IShortItemInfo): void {
         const items: TCartMap = this.items$.getValue();
 
-        items.delete(id);
+        items.delete(`${i.id}#${i.type}`);
 
         this.items$.next(items);
         this.countItemsInCart();
         this.setItemsToCookies(items);
     }
 
-    public reduceCountItem(id: number): void {
+    public reduceCountItem(i: IShortItemInfo): void {
         const items: TCartMap = this.items$.getValue();
-        const item = items.get(id);
+        const item = items.get(`${i.id}#${i.type}`);
 
         if (!item) {
             return;
         }
 
-        items.delete(id);
+        items.delete(`${i.id}#${i.type}`);
 
         if (item.count > 1) {
-            items.set(id, {
+            items.set(`${i.id}#${i.type}`, {
                 item: item.item,
                 count: item.count - 1
             });
@@ -72,16 +86,19 @@ export class CartService {
         this.setItemsToCookies(items);
     }
 
-    public increaseCountItem(id: number): void {
+    public increaseCountItem(i: IShortItemInfo): void {
         const items: TCartMap = this.items$.getValue();
-        const item = items.get(id);
+        const item = items.get(`${i.id}#${i.type}`);
+        console.log(`${i.id}#${i.type}`);
+        console.log('item', item);
+        console.log('items', items);
 
         if (!item) {
             return;
         }
 
-        items.delete(id);
-        items.set(id, {
+        items.delete(`${i.id}#${i.type}`);
+        items.set(`${i.id}#${i.type}`, {
             item: item.item,
             count: item.count + 1
         });
@@ -107,10 +124,10 @@ export class CartService {
     }
 
     private setItemsToCookies(items: TCartMap): void {
-        const transformItems: Map<number, number> = new Map<number, number>();
+        const transformItems: Map<string, number> = new Map();
 
-        items.forEach((item: ICart, id: number) => {
-            transformItems.set(id, item.count);
+        items.forEach((item: ICart, key: string) => {
+            transformItems.set(key, item.count);
         });
 
         this.cookieService.setCookie('cartItems', JSON.stringify([...transformItems]), 1);
@@ -118,20 +135,43 @@ export class CartService {
 
     private receiveCookiesItems(): void {
         const cookiesItems = JSON.parse(this.cookieService.getCookie('cartItems') || '[]');
-        const itemsMap: TCartMap = new Map<number, ICart>();
+        const itemsMap: TCartMap = new Map<string, ICart>();
 
-        cookiesItems.forEach((item: Array<number>) => {
-            this.watchesService
-                .getWatchById(item[0])
-                .subscribe((i: IItem | null) => {
-                    if (i) {
-                        itemsMap.set(i.id, {
-                            item: i,
-                            count: item[1]
-                        });
-                        this.items$.next(itemsMap);
-                    }
-                });
+        cookiesItems.forEach((count: number, id: string) => {
+            if (this.parseUniqueId(id).type === 'watch') {
+                this.watchesService
+                    .getWatchById(this.parseUniqueId(id).id)
+                    .subscribe((i: IItem | null) => {
+                        if (i) {
+                            itemsMap.set(`${i.id}#${i.type}`, {
+                                item: i,
+                                count: count
+                            });
+                            this.items$.next(itemsMap);
+                        }
+                    })
+                ;
+            } else {
+                this.wristbandsService
+                    .getWristbandById(this.parseUniqueId(id).id)
+                    .subscribe((i: IItem | null) => {
+                        if (i) {
+                            itemsMap.set(`${i.id}#${i.type}`, {
+                                item: i,
+                                count: count
+                            });
+                            this.items$.next(itemsMap);
+                        }
+                    })
+                ;
+            }
         });
+    }
+
+    private parseUniqueId(uniqueId: string): IShortItemInfo {
+        return {
+            id: parseInt(uniqueId.slice(0, uniqueId.indexOf('#')), 10),
+            type: uniqueId.slice(uniqueId.indexOf('#'), uniqueId.length - 1)
+        };
     }
 }

@@ -27,7 +27,7 @@ export class WristbandsService {
             }));
     }
 
-    public getSearchedItemsByName(name: string): Observable<Array<IWristband>> {
+    public getSearchedWristbandsByName(name: string): Observable<Array<IWristband>> {
         const pattern = new RegExp(`\\b` + name.toLowerCase());
 
         return this.getWristbands()

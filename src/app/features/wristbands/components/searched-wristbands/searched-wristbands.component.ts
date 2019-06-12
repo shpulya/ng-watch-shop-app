@@ -38,7 +38,7 @@ export class SearchedWristbandsComponent implements OnInit, OnDestroy {
         this.route.queryParams.subscribe(params => {
             if (this.searchedText !== params.searchedText) {
                 this.searchedText = params.searchedText;
-                this.wristbandsService.getSearchedItemsByName(this.searchedText)
+                this.wristbandsService.getSearchedWristbandsByName(this.searchedText)
                     .pipe(takeUntil(this.destroy$))
                     .subscribe((searchedWatches: Array<IWristband>) => {
                         this.watches = searchedWatches;

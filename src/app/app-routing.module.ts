@@ -11,6 +11,7 @@ import { WristbandsComponent } from './features/wristbands/components/wristbands
 import { WristbandsResolver } from './features/wristbands/resolvers/wristbands.resolver';
 import { WristbandDetailComponent } from './features/wristbands/components/wristband-detail/wristband-detail.component';
 import { WristbandDetailsResolver } from './features/wristbands/resolvers/wristband-details.resolver';
+import { MainPageComponent } from './core/components/main-page/main-page.component';
 
 const routes: Routes = [
     {
@@ -46,8 +47,7 @@ const routes: Routes = [
         component: SearchedWatchesComponent,
     },
     { path: '',
-        redirectTo: '/watches',
-        pathMatch: 'full'
+        component: MainPageComponent,
     },
     {
         path: '**',

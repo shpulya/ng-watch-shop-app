@@ -1,10 +1,13 @@
-export interface IItem {
+export interface IShortItemInfo {
     id: number;
+    type: string;
+}
+
+export interface IItem extends IShortItemInfo {
     image: string;
     name: string;
     price: number;
     description: string;
-    type: string;
 }
 
 export interface IWatchDetails {
@@ -26,7 +29,7 @@ export interface IWristbandDetails {
 
 export interface IWatch extends IItem, IWatchDetails {}
 
-export interface IWristband extends IItem, IWristbandDetails{}
+export interface IWristband extends IItem, IWristbandDetails {}
 
 export interface IPrice {
     from: number;
@@ -48,4 +51,9 @@ export interface IWristbandFilter {
 export interface ICart {
     item: IItem;
     count: number;
+}
+
+export interface IType {
+    type: string;
+    pluralType: string;
 }

@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainPageComponent implements OnInit {
 
-    public categories: Array<string> = ['watch', 'wristband'];
+    public categories: Array<string> = ['watches', 'wristbands'];
 
     constructor() { }
 

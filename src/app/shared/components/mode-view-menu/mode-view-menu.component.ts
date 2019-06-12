@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-mode-view-menu',
@@ -18,10 +19,14 @@ export class ModeViewMenuComponent implements OnInit {
 
     public viewMode: string = 'grid';
 
+    public header: string = '';
+
     constructor(
+        private route: ActivatedRoute
     ) { }
 
     public ngOnInit(): void {
+        this.header = this.route.snapshot.url[0].path;
     }
 
     public orderItems(order: string): void {
