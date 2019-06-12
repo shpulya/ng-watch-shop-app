@@ -171,7 +171,7 @@ export class CartService {
     private parseUniqueId(uniqueId: string): IShortItemInfo {
         return {
             id: parseInt(uniqueId.slice(0, uniqueId.indexOf('#')), 10),
-            type: uniqueId.slice(uniqueId.indexOf('#'), uniqueId.length - 1)
+            type: uniqueId.slice(uniqueId.indexOf('#'))
         };
     }
 }

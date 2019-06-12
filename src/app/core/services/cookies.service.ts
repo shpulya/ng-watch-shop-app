@@ -27,7 +27,6 @@ export class CookiesService {
         const expires: string = 'expires=' + date.toUTCString();
 
         date.setTime(date.getTime() + expireDays * 24 * 60 * 60 * 1000);
-
         document.cookie = `${name}=${value};${expires}${path.length > 0 ? '; path=' + path : ''}`;
     }
 }
