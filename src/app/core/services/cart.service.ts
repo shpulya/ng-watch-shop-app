@@ -148,7 +148,9 @@ export class CartService {
                         }
                     })
                 ;
-            } else {
+            }
+
+            if (this.parseUniqueId(item[0]).type === 'wristband') {
                 this.wristbandsService
                     .getWristbandById(this.parseUniqueId(item[0]).id)
                     .subscribe((i: IItem | null) => {
@@ -169,7 +171,7 @@ export class CartService {
 
         return {
             id: parseInt(uniqueId.slice(0, uniqueId.indexOf('#')), 10),
-            type: uniqueId.slice(uniqueId.indexOf('#'))
+            type: uniqueId.slice(uniqueId.indexOf('#') + 1)
         };
     }
 }
