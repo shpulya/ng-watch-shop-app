@@ -57,3 +57,8 @@ export interface IType {
     type: string;
     pluralType: string;
 }
+
+export interface ICookieItem {
+    id: string;
+    count: number;
+}

@@ -89,9 +89,6 @@ export class CartService {
     public increaseCountItem(i: IShortItemInfo): void {
         const items: TCartMap = this.items$.getValue();
         const item = items.get(`${i.id}#${i.type}`);
-        console.log(`${i.id}#${i.type}`);
-        console.log('item', item);
-        console.log('items', items);
 
         if (!item) {
             return;
@@ -137,15 +134,15 @@ export class CartService {
         const cookiesItems = JSON.parse(this.cookieService.getCookie('cartItems') || '[]');
         const itemsMap: TCartMap = new Map<string, ICart>();
 
-        cookiesItems.forEach((count: number, id: string) => {
-            if (this.parseUniqueId(id).type === 'watch') {
+        cookiesItems.forEach((item: Array<any>) => {
+            if (this.parseUniqueId(item[0]).type === 'watch') {
                 this.watchesService
-                    .getWatchById(this.parseUniqueId(id).id)
+                    .getWatchById(this.parseUniqueId(item[0]).id)
                     .subscribe((i: IItem | null) => {
                         if (i) {
                             itemsMap.set(`${i.id}#${i.type}`, {
                                 item: i,
-                                count: count
+                                count: item[1]
                             });
                             this.items$.next(itemsMap);
                         }
@@ -153,12 +150,12 @@ export class CartService {
                 ;
             } else {
                 this.wristbandsService
-                    .getWristbandById(this.parseUniqueId(id).id)
+                    .getWristbandById(this.parseUniqueId(item[0]).id)
                     .subscribe((i: IItem | null) => {
                         if (i) {
                             itemsMap.set(`${i.id}#${i.type}`, {
                                 item: i,
-                                count: count
+                                count: item[1]
                             });
                             this.items$.next(itemsMap);
                         }
@@ -169,6 +166,7 @@ export class CartService {
     }
 
     private parseUniqueId(uniqueId: string): IShortItemInfo {
+
         return {
             id: parseInt(uniqueId.slice(0, uniqueId.indexOf('#')), 10),
             type: uniqueId.slice(uniqueId.indexOf('#'))

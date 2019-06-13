@@ -4,6 +4,14 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class CookiesService {
+    public setCookie(name: string, value: string, expireDays: number, path: string = ''): void {
+        const date: Date = new Date();
+        let expires: string;
+
+        date.setTime(date.getTime() + expireDays * 24 * 60 * 60 * 1000);
+        expires = 'expires=' + date.toUTCString();
+        document.cookie = `${name}=${value};${expires};${path.length > 0 ? '; path=' + path : ''}`;
+    }
 
     public getCookie(name: string): string {
         const cookiesArr: Array<string> = document.cookie.split(';');
@@ -20,13 +28,5 @@ export class CookiesService {
         }
 
         return '';
-    }
-
-    public setCookie(name: string, value: string, expireDays: number, path: string = ''): void {
-        const date: Date = new Date();
-        const expires: string = 'expires=' + date.toUTCString();
-
-        date.setTime(date.getTime() + expireDays * 24 * 60 * 60 * 1000);
-        document.cookie = `${name}=${value};${expires}${path.length > 0 ? '; path=' + path : ''}`;
     }
 }
