@@ -23,7 +23,7 @@ export class FiltersService {
         });
 
         this.router.navigate(
-            ['.'],
+            [this.router.url.split('?')[0]],
             {
                 queryParams: { categories: JSON.stringify(categories) },
                 queryParamsHandling: 'merge'
@@ -33,7 +33,7 @@ export class FiltersService {
 
     public setPriceToUrl(price: string): void {
         this.router.navigate(
-            [this.router.url.split('?')[0] ],
+            [this.router.url.split('?')[0]],
             {
                 queryParams: { price: price },
                 queryParamsHandling: 'merge',

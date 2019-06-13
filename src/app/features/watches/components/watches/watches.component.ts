@@ -53,6 +53,7 @@ export class WatchesComponent implements OnInit, OnDestroy {
 
     public onCategoriesFilter(filtersMap: TFilterMap): void {
         this.categoriesFilter = filtersMap;
+        this.filteredItems = [...this.watches];
         this.categoriesFilter.forEach((values: Set<string | number>, category: keyof IWatchDetails) => {
             this.filteredItems = this.filteredItems.filter((watch: IWatch) => values.has(watch[category]));
         });

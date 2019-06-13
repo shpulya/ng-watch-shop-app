@@ -53,6 +53,7 @@ export class WristbandsComponent implements OnInit, OnDestroy {
 
     public onCategoriesFilter(filtersMap: TFilterMap): void {
         this.categoriesFilter = filtersMap;
+        this.filteredItems = [...this.wristbands];
         this.categoriesFilter.forEach((values: Set<string | number>, category: keyof IWristbandDetails) => {
             this.filteredItems = this.filteredItems.filter((wristband: IWristband) => values.has(wristband[category]));
         });
