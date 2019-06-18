@@ -4,10 +4,10 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { ItemsListComponent } from '../../../../shared/components/items-list/items-list.component';
-import { IPrice, IWatch, IWatchDetails } from '../../../../app.models';
+import { IPrice, IWatch, IFilter } from '../../../../app.models';
 import { WatchesService } from '../../services/watches.service';
 
-type TFilterMap = Map<keyof IWatchDetails, Set<string | number>>;
+type TFilterMap = Map<string, Set<string | number>>;
 
 @Component({
     selector: 'app-watches',
@@ -27,6 +27,33 @@ export class WatchesComponent implements OnInit, OnDestroy {
 
     public priceFilter!: IPrice;
 
+    public config: Array<IFilter> = [
+        {
+            name: 'manufacturer',
+            displayName: 'Manufacturer',
+            showFilter: false
+        }, {
+            name: 'screenSize',
+            displayName: 'Screen Size',
+            showFilter: false
+        }, {
+            name: 'screenType',
+            displayName: 'Screen Type',
+            showFilter: false
+        }, {
+            name: 'os',
+            displayName: 'OS',
+            showFilter: false
+        }, {
+            name: 'ramSize',
+            displayName: 'RAM Size',
+            showFilter: false
+        }, {
+            name: 'romSize',
+            displayName: 'Internal Memory',
+            showFilter: false
+        }];
+
     private destroy$: Subject<void> = new Subject();
 
     constructor(
@@ -38,8 +65,8 @@ export class WatchesComponent implements OnInit, OnDestroy {
         this.route.data
             .pipe(takeUntil(this.destroy$))
             .subscribe((data: any) => {
-                if (data.watches) {
-                    this.watches = data.watches;
+                if (data.items) {
+                    this.watches = data.items;
                     this.filteredItems = [...this.watches];
                 }
             })
@@ -54,8 +81,8 @@ export class WatchesComponent implements OnInit, OnDestroy {
     public onCategoriesFilter(filtersMap: TFilterMap): void {
         this.categoriesFilter = filtersMap;
         this.filteredItems = [...this.watches];
-        this.categoriesFilter.forEach((values: Set<string | number>, category: keyof IWatchDetails) => {
-            this.filteredItems = this.filteredItems.filter((watch: IWatch) => values.has(watch[category]));
+        this.categoriesFilter.forEach((values: Set<string | number>, category: string) => {
+            this.filteredItems = this.filteredItems.filter((watch: IWatch) => values.has(watch[<keyof IWatch>category]));
         });
         this.itemsListRef.selectPage(1, this.filteredItems);
     }

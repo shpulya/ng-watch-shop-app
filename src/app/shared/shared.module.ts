@@ -6,6 +6,10 @@ import { PriceTagComponent } from './components/price-tag/price-tag.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ItemDetailComponent } from './components/item-detail/item-detail.component';
+import { ItemsGridViewComponent } from './components/items-grid-view/items-grid-view.component';
+import { ItemsListViewComponent } from './components/items-list-view/items-list-view.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
 
 @NgModule({
     declarations: [
@@ -13,7 +17,11 @@ import { RouterModule } from '@angular/router';
         ModeViewMenuComponent,
         PaginationComponent,
         PriceTagComponent,
-        TooltipComponent
+        TooltipComponent,
+        ItemDetailComponent,
+        ItemsListViewComponent,
+        ItemsGridViewComponent,
+        SidenavComponent
     ],
     imports: [
         CommonModule,
@@ -25,7 +33,11 @@ import { RouterModule } from '@angular/router';
         PaginationComponent,
         PriceTagComponent,
         TooltipComponent,
-        RouterModule
+        RouterModule,
+        ItemDetailComponent,
+        ItemsGridViewComponent,
+        SidenavComponent,
+        ItemsListViewComponent
     ]
 })
 export class SharedModule {}

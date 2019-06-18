@@ -5,46 +5,46 @@ import { WatchesComponent } from './features/watches/components/watches/watches.
 import { WatchDetailComponent } from './features/watches/components/watch-detail/watch-detail.component';
 import { WatchesResolver } from './features/watches/resolvers/watches.resolver';
 import { WatchDetailsResolver } from './features/watches/resolvers/watch-details.resolver';
-import { SearchedWatchesComponent } from './features/watches/components/searched-watches/searched-watches.component';
 import { PageNotFoundComponent } from './core/components/page-not-found/page-not-found.component';
 import { WristbandsComponent } from './features/wristbands/components/wristbands/wristbands.component';
 import { WristbandsResolver } from './features/wristbands/resolvers/wristbands.resolver';
 import { WristbandDetailComponent } from './features/wristbands/components/wristband-detail/wristband-detail.component';
 import { WristbandDetailsResolver } from './features/wristbands/resolvers/wristband-details.resolver';
 import { MainPageComponent } from './core/components/main-page/main-page.component';
+import { SearchedItemsComponent } from './core/components/searched-items/searched-items.component';
 
 const routes: Routes = [
     {
         path: 'watches',
         component: WatchesComponent,
         resolve: {
-            watches: WatchesResolver
+            items: WatchesResolver
         }
     },
     {
-        path: 'watch/:watchId',
+        path: 'watch/:itemId',
         component: WatchDetailComponent,
         resolve: {
-            watch: WatchDetailsResolver
+            item: WatchDetailsResolver
         }
     },
     {
         path: 'wristbands',
         component: WristbandsComponent,
         resolve: {
-            wristbands: WristbandsResolver
+            items: WristbandsResolver
         }
     },
     {
-        path: 'wristband/:wristbandId',
+        path: 'wristband/:itemId',
         component: WristbandDetailComponent,
         resolve: {
-            wristband: WristbandDetailsResolver
+            item: WristbandDetailsResolver
         }
     },
     {
         path: 'searched',
-        component: SearchedWatchesComponent,
+        component: SearchedItemsComponent,
     },
     { path: '',
         component: MainPageComponent,

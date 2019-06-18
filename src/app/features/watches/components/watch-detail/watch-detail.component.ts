@@ -1,17 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
-
-import { WatchesService } from '../../services/watches.service';
-import { IWatch } from '../../../../app.models';
-import { CartService } from '../../../../core/services/cart.service';
 import { takeUntil } from 'rxjs/operators';
+
+import { IWatch } from '../../../../app.models';
 
 @Component({
     selector: 'app-watch-detail',
-    templateUrl: './watch-detail.component.html',
-    styleUrls: ['./watch-detail.component.scss']
+    templateUrl: './watch-detail.component.html'
 })
 export class WatchDetailComponent implements OnInit, OnDestroy {
 
@@ -22,14 +18,12 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject();
 
     constructor(
-        private route: ActivatedRoute,
-        private watchesService: WatchesService,
-        private cartService: CartService
+        private route: ActivatedRoute
     ) {}
 
     public ngOnInit(): void {
         this.route.data.subscribe((data) => {
-            this.watch = data.watch;
+            this.watch = data.item;
 
             this.route.queryParams
                 .pipe(takeUntil(this.destroy$))
@@ -48,9 +42,5 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
-    }
-
-    public addWatchToCart(watch: IWatch): void {
-        this.cartService.addItem(watch);
     }
 }

@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { CookiesService } from './cookies.service';
-import { ICart, IItem, IShortItemInfo, IType } from '../../app.models';
+import { ICart, IItem, IShortItemInfo, ItemType, IType } from '../../app.models';
 import { WatchesService } from '../../features/watches/services/watches.service';
 import { WristbandsService } from '../../features/wristbands/services/wristbands.service';
+import { ItemsFactoryService } from './items-factory.service';
 
 type TCartMap = Map<string, ICart> ;
 
@@ -31,7 +32,8 @@ export class CartService {
     constructor(
         private cookieService: CookiesService,
         private watchesService: WatchesService,
-        private wristbandsService: WristbandsService
+        private wristbandsService: WristbandsService,
+        private itemsFactoryService: ItemsFactoryService
     ) {
         this.receiveCookiesItems();
     }
@@ -134,36 +136,39 @@ export class CartService {
         const cookiesItems = JSON.parse(this.cookieService.getCookie('cartItems') || '[]');
         const itemsMap: TCartMap = new Map<string, ICart>();
 
-        cookiesItems.forEach((item: Array<any>) => {
-            if (this.parseUniqueId(item[0]).type === 'watch') {
-                this.watchesService
-                    .getWatchById(this.parseUniqueId(item[0]).id)
-                    .subscribe((i: IItem | null) => {
-                        if (i) {
-                            itemsMap.set(`${i.id}#${i.type}`, {
-                                item: i,
-                                count: item[1]
-                            });
-                            this.items$.next(itemsMap);
-                        }
-                    })
-                ;
-            }
+        cookiesItems.forEach((items: [string, number]) => {
+            const parsedId = this.parseUniqueId(items[0]);
+            const itemsService = this.itemsFactoryService.getService(<ItemType>parsedId.type);
 
-            if (this.parseUniqueId(item[0]).type === 'wristband') {
-                this.wristbandsService
-                    .getWristbandById(this.parseUniqueId(item[0]).id)
-                    .subscribe((i: IItem | null) => {
-                        if (i) {
-                            itemsMap.set(`${i.id}#${i.type}`, {
-                                item: i,
-                                count: item[1]
-                            });
-                            this.items$.next(itemsMap);
-                        }
-                    })
-                ;
-            }
+            // if (this.parseUniqueId(items[0]).type === 'watch') {
+            itemsService
+                .getItemById(parsedId.id)
+                .subscribe((i: IItem | null) => {
+                    if (i) {
+                        itemsMap.set(`${i.id}#${i.type}`, {
+                            item: i,
+                            count: items[1]
+                        });
+                        this.items$.next(itemsMap);
+                    }
+                })
+            ;
+            // }
+            //
+            // if (this.parseUniqueId(items[0]).type === 'wristband') {
+            //     this.wristbandsService
+            //         .getItemById(this.parseUniqueId(items[0]).id)
+            //         .subscribe((i: IItem | null) => {
+            //             if (i) {
+            //                 itemsMap.set(`${i.id}#${i.type}`, {
+            //                     item: i,
+            //                     count: items[1]
+            //                 });
+            //                 this.items$.next(itemsMap);
+            //             }
+            //         })
+            //     ;
+            // }
         });
     }
 

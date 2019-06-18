@@ -1,21 +1,16 @@
-import { Injectable, Injector } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-
-import { IWristband } from '../../../app.models';
-
-type TFilterMap = Map<keyof IWristband, Set<string | number>>;
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
 })
-export class FiltersService {
+export abstract class FiltersService {
 
     constructor(
-        private router: Router,
-        private route: ActivatedRoute
+        private router: Router
     ) {}
 
-    public setCategoriesToUrl(categoriesMap: TFilterMap): void {
+    public setCategoriesToUrl(categoriesMap: Map<string, Set<string | number>>): void {
         const categories = Object.create(null);
 
         categoriesMap.forEach((value: Set<string | number>, key: string) => {

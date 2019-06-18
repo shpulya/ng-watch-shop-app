@@ -4,7 +4,6 @@ import { WristbandsViewController } from '../wristbands-view.controller';
 
 @Component({
     selector: 'app-wristbands-list-view',
-    templateUrl: './wristbands-list-view.component.html',
-    styleUrls: ['./wristbands-list-view.component.scss']
+    templateUrl: './wristbands-list-view.component.html'
 })
 export class WristbandsListViewComponent extends WristbandsViewController {}

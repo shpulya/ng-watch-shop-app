@@ -1,7 +1,9 @@
 <div class="body">
     <app-sidenav
         (categoriesUpdateEvent)="onCategoriesFilter($event)"
-        (priceUpdateEvent)="onPriceFilter($event)">
+        (priceUpdateEvent)="onPriceFilter($event)"
+        [config]="config"
+    >
     </app-sidenav>
 
     <div class="main-content">
@@ -20,7 +22,8 @@
             <ng-template #lineViewItem let-watch let-queryParams="queryParams">
                 <app-watches-list-view
                     [watch]="watch"
-                    [queryURLParams]="queryParams">
+                    [queryURLParams]="queryParams"
+                >
                 </app-watches-list-view>
             </ng-template>
         </app-items-list>

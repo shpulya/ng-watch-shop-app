@@ -4,10 +4,10 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { ItemsListComponent } from '../../../../shared/components/items-list/items-list.component';
-import { IPrice, IWristband, IWristbandDetails } from '../../../../app.models';
+import { IFilter, IPrice, IWristband } from '../../../../app.models';
 import { WristbandsService } from '../../services/wristbands.service';
 
-type TFilterMap = Map<keyof IWristbandDetails, Set<string | number>>;
+type TFilterMap = Map<string, Set<string | number>>;
 
 @Component({
     selector: 'app-watches',
@@ -27,6 +27,29 @@ export class WristbandsComponent implements OnInit, OnDestroy {
 
     public priceFilter!: IPrice;
 
+    public config: Array<IFilter> = [
+        {
+            name: 'fitFor',
+            displayName: 'Fit For',
+            showFilter: false
+        }, {
+            name: 'material',
+            displayName: 'Material',
+            showFilter: false
+        }, {
+            name: 'width',
+            displayName: 'Width',
+            showFilter: false
+        }, {
+            name: 'length',
+            displayName: 'Length',
+            showFilter: false
+        }, {
+            name: 'color',
+            displayName: 'Color',
+            showFilter: false
+        }];
+
     private destroy$: Subject<void> = new Subject();
 
     constructor(
@@ -38,8 +61,8 @@ export class WristbandsComponent implements OnInit, OnDestroy {
         this.route.data
             .pipe(takeUntil(this.destroy$))
             .subscribe((data: any) => {
-                if (data.wristbands) {
-                    this.wristbands = data.wristbands;
+                if (data.items) {
+                    this.wristbands = data.items;
                     this.filteredItems = [...this.wristbands];
                 }
             })
@@ -54,8 +77,8 @@ export class WristbandsComponent implements OnInit, OnDestroy {
     public onCategoriesFilter(filtersMap: TFilterMap): void {
         this.categoriesFilter = filtersMap;
         this.filteredItems = [...this.wristbands];
-        this.categoriesFilter.forEach((values: Set<string | number>, category: keyof IWristbandDetails) => {
-            this.filteredItems = this.filteredItems.filter((wristband: IWristband) => values.has(wristband[category]));
+        this.categoriesFilter.forEach((values: Set<string | number>, category: string) => {
+            this.filteredItems = this.filteredItems.filter((wristband: IWristband) => values.has(wristband[<keyof IWristband>category]));
         });
         this.itemsListRef.selectPage(1, this.filteredItems);
     }

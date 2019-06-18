@@ -1,0 +1,38 @@
+<div class="item">
+    <div class="item__img">
+        <img
+            src="../../../../assets/img/{{item!.image}}"
+            alt="{{item!.image}}">
+    </div>
+    <div class="item__data">
+        <a [routerLink]="''"
+           [queryParams]="queryParams">
+            Back to catalog
+        </a>
+        <span class="item__data__name">{{item!.name}}</span>
+
+        <div class="item__data__specifications">
+            <ng-content>
+            </ng-content>
+        </div>
+
+        <div class="item__data__description">
+            {{item!.description}}
+        </div>
+    </div>
+
+    <div class="item__price">
+        <app-price-tag [price]="item!.price" [large]="true"></app-price-tag>
+    </div>
+
+    <div class="item__cart">
+        <img
+            src="../../../../assets/img/cart.png"
+            alt="Add to cart" id="cart"
+            (click)="addItemToCart(item); tooltip.show()">
+        <label for="cart" (click)="addItemToCart(item); tooltip.show()">
+            Add to cart
+        </label>
+        <app-tooltip #tooltip [message]="'Added to cart'"></app-tooltip>
+    </div>
+</div>

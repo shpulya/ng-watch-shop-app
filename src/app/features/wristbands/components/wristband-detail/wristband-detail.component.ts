@@ -1,17 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
-
-import { WristbandsService } from '../../services/wristbands.service';
-import { IWristband } from '../../../../app.models';
-import { CartService } from '../../../../core/services/cart.service';
 import { takeUntil } from 'rxjs/operators';
+
+import { IWristband } from '../../../../app.models';
 
 @Component({
     selector: 'app-wristband-detail',
-    templateUrl: './wristband-detail.component.html',
-    styleUrls: ['./wristband-detail.component.scss']
+    templateUrl: './wristband-detail.component.html'
 })
 export class WristbandDetailComponent implements OnInit, OnDestroy {
 
@@ -22,14 +18,12 @@ export class WristbandDetailComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject();
 
     constructor(
-        private route: ActivatedRoute,
-        private wristbandsService: WristbandsService,
-        private cartService: CartService
+        private route: ActivatedRoute
     ) {}
 
     public ngOnInit(): void {
         this.route.data.subscribe((data) => {
-            this.wristband = data.wristband;
+            this.wristband = data.item;
 
             this.route.queryParams
                 .pipe(takeUntil(this.destroy$))
@@ -48,9 +42,5 @@ export class WristbandDetailComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
-    }
-
-    public addWristbandToCart(wristband: IWristband): void {
-        this.cartService.addItem(wristband);
     }
 }

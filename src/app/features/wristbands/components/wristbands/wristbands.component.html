@@ -1,7 +1,9 @@
 <div class="body">
     <app-sidenav
         (categoriesUpdateEvent)="onCategoriesFilter($event)"
-        (priceUpdateEvent)="onPriceFilter($event)">
+        (priceUpdateEvent)="onPriceFilter($event)"
+        [config]="config"
+    >
     </app-sidenav>
 
     <div class="main-content">

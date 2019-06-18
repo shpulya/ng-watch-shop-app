@@ -43,10 +43,10 @@
         <ng-container *ngIf="showFilterCategories">
             <li
                 *ngFor="let filter of filtersCategories; let i = index"
-                [ngClass]="{'close': !filtersConfig[i].showFilter}"
+                [ngClass]="{'close': !config[i].showFilter}"
             >
                 <div class="filter-header"
-                     (click)="filtersConfig[i].showFilter = !filtersConfig[i].showFilter">{{filtersConfig[i].displayName}}
+                     (click)="config[i].showFilter = !config[i].showFilter">{{config[i].displayName}}
                     <div class="arrow"></div>
                 </div>
 
@@ -62,7 +62,7 @@
                     <span class="checkmark"></span>
                     {{property}}
                 </label>
-                <hr *ngIf="!filtersConfig[i].showFilter">
+                <hr *ngIf="!config[i].showFilter">
             </li>
         </ng-container>
     </ul>

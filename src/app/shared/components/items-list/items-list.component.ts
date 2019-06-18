@@ -29,7 +29,7 @@ export class ItemsListComponent implements OnInit, OnChanges {
 
     public queryParams!: Params;
 
-    public countOnGrid: number = 4;
+    public countOnGrid: number = 10;
 
     public countOnLine: number = 5;
 
@@ -74,11 +74,12 @@ export class ItemsListComponent implements OnInit, OnChanges {
         ;
 
         this.calculateItemsOnGrid();
-
         this.queryParams = this.route.snapshot.queryParams;
+
         if (this.queryParams['view']) {
             this.viewMode = this.queryParams['view'];
         }
+
         if (this.queryParams['sort']) {
             this.orderBy = this.queryParams['sort'];
         }

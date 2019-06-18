@@ -1,3 +1,9 @@
+
+export enum ItemType {
+    Watch = 'watch',
+    Wristband = 'wristband'
+}
+
 export interface IShortItemInfo {
     id: number;
     type: string;
@@ -36,14 +42,8 @@ export interface IPrice {
     to: number;
 }
 
-export interface IWatchFilter {
-    name: keyof IWatchDetails;
-    displayName: string;
-    showFilter: boolean;
-}
-
-export interface IWristbandFilter {
-    name: keyof IWristbandDetails;
+export interface IFilter {
+    name: string;
     displayName: string;
     showFilter: boolean;
 }
@@ -56,9 +56,4 @@ export interface ICart {
 export interface IType {
     type: string;
     pluralType: string;
-}
-
-export interface ICookieItem {
-    id: string;
-    count: number;
 }

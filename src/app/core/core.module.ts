@@ -7,6 +7,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
+import { SearchedItemsComponent } from './components/searched-items/searched-items.component';
+import { WatchesModule } from '../features/watches/watches.module';
+import { WristbandsModule } from '../features/wristbands/wristbands.module';
 
 @NgModule({
     declarations: [
@@ -14,11 +17,14 @@ import { MainPageComponent } from './components/main-page/main-page.component';
         HeaderComponent,
         LoadingComponent,
         PageNotFoundComponent,
-        MainPageComponent
+        MainPageComponent,
+        SearchedItemsComponent
     ],
     imports: [
         CommonModule,
-        SharedModule
+        SharedModule,
+        WatchesModule,
+        WristbandsModule
     ],
     exports: [
         CartComponent,

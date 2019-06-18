@@ -2,7 +2,7 @@
     {
         "id": 1,
         "type": "watch",
-        "image": "samsung-gear-s-sport.jpg",
+        "image": "watches/samsung-gear-s-sport.jpg",
         "name": "Samsung Gear S Sport",
         "description": "Get motivated to move more, eat better, and live a healthy life. The Gear Sport tracks your fitness and diet, keeping you on the right path to reach your goals. It’s as stylish as it is functional.",
         "manufacturer": "Samsung",
@@ -16,7 +16,7 @@
     {
         "id": 2,
         "type": "watch",
-        "image": "samsung-gear-s3-classic.jpg",
+        "image": "watches/samsung-gear-s3-classic.jpg",
         "name": "Samsung Gear S3 Classic",
         "description": "The Gear S3 has the aesthetics of a truly premium watch with advanced features built right into the watch design. That's why it's so easy and effortless to use the Gear S3. It's also built for you to go days without needing your phone or to recharge. You get to feel free with the Gear S3.",
         "manufacturer": "Samsung",
@@ -30,7 +30,7 @@
     {
         "id": 3,
         "type": "watch",
-        "image": "samsung-gear-s3-classic.jpg",
+        "image": "watches/samsung-gear-s3-classic.jpg",
         "name": "LG Watch Sport",
         "description": "The LG Watch Sport is the brawny and brainy smartwatch that’s able to keep up with all of your gym workouts, and smart enough to make calls and use Google Assistant with or without your phone in tow. It has the best specs of any Google watch so far and runs Android Wear 2.0. We’d only like it better if it had longer battery life and more apps.",
         "manufacturer": "LG",
@@ -44,7 +44,7 @@
     {
         "id": 4,
         "type": "watch",
-        "image": "moto-360.jpg",
+        "image": "watches/moto-360.jpg",
         "name": "Moto 360",
         "description": "Now you have more control over what you share with your apps. With the new permissions model, you can modify the permissions granted to apps at any time from the settings menu.",
         "manufacturer": "Motorola",
@@ -58,7 +58,7 @@
     {
         "id": 5,
         "type": "watch",
-        "image": "moto-360-sport.jpg",
+        "image": "watches/moto-360-sport.jpg",
         "name": "Moto 360 Sport",
         "description": "The Moto 360 Sport looks like a 'sporty' version of the Moto 360 (2015), but it's much more than that.",
         "manufacturer": "Motorola",
@@ -72,7 +72,7 @@
     {
         "id": 6,
         "type": "watch",
-        "image": "huawei-watch.jpg",
+        "image": "watches/huawei-watch.jpg",
         "name": "Huawei Watch",
         "description": "The Huawei Watch is not perfect, but it is a looker and edges closer to earning the \"smartwatch I'd actually wear\" title.",
         "manufacturer": "Huawei",
@@ -86,7 +86,7 @@
     {
         "id": 7,
         "type": "watch",
-        "image": "huawei-watch-2.jpg",
+        "image": "watches/huawei-watch-2.jpg",
         "name": "Huawei Watch 2",
         "description": "Standalone GPS connectivity gives you the freedom to get away from your phone once in a while. Be guided and motivated by the professional running coach feature. HUAWEI WATCH 2 comes in sports and classic watch styles.",
         "manufacturer": "Huawei",
@@ -100,7 +100,7 @@
     {
         "id": 8,
         "type": "watch",
-        "image": "apple-watch-series-3.jpg",
+        "image": "watches/apple-watch-series-3.jpg",
         "name": "Apple Watch Series 3",
         "description": "Take a call when you’re out on the water. Ask Siri to send a message. Stream your favorite songs on your run. And do it all while leaving your phone behind. Apple Watch Series 3 with cellular. Now you have the freedom to go with just your watch.",
         "manufacturer": "Apple",
@@ -114,7 +114,7 @@
     {
         "id": 9,
         "type": "watch",
-        "image": "samsung-gear-s3-frontier.jpg",
+        "image": "watches/samsung-gear-s3-frontier.jpg",
         "name": "Samsung Gear S3 Frontier",
         "description": "The Gear S3 has the aesthetics of a truly premium watch with advanced features built right into the watch design. That's why it's so easy and effortless to use the Gear S3. It's also built for you to go days without needing your phone or to recharge. You get to feel free with the Gear S3.",
         "manufacturer": "Samsung",
@@ -128,7 +128,7 @@
     {
         "id": 10,
         "type": "watch",
-        "image": "asus-zenwatch-3.jpg",
+        "image": "watches/asus-zenwatch-3.jpg",
         "name": "Asus ZenWatch 2",
         "description": "View timely information at a glance and get things done with a simple touch or voice command.",
         "manufacturer": "Asus",
@@ -142,7 +142,7 @@
     {
         "id": 11,
         "type": "watch",
-        "image": "asus-zenwatch-3.jpg",
+        "image": "watches/asus-zenwatch-3.jpg",
         "name": "Asus ZenWatch 3",
         "description": "Convenient, fast, and fun watch-to-watch communication. Exchange short messages, emojis, and drawings with friends and family, right from your wrist.",
         "manufacturer": "Asus",

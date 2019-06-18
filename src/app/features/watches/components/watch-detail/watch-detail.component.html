@@ -1,38 +1,4 @@
-<div class="watch">
-    <div class="watch__img">
-        <img
-            src="../../../../assets/img/watches/{{watch!.image}}"
-            alt="{{watch!.image}}">
-    </div>
-    <div class="watch__data">
-        <a [routerLink]="''"
-           [queryParams]="queryParams">
-            Back to catalog
-        </a>
-        <span class="watch__data__name">{{watch!.name}}</span>
-
-        <div class="watch__data__specifications">
-            {{watch!.os}}, Screen size: {{watch!.screenSize}}, Screen type: {{watch!.screenType}}, {{watch!.ramSize}}
-            RAM, {{watch!.romSize}} ROM
-        </div>
-
-        <div class="watch__data__description">
-            {{watch!.description}}
-        </div>
-    </div>
-
-    <div class="watch__price">
-        <app-price-tag [price]="watch!.price" [large]="true"></app-price-tag>
-    </div>
-
-    <div class="watch__cart">
-        <img
-            src="../../../../assets/img/cart.png"
-            alt="Add to cart" id="cart"
-            (click)="addWatchToCart(watch); tooltip.show()">
-        <label for="cart" (click)="addWatchToCart(watch); tooltip.show()">
-            Add to cart
-        </label>
-        <app-tooltip #tooltip [message]="'Added to cart'"></app-tooltip>
-    </div>
-</div>
+<app-item-detail [item]="watch">
+    {{watch!.os}}, Screen size: {{watch!.screenSize}}, Screen type: {{watch!.screenType}}, {{watch!.ramSize}}
+    RAM, {{watch!.romSize}} ROM
+</app-item-detail>

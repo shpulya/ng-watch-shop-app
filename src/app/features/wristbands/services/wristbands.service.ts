@@ -1,43 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-import { IWristband } from '../../../app.models';
+import { ItemType, IWristband } from '../../../app.models';
+import { ItemsService } from '../../../core/services/items.service';
 
-@Injectable({
-    providedIn: 'root'
-})
-export class WristbandsService {
+@Injectable()
+export class WristbandsService extends ItemsService<IWristband> {
 
-    constructor(
-        private http: HttpClient
-    ) {}
+    public type: ItemType = ItemType.Wristband;
 
-    public getWristbands(): Observable<Array<IWristband>> {
+    public getItems(): Observable<Array<IWristband>> {
         return this.http.get<Array<IWristband>>('assets/data/wristbands.json');
-    }
-
-    public getWristbandById(id: number): Observable<IWristband | null> {
-        return this.getWristbands()
-            .pipe(map((watches: Array<IWristband>) => {
-                const filteredWatches = watches.filter((watch: IWristband) => watch.id === id);
-
-                return (filteredWatches.length > 0) ? filteredWatches[0] : null;
-            }));
-    }
-
-    public getSearchedWristbandsByName(name: string): Observable<Array<IWristband>> {
-        const pattern = new RegExp(`\\b` + name.toLowerCase());
-
-        return this.getWristbands()
-            .pipe(map((watches: Array<IWristband>) => {
-                if (!name) {
-                    return [];
-                }
-
-                return watches
-                    .filter((watch: IWristband) => watch.name.toLowerCase().match(pattern));
-            }));
     }
 }

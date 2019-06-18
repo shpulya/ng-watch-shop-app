@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { CartService } from '../../services/cart.service';
-import { WatchesService } from '../../../features/watches/services/watches.service';
 import { IItem } from '../../../app.models';
-import { WristbandsService } from '../../../features/wristbands/services/wristbands.service';
+import { ItemsService } from '../../services/items.service';
+import { ITEMS_SERVICES } from '../../services/items-factory.service';
 
 @Component({
     selector: 'app-header',
@@ -28,11 +28,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     private destroy$: Subject<void> = new Subject();
 
+    private services: Array<ItemsService> = [];
+
     constructor(
         private cartService: CartService,
-        private watchesService: WatchesService,
-        private wristbandsService: WristbandsService
-    ) {}
+        @Inject(ITEMS_SERVICES) services: Array<ItemsService>
+    ) {
+        for (const service of services) {
+            this.services.push(service);
+        }
+    }
 
     public ngOnInit(): void {
         this.cartService.items$
@@ -49,34 +54,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 this.showExtraItems = false;
                 this.overlay = true;
                 this.inputText = searchText;
+                this.items = [];
 
-                this.watchesService.getSearchedWatchesByName(searchText)
-                    .pipe(
-                        takeUntil(this.destroy$)
-                    )
-                    .subscribe(
-                        (watches: Array<IItem>) => {
-                            this.items = this.items.concat(watches);
-                        },
-                        () => {
-                            alert(`Can't get items by name!`);
-                        }
-                    )
-                ;
-
-                this.wristbandsService.getSearchedWristbandsByName(searchText)
-                    .pipe(
-                        takeUntil(this.destroy$)
-                    )
-                    .subscribe(
-                        (wristbands: Array<IItem>) => {
-                            this.items = this.items.concat(wristbands);
-                        },
-                        () => {
-                            alert(`Can't get items by name!`);
-                        }
-                    )
-                ;
+                for (const service of this.services) {
+                    service.findItemsByName(searchText)
+                        .pipe(
+                            takeUntil(this.destroy$)
+                        )
+                        .subscribe(
+                            (items: Array<IItem>) => {
+                                this.items = this.items.concat(items);
+                            },
+                            () => {
+                                alert(`Can't get items by name!`);
+                            }
+                        )
+                    ;
+                }
             })
         ;
     }

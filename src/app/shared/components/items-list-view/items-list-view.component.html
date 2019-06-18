@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="watch-img-col">
+        <img
+            src="../../../../assets/img/{{item!.image}}"
+            alt="{{item!.image}}"
+            [routerLink]="['/watch/' + item.id]"
+            [queryParams]="queryURLParams">
+    </div>
+
+    <div class="container__details">
+        <div class="details-col">
+            <a [routerLink]="['/watch/' + item!.id]"
+               [queryParams]="queryURLParams">
+                {{item!.name}}
+            </a>
+            <div class="specifications">
+                <ng-content></ng-content>
+            </div>
+
+            <div class="description">
+                {{item!.description}}
+            </div>
+        </div>
+
+        <div class="price-col">
+            <app-price-tag [price]="item!.price"></app-price-tag>
+            <div class="cart">
+                <div  id="cart"><img
+                    src="../../../../../../assets/img/cart.png"
+                    alt="Add to cart"
+                    (click)="addItemToCart(item); tooltip.show()"></div>
+                <label for="cart" (click)="addItemToCart(item); tooltip.show()">
+                    Add to cart
+                </label>
+                <app-tooltip #tooltip [message]="'Added to cart'"></app-tooltip>
+            </div>
+        </div>
+    </div>
+</div>
+
