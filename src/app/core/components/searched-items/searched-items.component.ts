@@ -45,6 +45,7 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
         this.route.queryParams.subscribe(params => {
             if (this.searchedText !== params.searchedText) {
                 this.searchedText = params.searchedText;
+                this.items = [];
 
                 for (const service of this.services) {
                     service.findItemsByName(this.searchedText)

@@ -7,16 +7,14 @@
     </app-sidenav>
 
     <div class="main-content">
-        <app-items-list
-            [items]="filteredItems"
-            [gridViewItemTemplate]="gridViewItem"
-            [lineViewItemTemplate]="lineViewItem"
+        <app-items-list [items]="filteredItems"
+                        [gridViewItemTemplate]="gridViewItem"
+                        [lineViewItemTemplate]="lineViewItem"
         >
             <ng-template #gridViewItem let-watch let-queryParams="queryParams">
-                <app-watches-grid-view
-                    [watch]="watch"
-                    [queryURLParams]="queryParams">
-                </app-watches-grid-view>
+                <app-watches-grid-view [watch]="watch"
+                                       [queryURLParams]="queryParams"
+                ></app-watches-grid-view>
             </ng-template>
 
             <ng-template #lineViewItem let-watch let-queryParams="queryParams">
