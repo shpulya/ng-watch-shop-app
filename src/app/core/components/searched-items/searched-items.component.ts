@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import { IItem, IPrice } from '../../../app.models';
+import {IItem, IPrice, ItemView} from '../../../app.models';
 import { ItemsListComponent } from '../../../shared/components/items-list/items-list.component';
 import { ITEMS_SERVICES } from '../../services/items-factory.service';
 import { ItemsService } from '../../services/items.service';
@@ -29,6 +29,10 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
     public overlay: boolean = false;
 
     public priceFilter!: IPrice;
+
+    public grid: ItemView = ItemView.Grid;
+
+    public line: ItemView = ItemView.List;
 
     private services: Array<ItemsService> = [];
 

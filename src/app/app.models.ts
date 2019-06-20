@@ -4,6 +4,11 @@ export enum ItemType {
     Wristband = 'wristband'
 }
 
+export enum ItemView {
+    Grid = 'grid',
+    List = 'list'
+}
+
 export interface IShortItemInfo {
     id: number;
     type: string;

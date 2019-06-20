@@ -7,7 +7,7 @@ import { IWatch } from '../../../../app.models';
 export abstract class WatchesViewController {
 
     @Input()
-    public readonly watch!: IWatch;
+    public readonly item!: IWatch;
 
     @Input()
     public queryURLParams!: Params;

@@ -10,6 +10,7 @@ import { ItemDetailComponent } from './components/item-detail/item-detail.compon
 import { ItemsGridViewComponent } from './components/items-grid-view/items-grid-view.component';
 import { ItemsListViewComponent } from './components/items-list-view/items-list-view.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { ItemViewComponent } from './components/item-view/item-view.component';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
         ItemDetailComponent,
         ItemsListViewComponent,
         ItemsGridViewComponent,
-        SidenavComponent
+        SidenavComponent,
+        ItemViewComponent
     ],
     imports: [
         CommonModule,
@@ -37,7 +39,8 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
         ItemDetailComponent,
         ItemsGridViewComponent,
         SidenavComponent,
-        ItemsListViewComponent
+        ItemsListViewComponent,
+        ItemViewComponent
     ]
 })
 export class SharedModule {}

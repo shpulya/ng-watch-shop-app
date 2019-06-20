@@ -2,28 +2,20 @@
     <app-sidenav
         (categoriesUpdateEvent)="onCategoriesFilter($event)"
         (priceUpdateEvent)="onPriceFilter($event)"
-        [config]="config"
-    >
+        [config]="config">
     </app-sidenav>
 
     <div class="main-content">
         <app-items-list
             [items]="filteredItems"
-            [gridViewItemTemplate]="gridViewItem"
-            [lineViewItemTemplate]="lineViewItem"
-        >
-            <ng-template #gridViewItem let-watch let-queryParams="queryParams">
-                <app-wristbands-grid-view
-                    [wristband]="watch"
-                    [queryURLParams]="queryParams">
-                </app-wristbands-grid-view>
-            </ng-template>
-
-            <ng-template #lineViewItem let-watch let-queryParams="queryParams">
-                <app-wristbands-list-view
-                    [wristband]="watch"
-                    [queryURLParams]="queryParams">
-                </app-wristbands-list-view>
+            [itemTemplate]="itemTemplate">
+            <ng-template #itemTemplate let-item let-view="view" let-queryParams="queryParams">
+                <app-item-view
+                    [item]="item"
+                    [queryURLParams]="queryParams"
+                    [type]="item.type"
+                    [view]="view">
+                </app-item-view>
             </ng-template>
         </app-items-list>
     </div>

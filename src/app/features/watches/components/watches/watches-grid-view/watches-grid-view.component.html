@@ -1,3 +1,3 @@
-<app-items-grid-view [item] = watch [queryURLParams] = queryURLParams>
-    {{watch.os}}, {{watch.ramSize}} RAM, {{watch.romSize}} ROM
+<app-items-grid-view [item]="item" [queryURLParams] = queryURLParams>
+    {{item.os}}, {{item.ramSize}} RAM, {{item.romSize}} ROM
 </app-items-grid-view>

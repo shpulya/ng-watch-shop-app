@@ -16,7 +16,7 @@ export class CartService {
 
     public types: Array<IType> = [
         {
-            type: 'watch',
+            type: 'wristband',
             pluralType: 'watches'
         },
         {

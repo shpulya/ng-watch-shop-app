@@ -8,6 +8,7 @@ import { WatchesGridViewComponent } from './components/watches/watches-grid-view
 import { WatchesListViewComponent } from './components/watches/watches-list-view/watches-list-view.component';
 import { WatchesService } from './services/watches.service';
 import { ITEMS_SERVICES } from '../../core/services/items-factory.service';
+import { ITEMS_VIEW_COMPONENTS } from '../../core/services/items-view.service';
 
 @NgModule({
     declarations: [
@@ -24,12 +25,26 @@ import { ITEMS_SERVICES } from '../../core/services/items-factory.service';
         WatchesGridViewComponent,
         WatchesListViewComponent
     ],
+    entryComponents: [
+        WatchesListViewComponent,
+        WatchesGridViewComponent
+    ],
     providers: [
         WatchesService,
         {
             provide: ITEMS_SERVICES,
             useFactory: (watchesService: WatchesService) => watchesService,
             deps: [WatchesService],
+            multi: true
+        },
+        {
+            provide: ITEMS_VIEW_COMPONENTS,
+            useValue: WatchesListViewComponent,
+            multi: true
+        },
+        {
+            provide: ITEMS_VIEW_COMPONENTS,
+            useValue: WatchesGridViewComponent,
             multi: true
         }
     ]

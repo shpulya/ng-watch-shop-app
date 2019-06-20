@@ -8,26 +8,14 @@
 </div>
 
 <ng-container *ngIf="pagedItems.length">
-    <div class="container grid" *ngIf="viewMode === 'grid'">
+    <div class="container" [ngClass]="[viewMode]">
         <ng-container
             *ngFor="let item of pagedItems"
-            [ngTemplateOutlet]="gridViewItemTemplate || defaultGridViewItemTemplate"
-            [ngTemplateOutletContext]="{ $implicit: item, queryParams: queryParams }"
-        >
-            <ng-template #defaultGridViewItemTemplate let-item let-queryParams="queryParams">
-                <div>Gridded item<b>{{ item.name }}</b></div>
-            </ng-template>
-        </ng-container>
-    </div>
+            [ngTemplateOutlet]="itemTemplate || defaultLineViewItemTemplate"
+            [ngTemplateOutletContext]="{ $implicit: item, view: viewMode, queryParams: queryParams }">
 
-    <div class="container list" *ngIf="viewMode === 'list'">
-        <ng-container
-            *ngFor="let item of pagedItems"
-            [ngTemplateOutlet]="lineViewItemTemplate || defaultLineViewItemTemplate"
-            [ngTemplateOutletContext]="{ $implicit: item, queryParams: queryParams }"
-        >
-            <ng-template #defaultLineViewItemTemplate let-item let-queryParams="queryParams">
-                <div>Lined item <b>{{ item.name }}</b></div>
+            <ng-template #defaultLineViewItemTemplate let-item let-view="view" let-queryParams="queryParams">
+                <div>item {{ view }}<b>{{ item.name }}</b></div>
             </ng-template>
         </ng-container>
     </div>
@@ -36,17 +24,9 @@
 <hr *ngIf="viewMode === 'grid'">
 
 <app-pagination
-    *ngIf="itemsCount && viewMode === 'grid'"
+    *ngIf="itemsCount"
     [currentPage]="currentPage"
     [itemsCount]="itemsCount"
-    [countOnPage]="countOnGrid"
-    (pageUpdateEvent)="selectPage($event)">
-</app-pagination>
-
-<app-pagination
-    *ngIf="itemsCount && viewMode === 'list'"
-    [currentPage]="currentPage"
-    [itemsCount]="itemsCount"
-    [countOnPage]="countOnLine"
+    [countOnPage]="countOnPage"
     (pageUpdateEvent)="selectPage($event)">
 </app-pagination>

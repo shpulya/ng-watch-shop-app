@@ -7,7 +7,7 @@ import { IWristband } from '../../../../app.models';
 export abstract class WristbandsViewController {
 
     @Input()
-    public readonly wristband!: IWristband;
+    public readonly item!: IWristband;
 
     @Input()
     public queryURLParams!: Params;

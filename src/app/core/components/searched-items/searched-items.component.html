@@ -7,37 +7,15 @@
     <div class="main-content">
         <app-items-list
             [items]="filteredItems"
-            [gridViewItemTemplate]="gridViewItem"
-            [lineViewItemTemplate]="lineViewItem">
+            [itemTemplate]="itemTemplate">
 
-            <ng-template #gridViewItem let-item let-queryParams="queryParams">
-                <app-watches-grid-view
-                    *ngIf="item!.type === 'watch'"
-                    [watch]="item"
+            <ng-template #itemTemplate let-view="view" let-item let-queryParams="queryParams">
+                <app-item-view
+                    [item]="item"
                     [queryURLParams]="queryParams"
-                >
-                </app-watches-grid-view>
-                <app-wristbands-grid-view
-                    *ngIf="item!.type === 'wristband'"
-                    [wristband]="item"
-                    [queryURLParams]="queryParams"
-                >
-                </app-wristbands-grid-view>
-            </ng-template>
-
-            <ng-template #lineViewItem let-item let-queryParams="queryParams">
-                <app-watches-list-view
-                    [watch]="item"
-                    [queryURLParams]="queryParams"
-                    *ngIf="item!.type === 'watch'"
-                >
-                </app-watches-list-view>
-                <app-wristbands-list-view
-                    [wristband]="item"
-                    [queryURLParams]="queryParams"
-                    *ngIf="item!.type === 'wristband'"
-                >
-                </app-wristbands-list-view>
+                    [type]="item.type"
+                    [view]="view">
+                </app-item-view>
             </ng-template>
         </app-items-list>
     </div>
