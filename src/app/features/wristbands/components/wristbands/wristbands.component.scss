@@ -28,6 +28,10 @@
     grid-gap: 10px;
 }
 
+.empty {
+    display: none;
+}
+
 @media screen and (max-width: 600px) {
     .body {
         flex-direction: column;

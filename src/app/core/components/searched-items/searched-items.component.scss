@@ -39,6 +39,10 @@
     height: 100%;
 }
 
+.empty {
+    display: none;
+}
+
 @media screen and (max-width: 600px) {
     .body {
         flex-direction: column;
