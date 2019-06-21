@@ -1,6 +1,23 @@
-<div class="categories">
-    <div class="categories__dir" *ngFor="let category of categories" [routerLink]="category">
-        <img src="../../../../assets/img/{{category}}/main.jpg" alt="category">
-        <div class="categories__header">{{category | uppercase}}</div>
+<div class="main-page">
+    <div class="carousel">
+        <div class="left-scroll"
+             (click)="leftScroll()"></div>
+        <div class="right-scroll"
+             (click)="rightScroll()"></div>
+        <div
+            [@scrollAnimation]="{value: state, params: {left_indent: left}}"
+            class="carousel__item"
+            *ngFor="let item of items"
+            [routerLink]="['/' + item.type + '/' + item.id]">
+            <div class="carousel__item__title">{{item.name}}</div>
+            <img src="../../../../assets/img/{{item.image}}" alt="{{item.name}}">
+        </div>
+    </div>
+
+    <div class="categories">
+        <div class="categories__dir" *ngFor="let category of categories" [routerLink]="category">
+            <img src="../../../../assets/img/{{category}}/main.jpg" alt="category">
+            <div class="categories__header">{{category | uppercase}}</div>
+        </div>
     </div>
 </div>

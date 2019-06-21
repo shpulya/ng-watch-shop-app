@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { WatchesModule } from './features/watches/watches.module';
 import { WristbandsModule } from './features/wristbands/wristbands.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { WristbandsModule } from './features/wristbands/wristbands.module';
         HttpClientModule,
         CoreModule,
         WatchesModule,
-        WristbandsModule
+        WristbandsModule,
+        BrowserAnimationsModule
     ],
     bootstrap: [
         AppComponent

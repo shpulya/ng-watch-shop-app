@@ -33,7 +33,6 @@ export class ItemViewComponent implements OnChanges {
 
     public ngOnChanges(changes: SimpleChanges): void {
         const { type, view, item, queryURLParams } = changes;
-
         const setComponentBindings = () => {
             this.viewComponentRef.instance.item = this.item;
             this.viewComponentRef.instance.queryURLParams = this.queryURLParams;

@@ -3,7 +3,7 @@
         <img
             src="../../../../assets/img/{{item!.image}}"
             alt="{{item!.image}}"
-            [routerLink]="['/watch/' + item.id]"
+            [routerLink]="['/' + item.type + '/' + item.id]"
             [queryParams]="queryURLParams">
     </div>
 
