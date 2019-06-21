@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, Input, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ComponentRef, Input, OnChanges, SimpleChanges, ViewContainerRef } from '@angular/core';
 import { Params } from '@angular/router';
 
 import { ItemsViewService } from '../../../core/services/items-view.service';
@@ -9,7 +9,7 @@ import { ItemViewController } from './item-view.controller';
     selector: 'app-item-view',
     template: ''
 })
-export class ItemViewComponent implements OnInit {
+export class ItemViewComponent implements OnChanges {
 
     @Input()
     private type!: ItemType;
@@ -23,19 +23,38 @@ export class ItemViewComponent implements OnInit {
     @Input()
     private queryURLParams!: Params;
 
+    private viewComponentRef!: ComponentRef<ItemViewController<any>>;
+
     constructor(
         private viewContainerRef: ViewContainerRef,
         private componentFactoryResolver: ComponentFactoryResolver,
         private itemViewService: ItemsViewService
     ) {}
 
-    public ngOnInit(): void {
-        console.log(this.view);
-        const itemView = this.itemViewService.getComponent(this.type, this.view);
-        const factory = this.componentFactoryResolver.resolveComponentFactory(itemView);
-        const component = this.viewContainerRef.createComponent<ItemViewController<any>>(factory).instance;
+    public ngOnChanges(changes: SimpleChanges): void {
+        const { type, view, item, queryURLParams } = changes;
 
-        component.item = this.item;
-        component.queryURLParams = this.queryURLParams;
+        const setComponentBindings = () => {
+            this.viewComponentRef.instance.item = this.item;
+            this.viewComponentRef.instance.queryURLParams = this.queryURLParams;
+        };
+
+        if (type || view) {
+            this.viewContainerRef.remove(0);
+            const itemView = this.itemViewService.getComponent(this.type, this.view);
+            const factory = this.componentFactoryResolver.resolveComponentFactory(itemView);
+
+            this.viewComponentRef = this.viewContainerRef.createComponent<ItemViewController<any>>(factory);
+
+            if (this.item || this.queryURLParams) {
+                setComponentBindings();
+            }
+        }
+
+        if (item || queryURLParams) {
+            setComponentBindings();
+        }
     }
+
+
 }
