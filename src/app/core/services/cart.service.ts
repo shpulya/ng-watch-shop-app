@@ -140,7 +140,6 @@ export class CartService {
             const parsedId = this.parseUniqueId(items[0]);
             const itemsService = this.itemsFactoryService.getService(<ItemType>parsedId.type);
 
-            // if (this.parseUniqueId(items[0]).type === 'watch') {
             itemsService
                 .getItemById(parsedId.id)
                 .subscribe((i: IItem | null) => {
@@ -153,22 +152,6 @@ export class CartService {
                     }
                 })
             ;
-            // }
-            //
-            // if (this.parseUniqueId(items[0]).type === 'wristband') {
-            //     this.wristbandsService
-            //         .getItemById(this.parseUniqueId(items[0]).id)
-            //         .subscribe((i: IItem | null) => {
-            //             if (i) {
-            //                 itemsMap.set(`${i.id}#${i.type}`, {
-            //                     item: i,
-            //                     count: items[1]
-            //                 });
-            //                 this.items$.next(itemsMap);
-            //             }
-            //         })
-            //     ;
-            // }
         });
     }
 

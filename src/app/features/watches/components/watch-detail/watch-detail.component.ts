@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { IWatch } from '../../../../app.models';
+import { CookiesService } from '../../../../core/services/cookies.service';
 
 @Component({
     selector: 'app-watch-detail',
@@ -18,12 +19,14 @@ export class WatchDetailComponent implements OnInit, OnDestroy {
     private destroy$: Subject<void> = new Subject();
 
     constructor(
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private cookiesService: CookiesService
     ) {}
 
     public ngOnInit(): void {
         this.route.data.subscribe((data) => {
             this.watch = data.item;
+            this.cookiesService.setCookie('viewedItems', `watch#${data.item.id}`, 1);
 
             this.route.queryParams
                 .pipe(takeUntil(this.destroy$))

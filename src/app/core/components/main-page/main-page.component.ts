@@ -4,7 +4,7 @@ import { ITEMS_SERVICES } from '../../services/items-factory.service';
 import { ItemsService } from '../../services/items.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 
 @Component({
     selector: 'app-main-page',
@@ -13,23 +13,26 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     animations: [
         trigger('scrollAnimation', [
             state('scroll', style({
-                transform: 'translate({{scroll}}px)',
+                left: '{{scroll}}px',
             }), {params: {scroll: 0}}),
-            transition('* => scroll', animate('300ms'))
-        ])
-    ]
+            transition('* => scroll', animate('300ms', keyframes([
+                style({ opacity: 1, transform: 'translateX(0)', offset: 0 }),
+                style({ opacity: 1, transform: 'translateX(-300px)', offset: 0.5 })
+            ])))
+        ])]
 })
+
 export class MainPageComponent implements OnInit, OnDestroy {
 
     public categories: Array<string> = ['watches', 'wristbands'];
 
     public items: Array<IItem> = [];
 
-    public state: string = 'any';
+    public state: string = '';
 
     public scroll: number = 0;
 
-    public leftHidden: boolean = false;
+    public leftHidden: boolean = true;
 
     public rightHidden: boolean = false;
 
@@ -62,9 +65,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     public rightScroll(): void {
         this.state = 'scroll';
-        this.scroll = this.scroll - 250;
+        this.scroll = this.scroll - 400;
 
-        if (this.scroll <= -250 * this.items.length - 500) {
+        if (this.scroll < -400 * this.items.length + 800) {
             this.rightHidden = true;
         }
 
@@ -75,9 +78,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     public leftScroll(): void {
         this.state = 'scroll';
-        this.scroll = this.scroll + 250;
+        this.scroll = this.scroll + 400;
 
-        if (this.scroll >= 500) {
+        if (this.scroll >= 0) {
             this.leftHidden = true;
         }
 

@@ -11,6 +11,8 @@ import { ItemsGridViewComponent } from './components/items-grid-view/items-grid-
 import { ItemsListViewComponent } from './components/items-list-view/items-list-view.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ItemViewComponent } from './components/item-view/item-view.component';
+import { CarouselItemComponent } from './components/item-detail/carousel-item/carousel-item.component';
+import { CarouselComponent } from './components/item-detail/carousel/carousel.component';
 
 @NgModule({
     declarations: [
@@ -23,7 +25,9 @@ import { ItemViewComponent } from './components/item-view/item-view.component';
         ItemsListViewComponent,
         ItemsGridViewComponent,
         SidenavComponent,
-        ItemViewComponent
+        ItemViewComponent,
+        CarouselItemComponent,
+        CarouselComponent,
     ],
     imports: [
         CommonModule,
