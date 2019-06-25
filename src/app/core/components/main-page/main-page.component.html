@@ -1,11 +1,14 @@
 <div class="main-page">
     <div class="carousel">
         <div class="left-scroll"
-             (click)="leftScroll()"></div>
+            [hidden]="leftHidden"
+             (click)="leftScroll()"
+            ></div>
         <div class="right-scroll"
-             (click)="rightScroll()"></div>
+            [hidden]="rightHidden"
+            (click)="rightScroll()"></div>
         <div
-            [@scrollAnimation]="{value: state, params: {left_indent: left}}"
+            [@scrollAnimation]="{value: state, params: {scroll: scroll}}"
             class="carousel__item"
             *ngFor="let item of items"
             [routerLink]="['/' + item.type + '/' + item.id]">

@@ -4,7 +4,7 @@ import { ITEMS_SERVICES } from '../../services/items-factory.service';
 import { ItemsService } from '../../services/items.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
     selector: 'app-main-page',
@@ -12,16 +12,11 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
     styleUrls: ['./main-page.component.scss'],
     animations: [
         trigger('scrollAnimation', [
-            state('left', style({
-                transform: 'translate(120px)',
-            })),
-            state('right', style({
-                transform: 'translate(-120px)',
-            })),
-            transition('right => left', animate('300ms')),
-            transition('left => right', animate('300ms'))
-        ]),
-
+            state('scroll', style({
+                transform: 'translate({{scroll}}px)',
+            }), {params: {scroll: 0}}),
+            transition('* => scroll', animate('300ms'))
+        ])
     ]
 })
 export class MainPageComponent implements OnInit, OnDestroy {
@@ -30,11 +25,13 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     public items: Array<IItem> = [];
 
-    public state: string = 'right';
+    public state: string = 'any';
 
-    public right: number = 0;
+    public scroll: number = 0;
 
-    public left: number = 0;
+    public leftHidden: boolean = false;
+
+    public rightHidden: boolean = false;
 
     private services: Array<ItemsService> = [];
 
@@ -49,13 +46,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        console.log(this.services);
         for (const service of this.services) {
             service.getItems()
                 .pipe(takeUntil(this.destroy$))
                 .subscribe((items: Array<IItem>) => {
                     this.items = this.items.concat(items);
-                    console.log(this.items);
                 });
         }
     }
@@ -65,11 +60,29 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
-    public leftScroll(): void {
-        this.state = 'left';
+    public rightScroll(): void {
+        this.state = 'scroll';
+        this.scroll = this.scroll - 250;
+
+        if (this.scroll <= -250 * this.items.length - 500) {
+            this.rightHidden = true;
+        }
+
+        if (this.leftHidden) {
+            this.leftHidden = false;
+        }
     }
 
-    public rightScroll(): void {
-        this.state = 'right';
+    public leftScroll(): void {
+        this.state = 'scroll';
+        this.scroll = this.scroll + 250;
+
+        if (this.scroll >= 500) {
+            this.leftHidden = true;
+        }
+
+        if (this.rightHidden) {
+            this.rightHidden = false;
+        }
     }
 }
