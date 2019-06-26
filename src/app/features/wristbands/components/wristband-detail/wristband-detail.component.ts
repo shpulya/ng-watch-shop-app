@@ -26,7 +26,7 @@ export class WristbandDetailComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.route.data.subscribe((data) => {
             this.wristband = data.item;
-            this.cookiesService.setCookie('viewedItems', `wristband#${data.item.id}`, 1);
+            this.cookiesService.setViewedItemToCookie('wristband', data.item.id);
 
             this.route.queryParams
                 .pipe(takeUntil(this.destroy$))

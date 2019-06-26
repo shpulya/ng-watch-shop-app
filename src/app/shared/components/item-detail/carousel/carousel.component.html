@@ -1,3 +1,24 @@
-<p>
-  carousel works!
-</p>
+<div class="carousel">
+    <ng-container *ngIf="items.length">
+        <div class="carousel__item" *ngFor="let item of items; let i = index">
+            <ng-container
+                [ngTemplateOutlet]="itemTemplate || defaultItemTemplate"
+                [ngTemplateOutletContext]="{$implicit: item}"
+                *ngIf="i < 4">
+
+                <ng-template #defaultItemTemplate let-item>
+                    {{item.name}}
+                </ng-template>
+            </ng-container>
+        </div>
+    </ng-container>
+</div>
+
+<div class="carousel">
+    <ng-container *ngIf="items.length">
+        <div class="prev" (click)="reduceActiveIndex()"></div>
+        <i class="fas fa-eye"></i> Viewed Items V2
+        <app-carousel-item [item]="items[activeIndex]"></app-carousel-item>
+        <div class="next" (click)="increaseActiveIndex()"></div>
+    </ng-container>
+</div>

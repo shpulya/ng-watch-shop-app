@@ -1,9 +1,9 @@
-import {Component, ComponentFactoryResolver, ComponentRef, Input, OnChanges, SimpleChanges, ViewContainerRef} from '@angular/core';
-import {Params} from '@angular/router';
+import { Component, ComponentFactoryResolver, ComponentRef, Input, OnChanges, SimpleChanges, ViewContainerRef } from '@angular/core';
+import { Params } from '@angular/router';
 
-import {ItemsViewService} from '../../../core/services/items-view.service';
-import {IItem, ItemType, ItemView} from '../../../app.models';
-import {ItemViewController} from './item-view.controller';
+import { ItemsViewService } from '../../../core/services/items-view.service';
+import { IItem, ItemType, ItemView } from '../../../app.models';
+import { ItemViewController } from './item-view.controller';
 
 @Component({
     selector: 'app-item-view',
@@ -55,6 +55,4 @@ export class ItemViewComponent implements OnChanges {
             setComponentBindings();
         }
     }
-
-
 }

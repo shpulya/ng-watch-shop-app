@@ -14,8 +14,19 @@ export class CarouselComponent implements OnInit {
     @Input()
     public readonly itemTemplate!: TemplateRef<any>;
 
-    constructor() { }
+    public activeIndex: number = 0;
+
+    constructor() {}
 
     public ngOnInit(): void {}
 
+    public increaseActiveIndex(): void {
+        this.activeIndex = (this.activeIndex < this.items.length - 1) ? this.activeIndex + 1 : 0;
+        console.log(this.activeIndex);
+    }
+
+    public reduceActiveIndex(): void {
+        this.activeIndex = (this.activeIndex <= 0) ? this.items.length - 1 : this.activeIndex - 1;
+        console.log(this.activeIndex);
+    }
 }

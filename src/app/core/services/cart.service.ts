@@ -137,7 +137,7 @@ export class CartService {
         const itemsMap: TCartMap = new Map<string, ICart>();
 
         cookiesItems.forEach((items: [string, number]) => {
-            const parsedId = this.parseUniqueId(items[0]);
+            const parsedId = this.cookieService.parseUniqueId(items[0]);
             const itemsService = this.itemsFactoryService.getService(<ItemType>parsedId.type);
 
             itemsService
@@ -153,13 +153,5 @@ export class CartService {
                 })
             ;
         });
-    }
-
-    private parseUniqueId(uniqueId: string): IShortItemInfo {
-
-        return {
-            id: parseInt(uniqueId.slice(0, uniqueId.indexOf('#')), 10),
-            type: uniqueId.slice(uniqueId.indexOf('#') + 1)
-        };
     }
 }

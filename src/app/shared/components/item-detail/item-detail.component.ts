@@ -22,11 +22,12 @@ export class ItemDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private cartService: CartService,
-        private cookiesService: CookiesService
+        private cookiesService: CookiesService,
     ) {}
 
     public ngOnInit(): void {
-        this.items = JSON.parse(this.cookiesService.getCookie('viewedItems'));
+        this.cookiesService.receiveViewedItems();
+        this.items = this.cookiesService.viewedItems$.getValue();
     }
 
     public addItemToCart(item: IItem): void {

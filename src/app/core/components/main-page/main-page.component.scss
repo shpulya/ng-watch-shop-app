@@ -17,10 +17,11 @@
     cursor: pointer;
 
     &__item {
-        width: 400px;
+        min-width: 400px;
         height: 100%;
         position: relative;
         opacity: 0.8;
+        text-align: center;
 
         &:hover {
             opacity: 1;
@@ -35,7 +36,8 @@
         }
 
         img {
-            width: 400px;
+            max-width: 400px;
+            height: 100%;
         }
 
     }
@@ -53,12 +55,12 @@
     }
 
     .left-scroll {
-        left: 20px;
+        left: 10px;
         border-right: 20px solid #fff;
     }
 
     .right-scroll {
-        right: 20px;
+        right: 10px;
         border-left: 20px solid #fff;
     }
 }

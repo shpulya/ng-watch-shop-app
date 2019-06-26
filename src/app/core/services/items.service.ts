@@ -11,7 +11,7 @@ export abstract class ItemsService<ItemT extends IItem = IItem> {
     public abstract type: ItemType;
 
     constructor(
-        protected http: HttpClient
+        protected http: HttpClient,
     ) {}
 
     public abstract getItems(): Observable<Array<ItemT>>;
