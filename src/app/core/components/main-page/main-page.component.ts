@@ -4,7 +4,7 @@ import { ITEMS_SERVICES } from '../../services/items-factory.service';
 import { ItemsService } from '../../services/items.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
+import { trigger, state, style, transition, animate, keyframes, query } from '@angular/animations';
 
 @Component({
     selector: 'app-main-page',
@@ -12,13 +12,13 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
     styleUrls: ['./main-page.component.scss'],
     animations: [
         trigger('scrollAnimation', [
-            state('scroll', style({
+            state('i', style({
                 left: '{{scroll}}px',
             }), {params: {scroll: 0}}),
-            transition('* => scroll', animate('300ms', keyframes([
-                style({ opacity: 1, transform: 'translateX(0)', offset: 0 }),
-                style({ opacity: 1, transform: 'translateX(-300px)', offset: 0.5 })
-            ])))
+            transition(':enter', [style({transform: 'translateX(-100%)'}), animate('0.5s 300ms ease-in')]),
+            transition(':leave', [
+                animate('0.3s ease-out', style({transform: 'translateX(100%)'}))
+            ])
         ])]
 })
 
@@ -28,13 +28,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     public items: Array<IItem> = [];
 
-    public state: string = '';
+    public state: number = 0;
 
     public scroll: number = 0;
 
-    public leftHidden: boolean = true;
-
-    public rightHidden: boolean = false;
+    public activeIndex: number = 0;
 
     private services: Array<ItemsService> = [];
 
@@ -64,28 +62,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     public rightScroll(): void {
-        this.state = 'scroll';
-        this.scroll = this.scroll - 400;
-
-        if (this.scroll < -400 * this.items.length + 800) {
-            this.rightHidden = true;
-        }
-
-        if (this.leftHidden) {
-            this.leftHidden = false;
-        }
+        this.activeIndex = (this.activeIndex > this.items.length - 1) ? 0 : this.activeIndex + 1;
     }
 
     public leftScroll(): void {
-        this.state = 'scroll';
-        this.scroll = this.scroll + 400;
-
-        if (this.scroll >= 0) {
-            this.leftHidden = true;
-        }
-
-        if (this.rightHidden) {
-            this.rightHidden = false;
-        }
+        this.activeIndex = (this.activeIndex > 0) ? this.activeIndex - 1 : this.items.length - 1;
     }
 }

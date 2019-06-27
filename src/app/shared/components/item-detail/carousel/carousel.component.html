@@ -4,7 +4,7 @@
             <ng-container
                 [ngTemplateOutlet]="itemTemplate || defaultItemTemplate"
                 [ngTemplateOutletContext]="{$implicit: item}"
-                *ngIf="i < 4">
+                *ngIf="i < 7">
 
                 <ng-template #defaultItemTemplate let-item>
                     {{item.name}}
@@ -14,7 +14,7 @@
     </ng-container>
 </div>
 
-<div class="carousel">
+<div class="carousel carousel2">
     <ng-container *ngIf="items.length">
         <div class="prev" (click)="reduceActiveIndex()"></div>
         <i class="fas fa-eye"></i> Viewed Items V2

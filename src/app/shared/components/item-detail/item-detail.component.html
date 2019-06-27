@@ -40,17 +40,14 @@
 <div class="viewed">
     <i class="fas fa-eye"></i>
     <div>Viewed products</div>
-    <div class="carousel">
-        <app-carousel
-            [items]="items"
-            [itemTemplate]="itemTemplate">
-            <ng-template #itemTemplate let-item let-activeIndex>
-                <app-carousel-item
-                    [item]="item"
-                    [activeIndex]="activeIndex">
-                </app-carousel-item>
-            </ng-template>
-        </app-carousel>
-    </div>
+    <app-carousel
+        [items]="items"
+        [itemTemplate]="itemTemplate">
+        <ng-template #itemTemplate let-item let-activeIndex>
+            <app-carousel-item
+                [item]="item">
+            </app-carousel-item>
+        </ng-template>
+    </app-carousel>
 </div>
 

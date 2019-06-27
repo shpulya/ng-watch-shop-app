@@ -13,6 +13,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ItemViewComponent } from './components/item-view/item-view.component';
 import { CarouselItemComponent } from './components/item-detail/carousel-item/carousel-item.component';
 import { CarouselComponent } from './components/item-detail/carousel/carousel.component';
+import { Carousel2Component } from './components/item-detail/carousel2/carousel2.component';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { CarouselComponent } from './components/item-detail/carousel/carousel.co
         ItemViewComponent,
         CarouselItemComponent,
         CarouselComponent,
+        Carousel2Component
     ],
     imports: [
         CommonModule,

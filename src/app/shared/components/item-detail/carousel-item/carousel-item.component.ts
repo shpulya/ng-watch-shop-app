@@ -11,10 +11,7 @@ export class CarouselItemComponent implements OnInit {
     @Input()
     public item!: IItem;
 
-    @Input()
-    public activeIndex: number = 1;
-
-    constructor() { }
+    constructor() {}
 
     public ngOnInit(): void {
     }

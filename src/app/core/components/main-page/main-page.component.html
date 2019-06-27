@@ -1,16 +1,15 @@
 <div class="main-page">
     <div class="carousel">
         <div class="left-scroll"
-            [hidden]="leftHidden"
             (click)="leftScroll()"
             ></div>
         <div class="right-scroll"
-            [hidden]="rightHidden"
             (click)="rightScroll()"></div>
         <div
-            [@scrollAnimation]="{value: state, params: {scroll: scroll}}"
-            class="carousel__item"
-            *ngFor="let item of items"
+            [@scrollAnimation]="activeIndex"
+            class="carousel__item fade"
+            [ngClass]="{'visible': i === activeIndex}"
+            *ngFor="let item of items; let i = index;"
             [routerLink]="['/' + item.type + '/' + item.id]">
             <div class="carousel__item__title">{{item.name}}</div>
             <img src="../../../../assets/img/{{item.image}}" alt="{{item.name}}">
