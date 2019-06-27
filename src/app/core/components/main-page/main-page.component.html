@@ -6,8 +6,7 @@
         <div class="right-scroll"
             (click)="rightScroll()"></div>
         <div
-            [@scrollAnimation]="activeIndex"
-            class="carousel__item fade"
+            class="carousel__item slide"
             [ngClass]="{'visible': i === activeIndex}"
             *ngFor="let item of items; let i = index;"
             [routerLink]="['/' + item.type + '/' + item.id]">

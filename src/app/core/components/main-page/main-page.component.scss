@@ -97,12 +97,12 @@
     }
 }
 
-.fade {
-    animation-name: fade;
+.slide {
+    animation-name: slide;
     animation-duration: 0.5s;
 }
 
-@keyframes fade {
+@keyframes slide {
     from {left: -300px}
     to {left: 0}
 }

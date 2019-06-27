@@ -3,12 +3,16 @@
     display: block;
     position: relative;
 
-    .carousel__item {
+    &__item {
         overflow: hidden;
-        display: inline-block;
+        display: none;
         margin: 30px 0;
         height: 220px;
     }
+}
+
+.show {
+    display: inline-block;
 }
 
 .carousel2 {

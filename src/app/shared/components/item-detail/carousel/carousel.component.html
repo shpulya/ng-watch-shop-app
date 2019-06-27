@@ -1,15 +1,12 @@
 <div class="carousel">
     <ng-container *ngIf="items.length">
-        <div class="carousel__item" *ngFor="let item of items; let i = index">
-            <ng-container
-                [ngTemplateOutlet]="itemTemplate || defaultItemTemplate"
-                [ngTemplateOutletContext]="{$implicit: item}"
-                *ngIf="i < 7">
-
-                <ng-template #defaultItemTemplate let-item>
-                    {{item.name}}
-                </ng-template>
+        <div @slide class="carousel__item" *ngFor="let item of items; let i = index" [ngClass]="{'show': i === activeIndex}">
+            <ng-container>
+                <app-carousel-item
+                    [item]="item">
+                </app-carousel-item>
             </ng-container>
+            <div class="next"></div>
         </div>
     </ng-container>
 </div>
