@@ -1,18 +1,19 @@
 .carousel {
     display: block;
-    position: relative;
     width: 400px;
+    margin: 30px 0;
+    position: relative;
+    height: 220px;
 
     &__item {
         overflow: hidden;
-        display: none;
-        margin: 30px 0;
-        height: 220px;
+        position: relative;
+        height: 100%;
     }
 }
 
-.show {
-    display: inline-block;
+.list {
+    position: relative;
 }
 
 .prev, .next {
