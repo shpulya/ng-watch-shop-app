@@ -1,6 +1,8 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, TemplateRef} from '@angular/core';
 import { IItem } from '../../../app.models';
 import { animate, group, query, style, transition, trigger } from '@angular/animations';
+import {fromEvent, Observable} from 'rxjs';
+import {throttleTime} from 'rxjs/operators';
 
 @Component({
     selector: 'app-carousel-list',
@@ -23,7 +25,7 @@ import { animate, group, query, style, transition, trigger } from '@angular/anim
         ])
     ]
 })
-export class CarouselListComponent implements OnInit {
+export class CarouselListComponent implements OnInit, AfterViewInit {
 
     @Input()
     public items: Array<IItem> = [];
@@ -33,13 +35,21 @@ export class CarouselListComponent implements OnInit {
 
     public activeIndex: number = 0;
 
+    public source: Observable<any> = fromEvent(document, 'click');
+
     constructor() {}
 
     public ngOnInit(): void {}
 
+    public ngAfterViewInit(): void {
+        this.source.pipe(
+            throttleTime(3000)
+        );
+    }
+
     public increaseActiveIndex(): void {
         this.activeIndex = (this.activeIndex < this.items.length - 1) ? this.activeIndex + 1 : 0;
-        console.log(this.activeIndex);
+
     }
 
     public reduceActiveIndex(): void {
