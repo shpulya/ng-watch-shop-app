@@ -1,20 +1,5 @@
 <div class="main-page">
-    <div class="carousel">
-        <div class="left-scroll"
-            (click)="leftScroll()"
-            ></div>
-        <div class="right-scroll"
-            (click)="rightScroll()"></div>
-        <div
-            class="carousel__item slide"
-            [ngClass]="{'visible': i === activeIndex}"
-            *ngFor="let item of items; let i = index;"
-            [routerLink]="['/' + item.type + '/' + item.id]">
-            <div class="carousel__item__title">{{item.name}}</div>
-            <img src="../../../../assets/img/{{item.image}}" alt="{{item.name}}">
-        </div>
-
-    </div>
+    <app-carousel [items]="items"></app-carousel>
 
     <div class="categories">
         <div class="categories__dir" *ngFor="let category of categories" [routerLink]="category">

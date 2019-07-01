@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
-import { IItem } from '../../../../app.models';
+import { IItem } from '../../../app.models';
 import { animate, group, query, style, transition, trigger } from '@angular/animations';
 
 @Component({
@@ -11,7 +11,7 @@ import { animate, group, query, style, transition, trigger } from '@angular/anim
             transition(':increment', group([
                 query(':enter', [
                     style({ transform: 'translateX(100%)', position: 'absolute'}),
-                    animate(3000, style({ transform: 'translateX(0)', position: 'absolute' }))
+                    animate('3s', style({ transform: 'translateX(0)', position: 'absolute' }))
                 ]),
                 query(':leave', [
                     style({ transform: 'translateX(0)', position: 'absolute'}),
@@ -21,7 +21,7 @@ import { animate, group, query, style, transition, trigger } from '@angular/anim
             transition(':decrement', group([
                 query(':enter', [
                     style({ transform: 'translateX(-100%)', position: 'absolute' }),
-                    animate(3000, style({ transform: 'translateX(0)', position: 'absolute' }))
+                    animate('3s', style({ transform: 'translateX(0)', position: 'absolute' }))
                 ], { optional: true }),
                 query(':leave', [
                     style({ transform: 'translateX(0)', position: 'absolute'}),

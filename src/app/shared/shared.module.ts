@@ -11,9 +11,9 @@ import { ItemsGridViewComponent } from './components/items-grid-view/items-grid-
 import { ItemsListViewComponent } from './components/items-list-view/items-list-view.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ItemViewComponent } from './components/item-view/item-view.component';
-import { CarouselItemComponent } from './components/item-detail/carousel-item/carousel-item.component';
-import { CarouselComponent } from './components/item-detail/carousel/carousel.component';
-import { Carousel2Component } from './components/item-detail/carousel2/carousel2.component';
+import { CarouselItemComponent } from './components/carousel-item/carousel-item.component';
+import { CarouselComponent } from './components/carousel/carousel.component';
+import { CarouselListComponent } from './components/carousel-list/carousel-list.component';
 
 @NgModule({
     declarations: [
@@ -29,7 +29,7 @@ import { Carousel2Component } from './components/item-detail/carousel2/carousel2
         ItemViewComponent,
         CarouselItemComponent,
         CarouselComponent,
-        Carousel2Component
+        CarouselListComponent
     ],
     imports: [
         CommonModule,
@@ -46,7 +46,10 @@ import { Carousel2Component } from './components/item-detail/carousel2/carousel2
         ItemsGridViewComponent,
         SidenavComponent,
         ItemsListViewComponent,
-        ItemViewComponent
+        ItemViewComponent,
+        CarouselItemComponent,
+        CarouselListComponent,
+        CarouselComponent
     ]
 })
 export class SharedModule {}
