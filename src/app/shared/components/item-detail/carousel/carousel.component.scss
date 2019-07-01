@@ -1,7 +1,7 @@
-
 .carousel {
     display: block;
     position: relative;
+    width: 400px;
 
     &__item {
         overflow: hidden;
@@ -15,15 +15,11 @@
     display: inline-block;
 }
 
-.carousel2 {
-    width: 400px;
-}
-
 .prev, .next {
     position: absolute;
     top: calc(50% - 10px);
     border: 20px solid transparent;
-    opacity: 0.8;
+    opacity: 0.6;
     z-index: 1;
 }
 
@@ -35,4 +31,8 @@
 .next {
     border-left: 20px solid #666;
     right: 20px;
+}
+
+.prev:hover, .next:hover {
+    opacity: 1;
 }

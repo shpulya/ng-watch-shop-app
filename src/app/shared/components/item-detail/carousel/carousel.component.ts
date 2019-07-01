@@ -9,11 +9,13 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     animations: [
         trigger('slide', [
             transition(':enter', [
-                style({ opacity: 0 }),
-                animate('1s', style({ opacity: 1}))
+                style({ transform: 'translateX(0)' }),
+                style({ transform: 'translateX(100%)' }),
+                animate(300)
             ]),
             transition(':leave', [
-                animate('1s', style({opacity: 0}))
+                style({ transform: 'translateX(-100%)' }),
+                animate(300)
             ])
         ])
     ]

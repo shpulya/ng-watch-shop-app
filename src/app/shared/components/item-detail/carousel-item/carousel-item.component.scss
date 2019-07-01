@@ -6,6 +6,7 @@
     text-align: center;
     border-left: 1px solid #666;
     margin-top: 20px;
+    width: 400px;
 
     &:hover {
         opacity: 1;
@@ -31,6 +32,6 @@
 }
 
 @keyframes fade {
-    from {opacity: .4}
+    from {opacity: .2}
     to {opacity: 1}
 }

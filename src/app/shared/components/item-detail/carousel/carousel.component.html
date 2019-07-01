@@ -1,21 +1,15 @@
 <div class="carousel">
-    <ng-container *ngIf="items.length">
-        <div @slide class="carousel__item" *ngFor="let item of items; let i = index" [ngClass]="{'show': i === activeIndex}">
-            <ng-container>
-                <app-carousel-item
-                    [item]="item">
-                </app-carousel-item>
-            </ng-container>
-            <div class="next"></div>
-        </div>
+    <div class="prev" (click)="reduceActiveIndex()"></div>
+    <ng-container *ngFor="let item of items; let i = index">
+        <app-carousel-item [item]="item" @slide *ngIf="i === activeIndex" class="carousel__item" [ngClass]="{'show': i === activeIndex}"></app-carousel-item>
     </ng-container>
+    <div class="next"></div>
+    <div class="next" (click)="increaseActiveIndex()"></div>
 </div>
 
-<div class="carousel carousel2">
-    <ng-container *ngIf="items.length">
-        <div class="prev" (click)="reduceActiveIndex()"></div>
-        <i class="fas fa-eye"></i> Viewed Items V2
-        <app-carousel-item [item]="items[activeIndex]"></app-carousel-item>
-        <div class="next" (click)="increaseActiveIndex()"></div>
-    </ng-container>
+<div class="carousel">
+    <div class="prev" (click)="reduceActiveIndex()"></div>
+    <i class="fas fa-eye"></i> Viewed Items V2
+    <app-carousel-item [item]="items[activeIndex]"></app-carousel-item>
+    <div class="next" (click)="increaseActiveIndex()"></div>
 </div>
