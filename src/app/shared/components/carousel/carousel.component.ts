@@ -12,13 +12,13 @@ import { IItem } from '../../../app.models';
     animations: [
         trigger('slide', [
             transition(':increment', group([
-                query(':enter, .slide__item, :leave', [
+                query(':enter, .container__item, :leave', [
                     style({ transform: 'translateX(0)'}),
                     animate('0.3s ease-out', style({ transform: 'translateX(-100%)'}))
                 ], { optional: true })
             ])),
             transition(':decrement', group([
-                query(':enter, .slide__item, :leave', [
+                query(':enter, .container__item, :leave', [
                     style({ transform: 'translateX(-100%)' }),
                     animate('0.3s ease-out', style({ transform: 'translateX(0)'}))
                 ], { optional: true })
