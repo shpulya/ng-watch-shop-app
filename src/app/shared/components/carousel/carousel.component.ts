@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { animate, group, query, style, transition, trigger } from '@angular/animations';
+import { animate, query, style, transition, trigger } from '@angular/animations';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil, throttleTime } from 'rxjs/operators';
 
