@@ -29,7 +29,8 @@
     visibility: hidden;
 }
 
-.prev, .next {
+.prev,
+.next {
     position: absolute;
     top: calc(50% - 10px);
     border: 20px solid transparent;
@@ -39,7 +40,7 @@
 
 .prev {
     border-right: 20px solid #666;
-    left: 20px
+    left: 20px;
 }
 
 .next {
@@ -47,6 +48,7 @@
     right: 20px;
 }
 
-.prev:hover, .next:hover {
+.prev:hover,
+.next:hover {
     opacity: 1;
 }
