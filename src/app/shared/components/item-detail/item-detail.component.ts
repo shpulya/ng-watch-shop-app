@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { IItem } from '../../../app.models';
+import { IItem, ItemCategories } from '../../../app.models';
 import { CartService } from '../../../core/services/cart.service';
 import { CookiesService } from '../../../core/services/cookies.service';
 
@@ -32,5 +32,9 @@ export class ItemDetailComponent implements OnInit {
 
     public addItemToCart(item: IItem): void {
         this.cartService.addItem(item);
+    }
+
+    public getCategories(type: any): string {
+        return ItemCategories[type];
     }
 }

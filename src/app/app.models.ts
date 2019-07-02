@@ -4,6 +4,11 @@ export enum ItemType {
     Wristband = 'wristband'
 }
 
+export enum ItemCategories {
+    watch = 'watches',
+    wristband = 'wristbands'
+}
+
 export enum ItemView {
     Grid = 'grid',
     List = 'list'

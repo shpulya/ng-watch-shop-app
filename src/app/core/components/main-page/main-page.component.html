@@ -1,5 +1,5 @@
 <div class="main-page">
-    <app-carousel [items]="items"></app-carousel>
+    <app-carousel [resize]="false" [items]="items" class="carousel"></app-carousel>
 
     <div class="categories">
         <div class="categories__dir" *ngFor="let category of categories" [routerLink]="category">

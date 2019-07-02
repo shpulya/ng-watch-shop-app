@@ -5,65 +5,9 @@
 }
 
 .carousel {
-    margin-top: 20px;
-    width: 400px;
-    height: 280px;
+    width: 500px;
     border: 1px solid #979797;
-    background-color: #84bfbd;
-    position: relative;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    cursor: pointer;
-
-    &__item {
-        min-width: 400px;
-        height: 100%;
-        position: relative;
-        opacity: 0.8;
-        text-align: center;
-        display: none;
-
-        &:hover {
-            opacity: 1;
-        }
-
-        &__title  {
-            position: absolute;
-            width: 100px;
-            padding: 10px;
-            background-color: #aaa;
-            opacity: 0.6;
-        }
-
-        img {
-            max-width: 400px;
-            height: 100%;
-        }
-
-    }
-
-    .left-scroll, .right-scroll {
-        position: absolute;
-        top: calc(50% - 10px);
-        border: 20px solid transparent;
-        opacity: 0.8;
-        z-index: 1;
-    }
-
-    .left-scroll:hover, .right-scroll:hover {
-        opacity: 1;
-    }
-
-    .left-scroll {
-        left: 10px;
-        border-right: 20px solid #fff;
-    }
-
-    .right-scroll {
-        right: 10px;
-        border-left: 20px solid #fff;
-    }
+    margin-top: 40px;
 }
 
 .visible {

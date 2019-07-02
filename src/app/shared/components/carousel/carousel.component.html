@@ -1,13 +1,14 @@
 <div class="carousel">
-   <div class="prev" #btnPrev [ngClass]="{'hidden': activeIndex === 0}"></div>
-    <div [@slide]="activeIndex">
+    <div class="prev" #btnPrev [ngClass]="{'hidden': activeIndex === 0}"></div>
+    <div [@slide]="activeIndex" class="slide">
         <div *ngFor="let item of items; let i = index" >
-            <app-carousel-item
-                [item]="item"
-                class="carousel__item"
-                *ngIf="activeIndex === i">
-            </app-carousel-item>
+            <div *ngIf="i >= activeIndex && i <= activeIndex + carouselItemsCount - 1" class="slide__item">
+                <app-carousel-item
+                    [item]="item"
+                    class="carousel__item">
+                </app-carousel-item>
+            </div>
         </div>
     </div>
-    <div class="next" #btnNext [ngClass]="{'hidden': activeIndex === items.length - 1}"></div>
+    <div class="next" #btnNext [ngClass]="{ 'hidden': activeIndex === items.length - carouselItemsCount}"></div>
 </div>

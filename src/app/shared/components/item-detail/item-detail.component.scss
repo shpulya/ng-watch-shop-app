@@ -34,7 +34,7 @@
 
     &__img {
         > img {
-            width: 300px;
+            max-width: 300px;
         }
 
         padding-right: 50px;
@@ -71,13 +71,7 @@
 }
 
 .viewed {
-    color: #333;
     padding: 40px;
-
-    &>div {
-        padding-left: 10px;
-        display: inline-block;
-    }
 }
 
 @media screen and (max-width: 1024px) {

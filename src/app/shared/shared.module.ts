@@ -11,9 +11,8 @@ import { ItemsGridViewComponent } from './components/items-grid-view/items-grid-
 import { ItemsListViewComponent } from './components/items-list-view/items-list-view.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ItemViewComponent } from './components/item-view/item-view.component';
-import { CarouselItemComponent } from './components/carousel-item/carousel-item.component';
+import { CarouselItemComponent } from './components/carousel/carousel-item/carousel-item.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
-import { CarouselListComponent } from './components/carousel-list/carousel-list.component';
 
 @NgModule({
     declarations: [
@@ -28,8 +27,7 @@ import { CarouselListComponent } from './components/carousel-list/carousel-list.
         SidenavComponent,
         ItemViewComponent,
         CarouselItemComponent,
-        CarouselComponent,
-        CarouselListComponent
+        CarouselComponent
     ],
     imports: [
         CommonModule,
@@ -48,7 +46,6 @@ import { CarouselListComponent } from './components/carousel-list/carousel-list.
         ItemsListViewComponent,
         ItemViewComponent,
         CarouselItemComponent,
-        CarouselListComponent,
         CarouselComponent
     ]
 })
