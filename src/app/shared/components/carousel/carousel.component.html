@@ -1,11 +1,11 @@
 <div class="carousel">
     <div class="prev" #btnPrev [ngClass]="{'hidden': activeIndex === 0}"></div>
     <div [@slide]="activeIndex" class="container">
-        <div *ngFor="let item of items; let i = index" >
+        <ng-container *ngFor="let item of items; let i = index" >
             <div *ngIf="i >= activeIndex && i <= activeIndex + carouselItemsCount - 1" class="container__item">
                 <app-carousel-item [item]="item" class="carousel__item"></app-carousel-item>
             </div>
-        </div>
+        </ng-container>
     </div>
     <div class="next" #btnNext [ngClass]="{ 'hidden': activeIndex === items.length - carouselItemsCount}"></div>
 </div>
