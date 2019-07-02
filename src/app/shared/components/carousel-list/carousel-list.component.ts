@@ -1,8 +1,9 @@
-import {AfterViewInit, Component, Input, OnInit, TemplateRef} from '@angular/core';
-import { IItem } from '../../../app.models';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { animate, group, query, style, transition, trigger } from '@angular/animations';
-import {fromEvent, Observable} from 'rxjs';
-import {throttleTime} from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
+import { takeUntil, throttleTime } from 'rxjs/operators';
+
+import { IItem } from '../../../app.models';
 
 @Component({
     selector: 'app-carousel-list',
@@ -25,7 +26,7 @@ import {throttleTime} from 'rxjs/operators';
         ])
     ]
 })
-export class CarouselListComponent implements OnInit, AfterViewInit {
+export class CarouselListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @Input()
     public items: Array<IItem> = [];
@@ -35,16 +36,36 @@ export class CarouselListComponent implements OnInit, AfterViewInit {
 
     public activeIndex: number = 0;
 
-    public source: Observable<any> = fromEvent(document, 'click');
+    @ViewChild('btnPrev')
+    private btnPrev!: ElementRef;
+
+    @ViewChild('btnNext')
+    private btnNext!: ElementRef;
+
+    private destroy$: Subject<boolean> = new Subject();
 
     constructor() {}
 
     public ngOnInit(): void {}
 
     public ngAfterViewInit(): void {
-        this.source.pipe(
-            throttleTime(3000)
-        );
+        fromEvent(this.btnPrev.nativeElement, 'click')
+            .pipe(
+                throttleTime(3000),
+                takeUntil(this.destroy$)
+            )
+            .subscribe(() => this.reduceActiveIndex());
+        fromEvent(this.btnNext.nativeElement, 'click')
+            .pipe(
+                throttleTime(3000),
+                takeUntil(this.destroy$)
+            )
+            .subscribe(() => this.increaseActiveIndex());
+    }
+
+    public ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     public increaseActiveIndex(): void {
@@ -54,6 +75,5 @@ export class CarouselListComponent implements OnInit, AfterViewInit {
 
     public reduceActiveIndex(): void {
         this.activeIndex = (this.activeIndex <= 0) ? this.items.length - 1 : this.activeIndex - 1;
-        console.log(this.activeIndex);
     }
 }

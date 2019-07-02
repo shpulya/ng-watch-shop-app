@@ -24,6 +24,10 @@
     position: relative;
 }
 
+.hidden {
+    visibility: hidden;
+}
+
 .prev, .next {
     position: absolute;
     top: calc(50% - 10px);

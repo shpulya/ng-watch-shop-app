@@ -1,5 +1,5 @@
 <div class="carousel">
-    <div class="prev" (click)="reduceActiveIndex()" *ngIf="activeIndex !== 0"></div>
+   <div class="prev" #btnPrev [ngClass]="{'hidden': activeIndex === 0}"></div>
     <div [@slide]="activeIndex">
         <div *ngFor="let item of items; let i = index" >
             <app-carousel-item
@@ -9,5 +9,5 @@
             </app-carousel-item>
         </div>
     </div>
-    <div class="next" (click)="increaseActiveIndex()" *ngIf="activeIndex !== items.length - 1"></div>
+    <div class="next" #btnNext [ngClass]="{'hidden': activeIndex === items.length - 1}"></div>
 </div>
