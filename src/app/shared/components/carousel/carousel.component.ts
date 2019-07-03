@@ -15,14 +15,14 @@ import { IItem } from '../../../app.models';
                 ':increment',
                     query('.container__item', [
                         style({transform: 'translate(0)'}),
-                        animate('9.3s ease-in-out', style({transform: 'translate(-100%)'}))
+                        animate('0.3s ease-in-out', style({transform: 'translate(-100%)'}))
                     ], { optional: true })
             ),
             transition(
                 ':decrement',
                 query('.container__item', [
                     style({transform: 'translate(-100%)'}),
-                    animate('9.3s ease-in-out', style({transform: 'translate(0)'}))
+                    animate('0.3s ease-in-out', style({transform: 'translate(0)'}))
                 ], { optional: true })
             )
         ])
