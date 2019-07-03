@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { animate, group, query, style, transition, trigger } from '@angular/animations';
+import { animate, query, style, transition, trigger } from '@angular/animations';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil, throttleTime } from 'rxjs/operators';
 
@@ -12,17 +12,18 @@ import { IItem } from '../../../app.models';
     animations: [
         trigger('slide', [
             transition(
-                ':increment, :decrement',
-                group([
-                    query('.container__item:leave', [
-                        style({ width: '*'}),
-                        animate('0.3s ease-in', style({ width: 0}))
-                    ], { optional: true }),
-                    query('.container__item:enter', [
-                        style({ width: 0}),
-                        animate('0.3s ease-in', style({ width: '*'}))
+                ':increment',
+                    query('.container__item', [
+                        style({transform: 'translate(0)'}),
+                        animate('9.3s ease-in-out', style({transform: 'translate(-100%)'}))
                     ], { optional: true })
-                ])
+            ),
+            transition(
+                ':decrement',
+                query('.container__item', [
+                    style({transform: 'translate(-100%)'}),
+                    animate('9.3s ease-in-out', style({transform: 'translate(0)'}))
+                ], { optional: true })
             )
         ])
     ]

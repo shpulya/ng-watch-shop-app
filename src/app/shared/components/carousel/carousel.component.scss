@@ -4,18 +4,21 @@
     position: relative;
     height: 220px;
     overflow: hidden;
+    white-space: nowrap;
 }
 
 .container__item {
+    white-space: normal;
     position: relative;
     display: inline-block;
     width: 25%;
-    white-space: normal;
+
+    @media screen and (max-width: 1300px) {
+        width: calc(100%/3);
+    }
 
     .carousel__item {
-        white-space: normal;
         float: right;
-        height: 100%;
         position: absolute;
         width: 100%;
     }
@@ -51,10 +54,4 @@
 
 .noResize {
     width: 100%;
-}
-
-@media screen and (max-width: 1300px) {
-    .container__item {
-        width: calc(100%/3);
-    }
 }
