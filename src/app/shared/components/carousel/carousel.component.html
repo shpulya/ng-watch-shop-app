@@ -2,7 +2,7 @@
     <div class="prev" #btnPrev [ngClass]="{'hidden': activeIndex === 0}"></div>
     <div [@slide]="activeIndex" class="container">
         <ng-container *ngFor="let item of items; let i = index" >
-            <div *ngIf="i >= activeIndex && i <= activeIndex + carouselItemsCount - 1" class="container__item">
+            <div *ngIf="i >= activeIndex && i <= activeIndex + carouselItemsCount - 1" class="container__item" [ngClass]="{'noResize': !resize}">
                 <app-carousel-item [item]="item" class="carousel__item"></app-carousel-item>
             </div>
         </ng-container>
