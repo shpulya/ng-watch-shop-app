@@ -10,6 +10,9 @@ import { MainPageComponent } from './components/main-page/main-page.component';
 import { SearchedItemsComponent } from './components/searched-items/searched-items.component';
 import { WatchesModule } from '../features/watches/watches.module';
 import { WristbandsModule } from '../features/wristbands/wristbands.module';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
     declarations: [
@@ -18,13 +21,15 @@ import { WristbandsModule } from '../features/wristbands/wristbands.module';
         LoadingComponent,
         PageNotFoundComponent,
         MainPageComponent,
-        SearchedItemsComponent
+        SearchedItemsComponent,
+        CheckoutComponent
     ],
     imports: [
         CommonModule,
         SharedModule,
         WatchesModule,
-        WristbandsModule
+        WristbandsModule,
+        FormsModule
     ],
     exports: [
         CartComponent,

@@ -47,12 +47,4 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
         this.destroy$.complete();
     }
-
-    public rightScroll(): void {
-        this.activeIndex = (this.activeIndex > this.items.length - 2) ? 0 : this.activeIndex + 1;
-    }
-
-    public leftScroll(): void {
-        this.activeIndex = (this.activeIndex > 0) ? this.activeIndex - 1 : this.items.length - 1;
-    }
 }

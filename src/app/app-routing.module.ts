@@ -12,6 +12,7 @@ import { WristbandDetailComponent } from './features/wristbands/components/wrist
 import { WristbandDetailsResolver } from './features/wristbands/resolvers/wristband-details.resolver';
 import { MainPageComponent } from './core/components/main-page/main-page.component';
 import { SearchedItemsComponent } from './core/components/searched-items/searched-items.component';
+import { CheckoutComponent } from './core/components/checkout/checkout.component';
 
 const routes: Routes = [
     {
@@ -45,6 +46,10 @@ const routes: Routes = [
     {
         path: 'searched',
         component: SearchedItemsComponent,
+    },
+    {
+        path: 'checkout',
+        component: CheckoutComponent
     },
     { path: '',
         component: MainPageComponent,

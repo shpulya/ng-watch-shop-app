@@ -1,0 +1,44 @@
+<div class="checkout">
+    <h1>Checkout</h1>
+    <ol>
+        <li [ngClass]="{'completed': contactsFilled}">Contact information
+            <form class="contact" #contactsForm="ngForm" (ngSubmit)="onContactsSubmit()">
+                <div class="form-group">
+                    <label for="region"></label>
+                    <input class="form-control" type="text" id="region" required [(ngModel)]="contacts.region">
+                </div>
+                <div class="form-group">
+                    <label for="city"></label>
+                    <input class="form-control" type="text" id="city" required [(ngModel)]="contacts.city">
+                </div>
+                <div class="form-group">
+                    <label for="name"></label>
+                    <input class="form-control" type="text" id="name" required [(ngModel)]="contacts.name">
+                </div>
+                <div class="form-group">
+                    <label for="email"></label>
+                    <input class="form-control" type="text" id="email" required [(ngModel)]="contacts.email">
+                </div>
+                <button type="submit">Continue</button>
+            </form>
+        </li>
+
+        <li>Select delivery and payment
+            <div class="delivery" (ngSubmit)="onDeliverySubmit()">
+                <div class="form-group">
+                    <button type="radio" [name]="deliveryInfo.delivery" ngModel>From shop</button>
+                    <button type="radio" [name]="deliveryInfo.delivery">From post</button>
+                    <button type="radio" [name]="deliveryInfo.delivery">Delivery to the door</button>
+                </div>
+                <div class="form-group">
+                    <button type="radio" [name]="deliveryInfo.payment" ngModel>Cash</button>
+                    <button type="radio" [name]="deliveryInfo.payment">MasterCard</button>
+                    <button type="radio" [name]="deliveryInfo.payment">Visa</button>
+                </div>
+                <div class="form-group">
+                    <button type="checkbox" [(ngModel)]="deliveryInfo.isSure">I'm sure in my order, you can't to recall me</button>
+                </div>
+            </div>
+        </li>
+    </ol>
+</div>

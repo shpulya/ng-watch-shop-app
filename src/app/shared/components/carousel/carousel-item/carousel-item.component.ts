@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { IItem } from '../../../../app.models';
 
@@ -7,13 +7,8 @@ import { IItem } from '../../../../app.models';
     templateUrl: './carousel-item.component.html',
     styleUrls: ['./carousel-item.component.scss']
 })
-export class CarouselItemComponent implements OnInit {
+export class CarouselItemComponent {
 
     @Input()
     public item!: IItem;
-
-    constructor() {}
-
-    public ngOnInit(): void {
-    }
 }

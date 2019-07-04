@@ -67,3 +67,16 @@ export interface IType {
     type: string;
     pluralType: string;
 }
+
+export interface IContacts {
+    city: string;
+    region: string;
+    name: string;
+    email: string;
+}
+
+export interface IDelivery {
+    delivery: string;
+    payment: string;
+    isSure: boolean;
+}

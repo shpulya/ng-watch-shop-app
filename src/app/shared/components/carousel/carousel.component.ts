@@ -53,8 +53,6 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private resize$: Subject<void> = new Subject();
 
-    constructor() {}
-
     public ngOnInit(): void {
         if (!this.resize) {
             return;
