@@ -11,7 +11,8 @@ import { SearchedItemsComponent } from './components/searched-items/searched-ite
 import { WatchesModule } from '../features/watches/watches.module';
 import { WristbandsModule } from '../features/wristbands/wristbands.module';
 import { CheckoutComponent } from './components/checkout/checkout.component';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { ThanksPageComponent } from './components/checkout/thanks-page/thanks-page.component';
 
 
 @NgModule({
@@ -22,14 +23,16 @@ import { FormsModule } from '@angular/forms';
         PageNotFoundComponent,
         MainPageComponent,
         SearchedItemsComponent,
-        CheckoutComponent
+        CheckoutComponent,
+        ThanksPageComponent
     ],
     imports: [
         CommonModule,
         SharedModule,
         WatchesModule,
         WristbandsModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
     ],
     exports: [
         CartComponent,

@@ -2,8 +2,36 @@
     margin: 30px auto;
     width: 60%;
 
-    h1 {
-        font-size: 20px;
+    &__cart {
+        padding: 30px 20px;
+        background-color: #84bfbd;
+        position: absolute;
+        right: 0;
+
+        &__item {
+            padding-bottom: 10px;
+            border-bottom: 1px solid #666;
+
+            img {
+                height: 50px;
+            }
+
+            .item_name {
+                display: inline-block;
+                padding-left: 10px;
+            }
+        }
+
+        &__sum {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            font-size: 20px;
+        }
+
+        &__return {
+            background-color: #ededed;
+            width: 100%;
+        }
     }
 
     ol {
@@ -42,4 +70,30 @@
             background: #84bfbd;
         }
     }
+
+    label {
+        padding-right: 10px;
+    }
+
+    input[type='text'] {
+        border-radius: 5px;
+        border: 1px solid #666;
+        line-height: 1.5em;
+    }
+
+    .form-group {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+button {
+    border-radius: 5px;
+    border: 1px solid #666;
+    padding: 5px 10px;
+    background-color: #84bfbd;
+}
+
+.contact, .delivery {
+    overflow: hidden;
 }

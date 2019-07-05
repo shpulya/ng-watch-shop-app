@@ -13,6 +13,7 @@ import { WristbandDetailsResolver } from './features/wristbands/resolvers/wristb
 import { MainPageComponent } from './core/components/main-page/main-page.component';
 import { SearchedItemsComponent } from './core/components/searched-items/searched-items.component';
 import { CheckoutComponent } from './core/components/checkout/checkout.component';
+import { ThanksPageComponent } from './core/components/checkout/thanks-page/thanks-page.component';
 
 const routes: Routes = [
     {
@@ -53,6 +54,9 @@ const routes: Routes = [
     },
     { path: '',
         component: MainPageComponent,
+    },
+    { path: 'thanks-page',
+        component: ThanksPageComponent,
     },
     {
         path: '**',

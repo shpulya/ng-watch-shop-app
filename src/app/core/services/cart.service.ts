@@ -114,12 +114,30 @@ export class CartService {
         ;
     }
 
+    public deleteCart(): void {
+        const newCart: TCartMap = new Map();
+        this.items$.next(newCart);
+        this.countItemsInCart();
+        this.setItemsToCookies(this.items$.getValue());
+    }
+
     public open(): void {
         this.opened$.next(true);
     }
 
     public close(): void {
         this.opened$.next(false);
+    }
+
+
+    public getFinalSum(): number {
+        let finalSum = 0;
+
+        this.items$.getValue().forEach((item: ICart) => {
+            finalSum += item.count * item.item.price;
+        });
+
+        return finalSum;
     }
 
     private setItemsToCookies(items: TCartMap): void {

@@ -71,18 +71,6 @@ export class CartComponent implements OnInit, OnDestroy {
     }
 
     public getFinalSum(): number {
-        let finalSum = 0;
-
-        this.items.forEach((item: ICart) => {
-            finalSum += item.count * item.item.price;
-        });
-
-        return finalSum;
-    }
-
-    public getImgFolder(type: string): string | null {
-        const category = this.types.find((cat: IType) => cat.type === type);
-
-        return category ? category.pluralType : null;
+        return this.cartService.getFinalSum();
     }
 }
