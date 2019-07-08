@@ -9,7 +9,7 @@
         right: 0;
 
         &__item {
-            padding-bottom: 10px;
+            padding: 10px 0;
             border-bottom: 1px solid #666;
 
             img {
@@ -34,11 +34,11 @@
         }
     }
 
-    ol {
+    >ol {
        list-style: none;
         counter-reset: custom-counter;
 
-        li {
+        >li {
             counter-increment: custom-counter;
             padding: 10px;
             font-size: 18px;
@@ -92,8 +92,51 @@ button {
     border: 1px solid #666;
     padding: 5px 10px;
     background-color: #84bfbd;
+    cursor: pointer;
+}
+
+i {
+    cursor: pointer;
 }
 
 .contact, .delivery {
     overflow: hidden;
+}
+
+.popup {
+    display: inline-block;
+    position: relative;
+
+    &__list {
+        border: 1px solid #666;
+        padding: 10px;
+        position: absolute;
+        width: 140px;
+        background-color: #ededed;
+        z-index: 2;
+        max-height: 300px;
+        overflow: auto;
+    }
+
+    &__input {
+        padding-left: 10px;
+        width: 150px
+    }
+}
+
+.show-list {
+    overflow: visible;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.hide {
+    z-index: 0;
 }

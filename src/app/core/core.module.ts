@@ -1,5 +1,6 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 import { CartComponent } from './components/cart/cart.component';
@@ -11,7 +12,6 @@ import { SearchedItemsComponent } from './components/searched-items/searched-ite
 import { WatchesModule } from '../features/watches/watches.module';
 import { WristbandsModule } from '../features/wristbands/wristbands.module';
 import { CheckoutComponent } from './components/checkout/checkout.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ThanksPageComponent } from './components/checkout/thanks-page/thanks-page.component';
 
 

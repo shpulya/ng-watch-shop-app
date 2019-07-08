@@ -12,14 +12,45 @@
     <ol>
         <li [ngClass]="{'completed': contactsFilled}">
             Contact information <i class="far fa-edit" *ngIf="contactsFilled" (click)="onContactsSubmit()"></i>
-            <div class="contact" *ngIf="!contactsFilled" @compression>
+            <div class="contact" *ngIf="!contactsFilled" @compression [ngClass]="{'show-list': searchedRegions.length || searchedCities.length}">
                 <div class="form-group">
-                    <label for="region">Enter your region</label>
-                    <input class="form-control" type="text" id="region" required [(ngModel)]="contacts.region">
+                    <label >Enter your region</label>
+                    <div  class="popup">
+                        <input
+                            class="form-control popup__input"
+                            type="text" required
+                            [(ngModel)]="contacts.region"
+                            (input)="searchRegions($event.target.value)"
+                            [value]="contacts.region">
+                        <div class="popup__list" *ngIf="searchedRegions.length">
+                            <ul>
+                                <li *ngFor="let region of searchedRegions; let i = index" (click)="selectRegion(region)">
+                                    {{region.Description}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="city">Enter your city</label>
-                    <input class="form-control" type="text" id="city" required [(ngModel)]="contacts.city">
+                    <div  class="popup">
+                        <input
+                            class="form-control popup__input"
+                            type="text"
+                            id="city"
+                            required
+                            [(ngModel)]="contacts.city"
+                            (input)="searchCities($event.target.value)"
+                            [value]="contacts.city"
+                            [disabled]="!contacts.region">
+                        <div class="popup__list" *ngIf="searchedCities.length">
+                            <ul>
+                                <li *ngFor="let city of searchedCities; let i = index" (click)="selectCity(city)">
+                                    {{city}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="name">Enter your name and surname</label>
@@ -57,3 +88,5 @@
         </li>
     </ol>
 </div>
+
+<div [ngClass]="{'overlay': overlay}" (click)="closeSelection()"></div>
