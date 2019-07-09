@@ -12,16 +12,21 @@
     <ol>
         <li [ngClass]="{'completed': contactsFilled}">
             Contact information <i class="far fa-edit" *ngIf="contactsFilled" (click)="onContactsSubmit()"></i>
-            <div class="contact" *ngIf="!contactsFilled" @compression [ngClass]="{'show-list': searchedRegions.length || searchedCities.length}">
+            <div class="contact"
+                  *ngIf="!contactsFilled"
+                  @compression
+                  [ngClass]="{'show-list': searchedRegions.length || searchedCities.length}">
                 <div class="form-group">
                     <label >Enter your region</label>
                     <div  class="popup">
                         <input
                             class="form-control popup__input"
-                            type="text" required
+                            type="text"
                             [(ngModel)]="contacts.region"
                             (input)="searchRegions($event.target.value)"
-                            [value]="contacts.region">
+                            [value]="contacts.region"
+                            #region="ngModel"
+                            required>
                         <div class="popup__list" *ngIf="searchedRegions.length">
                             <ul>
                                 <li *ngFor="let region of searchedRegions; let i = index" (click)="selectRegion(region)">
@@ -29,6 +34,7 @@
                                 </li>
                             </ul>
                         </div>
+                        <div *ngIf="region.invalid" class="error">Region is required</div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -38,11 +44,12 @@
                             class="form-control popup__input"
                             type="text"
                             id="city"
-                            required
                             [(ngModel)]="contacts.city"
                             (input)="searchCities($event.target.value)"
                             [value]="contacts.city"
-                            [disabled]="!contacts.region">
+                            [disabled]="!contacts.region"
+                            #city="ngModel"
+                            required>
                         <div class="popup__list" *ngIf="searchedCities.length">
                             <ul>
                                 <li *ngFor="let city of searchedCities; let i = index" (click)="selectCity(city)">
@@ -50,23 +57,25 @@
                                 </li>
                             </ul>
                         </div>
+                        <div *ngIf="city.invalid" class="error">City is required</div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="name">Enter your name and surname</label>
-                    <input class="form-control" type="text" id="name" required [(ngModel)]="contacts.name">
+                    <input class="form-control" type="text" id="name" [(ngModel)]="contacts.name">
                 </div>
                 <div class="form-group">
                     <label for="email">Enter your email</label>
-                    <input class="form-control" type="text" id="email" required [(ngModel)]="contacts.email" email>
+                    <input class="form-control" type="text" id="email" [(ngModel)]="contacts.email" email #email="ngModel" required>
+                    <div *ngIf="email.invalid" class="error">Email is required</div>
                 </div>
-                <button type="submit" (click)="onContactsSubmit()" >Continue</button>
+                <button type="submit" [disabled]="region.errors || city.errors || email.errors" (click)="onContactsSubmit()">Continue</button>
             </div>
         </li>
 
         <li [ngClass]="{'completed': deliveryFilled}">
             Delivery and payment <i class="far fa-edit" *ngIf="deliveryFilled" (click)="onDeliverySubmit()"></i>
-            <div class="delivery" *ngIf="!deliveryFilled && contactsFilled" @compression [formGroup]="deliveryForm">
+            <form class="delivery" *ngIf="!deliveryFilled && contactsFilled" @compression [formGroup]="deliveryForm" (submit)="onDeliverySubmit()">
                 <div class="form-group">
                     Select a delivery method
                     <div><input type="radio" formControlName="delivery" id="from-shop" value="fromShop" checked><label for="from-shop">From our shop</label></div>
@@ -83,8 +92,8 @@
                     <input type="checkbox" formControlName="isSure" id="recall" value="isSure" [checked]="isSure">
                     <label for="recall">I'm sure in my order, you can't to recall me</label>
                 </div>
-                <button type="submit" (click)="onDeliverySubmit()" [routerLink]="['../thanks-page']">Confirm your order</button>
-            </div>
+                <button type="submit">Confirm your order</button>
+            </form>
         </li>
     </ol>
 </div>

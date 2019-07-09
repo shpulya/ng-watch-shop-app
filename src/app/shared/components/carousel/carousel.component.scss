@@ -1,10 +1,11 @@
 .carousel {
     width: 100%;
-    margin: 30px 0;
+    padding: 30px 0;
     position: relative;
     height: 220px;
     overflow: hidden;
     white-space: nowrap;
+    cursor: pointer;
 }
 
 .container__item {
@@ -37,19 +38,39 @@
     z-index: 1;
 }
 
-.prev {
-    border-right: 20px solid #666;
-    left: 20px;
-}
-
 .next {
     border-left: 20px solid #666;
     right: 20px;
 }
 
-.prev:hover,
-.next:hover {
-    opacity: 1;
+.prev {
+    border-right: 20px solid #666;
+    left: 20px;
+}
+
+.carousel__next,
+.carousel__prev {
+    height: 100%;
+    width: 80px;
+    background-color: #939393;
+    position: absolute;
+    right: 0;
+    opacity: 0;
+    top: 0;
+    z-index: 2;
+}
+
+.carousel__next {
+    right: 0;
+}
+
+.carousel__prev {
+    left: 0;
+}
+
+.carousel__prev:hover,
+.carousel__next:hover {
+    opacity: 0.3;
 }
 
 .noResize {

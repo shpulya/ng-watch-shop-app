@@ -2,11 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {map, takeUntil} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { ICart, IContacts, IItem } from '../../../app.models';
 import { CartService } from '../../services/cart.service';
-import {CheckoutService} from '../../services/checkout.service';
+import { CheckoutService } from '../../services/checkout.service';
 
 
 @Component({
@@ -58,7 +59,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     constructor(
         private cartService: CartService,
         private checkoutService: CheckoutService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private router: Router
     ) {}
 
     public ngOnInit(): void {
@@ -73,7 +75,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         this.checkoutService.getRegions().subscribe((result: any) => {
             this.regions = result.data;
             console.log(this.regions);
-        })
+        });
 
         this.initForm();
     }
@@ -90,6 +92,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     public onDeliverySubmit(): void {
         this.deliveryFilled = !this.deliveryFilled;
         this.cartService.deleteCart();
+        this.router.navigateByUrl('../thanks-page');
     }
 
     public getFinalSum(): number {

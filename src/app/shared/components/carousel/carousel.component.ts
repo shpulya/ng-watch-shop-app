@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { animate, query, style, transition, trigger } from '@angular/animations';
-import { fromEvent, Subject } from 'rxjs';
-import { debounceTime, takeUntil, throttleTime } from 'rxjs/operators';
+import { fromEvent, Subject, merge } from 'rxjs';
+import { debounceTime, filter, takeUntil, throttleTime } from 'rxjs/operators';
 
 import { IItem } from '../../../app.models';
 
@@ -76,18 +76,41 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public ngAfterViewInit(): void {
-        fromEvent(this.btnPrev.nativeElement, 'click')
+        merge<KeyboardEvent, MouseEvent>(
+            fromEvent(this.btnPrev.nativeElement, 'click'),
+            fromEvent(this.btnNext.nativeElement, 'click'),
+            fromEvent<KeyboardEvent>(document, 'keydown'))
             .pipe(
+                filter((event: KeyboardEvent | MouseEvent) => {
+                    if (event instanceof KeyboardEvent) {
+                        return event.key === 'Left'
+                            || event.key === 'ArrowLeft'
+                            || event.key === 'Right'
+                            || event.key === 'ArrowRight'
+                        ;
+                    }
+
+                    return true;
+                }),
                 throttleTime(300),
                 takeUntil(this.destroy$)
             )
-            .subscribe(() => this.reduceActiveIndex());
-        fromEvent(this.btnNext.nativeElement, 'click')
-            .pipe(
-                throttleTime(300),
-                takeUntil(this.destroy$)
-            )
-            .subscribe(() => this.increaseActiveIndex());
+            .subscribe(event => {
+                if (event instanceof KeyboardEvent) {
+                    (event.key === 'Left' || event.key === 'ArrowLeft')
+                        ? this.reduceActiveIndex()
+                        : this.increaseActiveIndex()
+                    ;
+
+                    return;
+                }
+
+                (event.target === this.btnNext.nativeElement)
+                    ? this.increaseActiveIndex()
+                    : this.reduceActiveIndex()
+                ;
+
+            });
     }
 
     public ngOnDestroy(): void {
@@ -96,11 +119,17 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public increaseActiveIndex(): void {
-        this.activeIndex = (this.activeIndex < this.items.length - 1) ? this.activeIndex + 1 : 0;
+        this.activeIndex = (this.activeIndex < this.items.length - 1)
+            ? this.activeIndex + 1
+            : this.activeIndex
+        ;
     }
 
     public reduceActiveIndex(): void {
-        this.activeIndex = (this.activeIndex <= 0) ? this.items.length - 1 : this.activeIndex - 1;
+        this.activeIndex = (this.activeIndex <= 0)
+            ? this.activeIndex
+            : this.activeIndex - 1
+        ;
     }
 
     @HostListener('window:resize', ['$event'])

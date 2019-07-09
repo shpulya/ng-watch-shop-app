@@ -19,8 +19,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     public state: number = 0;
 
-    public activeIndex: number = 0;
-
     private services: Array<ItemsService> = [];
 
     private destroy$: Subject<void> = new Subject();
