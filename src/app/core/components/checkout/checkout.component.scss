@@ -40,11 +40,11 @@
         }
     }
 
-    >ol {
-       list-style: none;
+    > ol {
+        list-style: none;
         counter-reset: custom-counter;
 
-        >li {
+        > li {
             counter-increment: custom-counter;
             padding: 10px;
             font-size: 18px;
@@ -56,11 +56,12 @@
             }
 
             &::before {
+                --size: 32px;
+
                 content: counter(custom-counter);
                 font-size: 18px;
                 font-weight: bold;
                 position: absolute;
-                --size: 32px;
                 left: calc(-1 * var(--size) - 10px);
                 line-height: var(--size);
                 width: var(--size);
@@ -86,7 +87,7 @@
         border: 1px solid #666;
         line-height: 1.5em;
         padding-left: 10px;
-        width: 150px
+        width: 150px;
     }
 
     .form-group {
@@ -107,7 +108,8 @@ i {
     cursor: pointer;
 }
 
-.contact, .delivery {
+.contact,
+.delivery {
     overflow: hidden;
 }
 
@@ -159,6 +161,8 @@ input:valid {
     padding-left: 10px;
 }
 
-input[type="checkbox"], input[type="radio"], .delivery label {
+input[type='checkbox'],
+input[type='radio'],
+.delivery label {
     cursor: pointer;
 }

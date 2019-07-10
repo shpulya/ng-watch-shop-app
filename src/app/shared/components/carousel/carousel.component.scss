@@ -15,7 +15,7 @@
     width: 25%;
 
     @media screen and (max-width: 1300px) {
-        width: calc(100%/3);
+        width: calc(100% / 3);
     }
 
     .carousel__item {
@@ -78,9 +78,10 @@ button {
     border: none;
 
     &:focus {
-        outline: 0px solid transparent;
+        outline: 0 solid transparent;
     }
 }
+
 .noResize {
     width: 100%;
 }
