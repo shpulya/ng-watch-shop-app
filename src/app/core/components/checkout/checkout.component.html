@@ -24,17 +24,18 @@
                             type="text"
                             [(ngModel)]="contacts.region"
                             (input)="searchRegions($event.target.value)"
+                            (change)="checkRegion($event.target.value)"
                             [value]="contacts.region"
                             #region="ngModel"
                             required>
                         <div class="popup__list" *ngIf="searchedRegions.length">
                             <ul>
                                 <li *ngFor="let region of searchedRegions; let i = index" (click)="selectRegion(region)">
-                                    {{region.Description}}
+                                    {{region}}
                                 </li>
                             </ul>
                         </div>
-                        <div *ngIf="region.invalid" class="error">Region is required</div>
+                        <div *ngIf="!region.pristine && region.invalid" class="error">Region should be selected from the list</div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -46,6 +47,7 @@
                             id="city"
                             [(ngModel)]="contacts.city"
                             (input)="searchCities($event.target.value)"
+                            (change)="checkCity($event.target.value)"
                             [value]="contacts.city"
                             [disabled]="!contacts.region"
                             #city="ngModel"
@@ -57,7 +59,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div *ngIf="city.invalid" class="error">City is required</div>
+                        <div *ngIf="!city.pristine && city.invalid" class="error">City is required</div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -67,7 +69,7 @@
                 <div class="form-group">
                     <label for="email">Enter your email</label>
                     <input class="form-control" type="text" id="email" [(ngModel)]="contacts.email" email #email="ngModel" required>
-                    <div *ngIf="email.invalid" class="error">Email is required</div>
+                    <div *ngIf="!email.pristine && email.invalid" class="error">Email is required</div>
                 </div>
                 <button type="submit" [disabled]="region.errors || city.errors || email.errors" (click)="onContactsSubmit()">Continue</button>
             </div>
@@ -78,13 +80,13 @@
             <form class="delivery" *ngIf="!deliveryFilled && contactsFilled" @compression [formGroup]="deliveryForm" (submit)="onDeliverySubmit()">
                 <div class="form-group">
                     Select a delivery method
-                    <div><input type="radio" formControlName="delivery" id="from-shop" value="fromShop" checked><label for="from-shop">From our shop</label></div>
+                    <div><input type="radio" formControlName="delivery" id="from-shop" value="fromShop"><label for="from-shop">From our shop</label></div>
                     <div><input type="radio" formControlName="delivery" id="from-post" value="fromPost"><label for="from-shop">From post</label></div>
                     <div><input type="radio" formControlName="delivery" id="to-door" value="toDoor"><label for="to-door">Delivery to the door</label></div>
                 </div>
                 <div class="form-group">
                     Select a payment method
-                    <div><input type="radio" formControlName="payment" id="cash" value="cash" checked><label for="cash">Cash</label></div>
+                    <div><input type="radio" formControlName="payment" id="cash" value="cash"><label for="cash">Cash</label></div>
                     <div><input type="radio" formControlName="payment" id="mastercard" value="mastercard"><label for="mastercard">MasterCard</label></div>
                     <div><input type="radio" formControlName="payment" id="visa" value="visa"><label for="visa">Visa</label></div>
                 </div>

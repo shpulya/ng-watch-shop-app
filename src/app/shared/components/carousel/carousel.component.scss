@@ -58,6 +58,7 @@
     opacity: 0;
     top: 0;
     z-index: 2;
+    cursor: pointer;
 }
 
 .carousel__next {
@@ -73,6 +74,13 @@
     opacity: 0.3;
 }
 
+button {
+    border: none;
+
+    &:focus {
+        outline: 0px solid transparent;
+    }
+}
 .noResize {
     width: 100%;
 }

@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 import { ICart, IContacts, IItem } from '../../../app.models';
 import { CartService } from '../../services/cart.service';
@@ -92,7 +92,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     public onDeliverySubmit(): void {
         this.deliveryFilled = !this.deliveryFilled;
         this.cartService.deleteCart();
-        this.router.navigateByUrl('../thanks-page');
+        this.router.navigateByUrl('thanks-page');
     }
 
     public getFinalSum(): number {
@@ -106,7 +106,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     public searchRegions(search: string): void {
         this.overlay = true;
         const pattern = new RegExp(`\^` + search, 'i');
-        this.searchedRegions = this.regions.filter((region: any) => region.Description.match(pattern));
+        this.searchedRegions = this.regions.map((region: any) => region.Description).filter((region: any) => region.match(pattern));
     }
 
     public searchCities(search: string): void {
@@ -118,9 +118,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
 
     public selectRegion(region: any): void {
-        this.contacts.region = region.Description;
+        this.contacts.region = region;
         this.searchedRegions = [];
-        this.checkoutService.getCities(region.Ref).subscribe((result: any) => {
+        this.checkoutService.getCities(region).subscribe((result: any) => {
             this.cities = result.data.map((city: any) => city.Description);
             console.log(result.data);
         });
@@ -137,11 +137,23 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         this.overlay = false;
     }
 
+    public checkRegion(region: string): void {
+        this.contacts.region = (this.searchedRegions.includes(region))
+            ? region
+            : '';
+    }
+
+    public checkCity(city: string): void {
+        this.contacts.city = (this.searchedCities.includes(city))
+            ? city
+            : '';
+    }
+
     private initForm(): void {
         this.deliveryForm = this.fb.group(
             {
-                delivery: ['', Validators.required],
-                payment: ['', Validators.required],
+                delivery: ['fromShop', Validators.required],
+                payment: ['visa', Validators.required],
                 isSure: false
             }
         );

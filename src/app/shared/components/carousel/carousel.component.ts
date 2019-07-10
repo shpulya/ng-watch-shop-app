@@ -92,7 +92,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnDestroy {
 
                     return true;
                 }),
-                throttleTime(300),
+                throttleTime(500),
                 takeUntil(this.destroy$)
             )
             .subscribe(event => {
