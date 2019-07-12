@@ -58,16 +58,15 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
                             this.items = this.items.concat(searchedItem);
                             this.filteredItems = [...this.items];
                             this.itemsListRef.selectPage(1, this.filteredItems);
-
-                            if (this.priceFilter !== JSON.parse(params.price)) {
-                                this.onPriceFilter(JSON.parse(params.price));
+                            if (!!params.price) {
+                                if (this.priceFilter !== JSON.parse(params.price)) {
+                                    this.onPriceFilter(JSON.parse(params.price));
+                                }
                             }
                         })
                     ;
                 }
             }
-            console.log('onInit', JSON.parse(params.price));
-
         });
     }
 

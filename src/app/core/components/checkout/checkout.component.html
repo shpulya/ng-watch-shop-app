@@ -25,7 +25,9 @@
                             [(ngModel)]="contacts.region"
                             (input)="searchRegions($event.target.value)"
                             (change)="checkRegion($event.target.value)"
+                            (focus)="searchRegions($event.target.value)"
                             [value]="contacts.region"
+                            autocomplete="off"
                             #region="ngModel"
                             required>
                         <div class="popup__list" *ngIf="searchedRegions.length">
@@ -48,8 +50,10 @@
                             [(ngModel)]="contacts.city"
                             (input)="searchCities($event.target.value)"
                             (change)="checkCity($event.target.value)"
+                            (focus)="searchCities($event.target.value)"
                             [value]="contacts.city"
                             [disabled]="!contacts.region"
+                            autocomplete="off"
                             #city="ngModel"
                             required>
                         <div class="popup__list" *ngIf="searchedCities.length">
