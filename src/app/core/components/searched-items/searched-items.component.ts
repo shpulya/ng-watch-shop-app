@@ -58,10 +58,16 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
                             this.items = this.items.concat(searchedItem);
                             this.filteredItems = [...this.items];
                             this.itemsListRef.selectPage(1, this.filteredItems);
+
+                            if (this.priceFilter !== JSON.parse(params.price)) {
+                                this.onPriceFilter(JSON.parse(params.price));
+                            }
                         })
                     ;
                 }
             }
+            console.log('onInit', JSON.parse(params.price));
+
         });
     }
 
@@ -71,6 +77,7 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
     }
 
     public onPriceFilter(priceFilter: IPrice): void {
+        console.log(priceFilter);
         this.priceFilter = priceFilter;
         this.filteredItems = [...this.items];
         this.filteredItems = this.filteredItems.filter((item: IItem) =>

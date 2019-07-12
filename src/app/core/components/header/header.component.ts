@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { debounceTime, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Component, OnInit, OnDestroy, Inject, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { debounceTime, filter, takeUntil } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { CartService } from '../../services/cart.service';
 import { IItem } from '../../../app.models';
@@ -12,7 +13,10 @@ import { ITEMS_SERVICES } from '../../services/items-factory.service';
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
+
+    @ViewChild('searchInput')
+    public searchInput!: ElementRef;
 
     public counter: number = 0;
 
@@ -24,6 +28,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     public showExtraItems: boolean = false;
 
+    public queryParams!: Params;
+
     private search$: Subject<string> = new Subject();
 
     private destroy$: Subject<void> = new Subject();
@@ -32,6 +38,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     constructor(
         private cartService: CartService,
+        private router: Router,
+        private route: ActivatedRoute,
         @Inject(ITEMS_SERVICES) services: Array<ItemsService>
     ) {
         for (const service of services) {
@@ -75,6 +83,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         ;
     }
 
+    public ngAfterViewInit(): void {
+        fromEvent<KeyboardEvent>(this.searchInput.nativeElement, 'keydown')
+            .pipe(filter((event: KeyboardEvent) => event.key === 'Enter'))
+            .subscribe((event: KeyboardEvent) => {
+                this.cancelSearching();
+            });
+
+    }
+
     public ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
@@ -94,7 +111,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public cancelSearching(): void {
         this.overlay = false;
         this.items = [];
+        const qp = { ...this.route.snapshot.queryParams };
+
         document.body.style.overflow = 'auto';
+        qp['searchedText'] = this.inputText;
+        this.router.navigateByUrl(
+            this.router.createUrlTree(
+                ['searched'], {queryParams: qp}
+            )
+        );
     }
 
     public clearEditField(): void {

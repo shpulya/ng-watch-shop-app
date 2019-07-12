@@ -5,7 +5,6 @@ import { catchError, finalize } from 'rxjs/operators';
 
 import { LoaderService } from '../services/loader.service';
 import { IItem, ItemType } from '../../app.models';
-import { ItemsService } from '../services/items.service';
 import { ItemsFactoryService } from '../services/items-factory.service';
 
 @Injectable({
@@ -31,6 +30,7 @@ export abstract class ItemDetailsResolver<ItemT extends IItem> implements Resolv
                 finalize (() => {
                     this.loaderService.stopLoading();
                 })
-            );
+            )
+        ;
     }
 }

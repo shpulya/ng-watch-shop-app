@@ -12,13 +12,10 @@
                 [ngClass]="{'search__input__text_open': items.length}"
                 (input)="showHint($event.target.value)"
                 [value]="inputText"
-            >
+                #searchInput>
             <button
                 class="search__input__submit"
-                [routerLink]="['/searched/']"
-                [queryParams]="{searchedText: inputText}"
-                (click)="cancelSearching()"
-            >
+                (click)="cancelSearching()">
                 <i class="fas fa-search"></i>
             </button>
         </div>
