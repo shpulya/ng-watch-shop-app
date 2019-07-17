@@ -1,11 +1,11 @@
 <div class="item">
     <div class="item__img">
         <img
-            src="../../../../assets/img/{{item!.image}}"
+            src="/assets/img/{{item!.image}}"
             alt="{{item!.image}}">
     </div>
     <div class="item__data">
-        <a [routerLink]="'../../' + getCategories(item!.type)"
+        <a [routerLink]="'../../' + categories[item!.type]"
            [queryParams]="queryParams">
             Back to catalog
         </a>
@@ -27,7 +27,7 @@
 
     <div class="item__cart">
         <img
-            src="../../../../assets/img/cart.png"
+            src="/assets/img/cart.png"
             alt="Add to cart" id="cart"
             (click)="addItemToCart(item); tooltip.show()">
         <label for="cart" (click)="addItemToCart(item); tooltip.show()">

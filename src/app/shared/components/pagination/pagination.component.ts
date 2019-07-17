@@ -8,18 +8,18 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 export class PaginationComponent implements OnChanges {
 
     @Input()
-    public itemsCount!: number;
+    public readonly itemsCount!: number;
 
     @Input()
     public readonly countOnPage!: number;
 
     @Input()
-    public currentPage!: number;
+    public readonly currentPage!: number;
 
-    @Output()
-    public pageUpdateEvent: EventEmitter<number> = new EventEmitter<number>();
+    @Output('onpageupdate')
+    public readonly pageUpdateEvent: EventEmitter<number> = new EventEmitter<number>();
 
-    public countPages: number = 0;
+    public pagesCount: number = 0;
 
     public pages: Array<number> = [];
 
@@ -29,10 +29,10 @@ export class PaginationComponent implements OnChanges {
         this.pages = [];
 
         if (itemsCount) {
-            this.countPages = Math.ceil(itemsCount.currentValue / this.countOnPage);
+            this.pagesCount = Math.ceil(itemsCount.currentValue / this.countOnPage);
         }
 
-        for (let i = 1; i < this.countPages + 1; i++) {
+        for (let i = 1; i < this.pagesCount + 1; i++) {
             this.pages.push(i);
         }
     }

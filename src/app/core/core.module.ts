@@ -13,6 +13,7 @@ import { WatchesModule } from '../features/watches/watches.module';
 import { WristbandsModule } from '../features/wristbands/wristbands.module';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ThanksPageComponent } from './components/checkout/thanks-page/thanks-page.component';
+import { SearchComponent } from './components/header/search/search.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ThanksPageComponent } from './components/checkout/thanks-page/thanks-pa
         MainPageComponent,
         SearchedItemsComponent,
         CheckoutComponent,
-        ThanksPageComponent
+        ThanksPageComponent,
+        SearchComponent
     ],
     imports: [
         CommonModule,

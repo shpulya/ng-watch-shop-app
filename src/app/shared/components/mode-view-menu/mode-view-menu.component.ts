@@ -1,40 +1,48 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ItemView } from '../../../app.models';
+
+export enum OrderBy {
+    Asc = 'asc',
+    Desk = 'desk'
+}
 
 @Component({
     selector: 'app-mode-view-menu',
     templateUrl: './mode-view-menu.component.html',
     styleUrls: ['./mode-view-menu.component.scss']
 })
-export class ModeViewMenuComponent implements OnInit {
+export class ModeViewMenuComponent {
 
-    @Output()
-    public sorting: EventEmitter<string> = new EventEmitter();
+    @Output('onsortchange')
+    public readonly sortingChangeEvent: EventEmitter<OrderBy> = new EventEmitter();
 
-    @Output()
-    public view: EventEmitter<string> = new EventEmitter();
+    @Output('onviewchange')
+    public readonly viewChangeEvent: EventEmitter<ItemView> = new EventEmitter();
 
-    @Output()
-    public overlay: EventEmitter<boolean> = new EventEmitter();
+    @Input()
+    public readonly header!: string;
 
-    public viewMode: string = 'grid';
+    public viewMode: ItemView = ItemView.Grid;
 
-    public header: string = '';
+    public grid: ItemView = ItemView.Grid;
+
+    public list: ItemView = ItemView.List;
+
+    public asc: OrderBy = OrderBy.Asc;
+
+    public desk: OrderBy = OrderBy.Desk;
 
     constructor(
         private route: ActivatedRoute
     ) { }
 
-    public ngOnInit(): void {
-        this.header = this.route.snapshot.url[0].path;
+    public orderItems(order: OrderBy): void {
+        this.sortingChangeEvent.emit(order);
     }
 
-    public orderItems(order: string): void {
-        this.sorting.emit(order);
-    }
-
-    public changeViewMode(view: string): void {
+    public changeViewMode(view: ItemView): void {
         this.viewMode = view;
-        this.view.emit(view);
+        this.viewChangeEvent.emit(view);
     }
 }

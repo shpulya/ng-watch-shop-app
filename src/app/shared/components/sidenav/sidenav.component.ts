@@ -2,8 +2,8 @@ import { AfterViewInit, Component, ChangeDetectorRef, EventEmitter, OnDestroy, O
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
-import { IPrice, IFilter } from '../../../app.models';
-import { FiltersService } from '../../../core/services/filters.service';
+import { SidenavService } from './sidenav.service';
+import { IFilter, IPrice } from './sidenav.models';
 
 type TFilterMap = Map<string, Set<string | number>>;
 
@@ -12,29 +12,30 @@ type TFilterMap = Map<string, Set<string | number>>;
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SidenavComponent implements OnInit, OnDestroy {
 
     @Input()
-    public showFilterCategories: boolean = true;
-
-    @Output()
-    public categoriesUpdateEvent: EventEmitter<TFilterMap> = new EventEmitter<TFilterMap>();
-
-    @Output()
-    public priceUpdateEvent: EventEmitter<IPrice> = new EventEmitter<IPrice>();
+    public readonly showFilterCategories: boolean = true;
 
     @Input()
-    public config: Array<IFilter> = [];
+    public readonly config!: Array<IFilter>;
+
+    @Output('oncategoriesupdate')
+    public readonly categoriesUpdateEvent: EventEmitter<TFilterMap> = new EventEmitter<TFilterMap>();
+
+    @Output('onpriceupdate')
+    public readonly priceUpdateEvent: EventEmitter<IPrice> = new EventEmitter<IPrice>();
 
     public showPriceFilter: boolean = true;
 
     public filtersCategories!: Array<string>;
 
-    public checkedFiltersCategories!: Array<string>;
+    public filtersCategoriesChecked!: Array<string>;
 
     public filters: TFilterMap = new Map();
 
-    public checkedFilters: TFilterMap = new Map();
+    public filtersChecked
+        : TFilterMap = new Map();
 
     private price: IPrice = {from: 0, to: 999999};
 
@@ -44,7 +45,7 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewInit {
         private router: Router,
         private route: ActivatedRoute,
         private changeDetectorRef: ChangeDetectorRef,
-        private filtersService: FiltersService
+        private sidenavService: SidenavService
     ) {}
 
     public ngOnInit(): void {
@@ -65,15 +66,18 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewInit {
                 categoriesMap.set(<string> key, categoriesObject[key]);
             });
 
-            this.checkedFilters = categoriesMap;
-            this.checkedFiltersCategories = Array.from(this.checkedFilters.keys());
-            this.categoriesUpdateEvent.emit(this.checkedFilters);
+            this.filtersChecked = categoriesMap;
+            this.filtersCategoriesChecked = Array.from(this.filtersChecked.keys());
+            this.categoriesUpdateEvent.emit(this.filtersChecked);
         }
-    }
 
-    public ngAfterViewInit(): void {
-        this.setInitialFilters();
-        this.changeDetectorRef.detectChanges();
+        this.filtersChecked.forEach((value: Set<string | number>, key: string) => {
+            const configFiltered = this.config.filter((el: IFilter) => el.name === key)[0];
+
+            if (configFiltered) {
+                configFiltered.showFilter = true;
+            }
+        });
     }
 
     public ngOnDestroy(): void {
@@ -83,25 +87,25 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public setPrice(priceKey: keyof IPrice, value: number): void {
         this.price[priceKey] = value;
-        this.filtersService.setPriceToUrl(JSON.stringify(this.price));
+        this.sidenavService.setPriceToUrl(JSON.stringify(this.price));
         this.priceUpdateEvent.emit(this.price);
     }
 
     public onFilterChecked(category: string, value: string | number): void {
-        if (!this.checkedFilters.has(category)) {
+        if (!this.filtersChecked.has(category)) {
             const filtersSet: Set<string | number> = new Set();
 
             filtersSet.add(value);
 
-            this.checkedFilters.set(category, filtersSet);
-            this.categoriesUpdateEvent.emit(this.checkedFilters);
-            this.checkedFiltersCategories = Array.from(this.checkedFilters.keys());
-            this.filtersService.setCategoriesToUrl(this.checkedFilters);
+            this.filtersChecked.set(category, filtersSet);
+            this.categoriesUpdateEvent.emit(this.filtersChecked);
+            this.filtersCategoriesChecked = Array.from(this.filtersChecked.keys());
+            this.sidenavService.setCategoriesToUrl(this.filtersChecked);
 
             return;
         }
 
-        const currentCategory = this.checkedFilters.get(category);
+        const currentCategory = this.filtersChecked.get(category);
 
         if (!currentCategory) {
             return;
@@ -114,16 +118,16 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         if (currentCategory && !currentCategory.size) {
-            this.checkedFilters.delete(category);
+            this.filtersChecked.delete(category);
         }
 
-        this.filtersService.setCategoriesToUrl(this.checkedFilters);
-        this.checkedFiltersCategories = Array.from(this.checkedFilters.keys());
-        this.categoriesUpdateEvent.emit(this.checkedFilters);
+        this.sidenavService.setCategoriesToUrl(this.filtersChecked);
+        this.filtersCategoriesChecked = Array.from(this.filtersChecked.keys());
+        this.categoriesUpdateEvent.emit(this.filtersChecked);
     }
 
     public getFilterStatus(category: string, value: string | number): boolean {
-        const currentCategory = this.checkedFilters.get(category);
+        const currentCategory = this.filtersChecked.get(category);
 
         if (!currentCategory) {
             return false;
@@ -144,10 +148,8 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
-
     private updateFiltersMap(items: Array<any>): void {
         for (const filter of this.config) {
-
             const setPropsByFilter = new Set();
 
             for (const item of items) {
@@ -155,19 +157,10 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewInit {
                     setPropsByFilter.add(item[filter.name]);
                 }
             }
+
             this.filters.set(filter.name, setPropsByFilter);
         }
 
         this.filtersCategories = Array.from(this.filters.keys());
-    }
-
-    private setInitialFilters(): void {
-        if (!this.checkedFilters) {
-            return;
-        }
-
-        this.checkedFilters.forEach((value: Set<string | number>, key: string) => {
-            this.config.filter((el: IFilter) => el.name === key)[0].showFilter = true;
-        });
     }
 }

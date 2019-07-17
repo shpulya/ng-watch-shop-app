@@ -8,12 +8,12 @@ import { Component, Input } from '@angular/core';
 export class TooltipComponent {
 
     @Input()
-    public message: string = '';
+    public readonly message: string = '';
 
-    public showTooltip: boolean = false;
+    public shown: boolean = false;
 
     public show(): void {
-        this.showTooltip = true;
-        setTimeout(() => { this.showTooltip = false; }, 300);
+        this.shown = true;
+        setTimeout(() => { this.shown = false; }, 300);
     }
 }

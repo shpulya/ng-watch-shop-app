@@ -1,7 +1,7 @@
 <div class="checkout">
     <div class="checkout__cart">
         <div class="checkout__cart__item" *ngFor="let item of itemsList">
-            <img src="../../../../assets/img/{{item.image}}" alt="{{item.image}}">
+            <img src="/assets/img/{{item.image}}" alt="{{item.image}}">
             <div class="item_name">{{item.name}}</div>
         </div>
         <div class="checkout__cart__sum">${{getFinalSum()}}</div>
@@ -95,7 +95,7 @@
                     <div><input type="radio" formControlName="payment" id="visa" value="visa"><label for="visa">Visa</label></div>
                 </div>
                 <div class="form-group">
-                    <input type="checkbox" formControlName="isSure" id="recall" value="isSure" [checked]="isSure">
+                    <input type="checkbox" formControlName="sureChecked" id="recall" value="sureChecked" [checked]="sureChecked">
                     <label for="recall">I'm sure in my order, you can't to recall me</label>
                 </div>
                 <button type="submit">Confirm your order</button>
@@ -104,4 +104,4 @@
     </ol>
 </div>
 
-<div [ngClass]="{'overlay': overlay}" (click)="closeSelection()"></div>
+<div [ngClass]="{'overlay': overlayShown}" (click)="closeSelection()"></div>

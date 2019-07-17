@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
-import { ItemType, ItemView, IWristband } from '../../../../../app.models';
+import { ItemType, ItemView } from '../../../../../app.models';
+import { IWristband } from '../../../wristbands.models';
 import { ItemViewController } from '../../../../../shared/components/item-view/item-view.controller';
 
 @Component({

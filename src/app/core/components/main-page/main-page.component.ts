@@ -1,9 +1,10 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
 import { IItem } from '../../../app.models';
 import { ITEMS_SERVICES } from '../../services/items-factory.service';
 import { ItemsService } from '../../services/items.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-main-page',
@@ -42,7 +43,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this.destroy$.complete();
+        this.destroy$.next();
         this.destroy$.complete();
     }
 }

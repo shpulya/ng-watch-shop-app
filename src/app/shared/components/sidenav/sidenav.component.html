@@ -1,17 +1,19 @@
 <div class="sidenav">
     <div class="sidenav__header">Filters</div>
 
-    <div class="sidenav__applied" *ngIf="checkedFiltersCategories && checkedFiltersCategories.length">
+    <div class="sidenav__applied" *ngIf="filtersCategoriesChecked && filtersCategoriesChecked.length">
         Applied filters
     </div>
-    <div class="checked_filters" *ngFor="let filter of checkedFiltersCategories">
+    <div class="checked_filters" *ngFor="let filter of filtersCategoriesChecked">
         <span>{{getDisplayCategoryName(filter)}}:</span>
-        <div class="checked_category_item" *ngFor="let property of checkedFilters!.get(filter)">
+        <div class="checked_category_item"
+             *ngFor="let property of filtersChecked!.get(filter)"
+             (click)="onFilterChecked(filter, property)">
             {{property}}
-            <div class="delete" (click)="onFilterChecked(filter, property)"></div>
+            <div class="delete"></div>
         </div>
     </div>
-    <hr *ngIf="checkedFiltersCategories && checkedFiltersCategories.length">
+    <hr *ngIf="filtersCategoriesChecked && filtersCategoriesChecked.length">
 
     <ul>
         <li [ngClass]="{'close': !showPriceFilter}">

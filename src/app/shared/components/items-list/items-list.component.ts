@@ -1,9 +1,10 @@
 import { Component, HostListener, Input, OnChanges, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
-import { ActivatedRoute, Event, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { IItem, ItemView } from '../../../app.models';
+import { OrderBy } from '../mode-view-menu/mode-view-menu.component';
 
 @Component({
     selector: 'app-items-list',
@@ -13,19 +14,35 @@ import { IItem, ItemView } from '../../../app.models';
 export class ItemsListComponent implements OnInit, OnChanges {
 
     @Input()
-    public items: Array<IItem> = [];
+    public set Items(items: Array<IItem>) {
+        if (items) {
+            this._items = items;
+            this.items = items;
+        }
+    }
+
+    public get Items(): Array<IItem> {
+        return this._items;
+    }
 
     @Input()
     public readonly itemTemplate!: TemplateRef<any>;
 
     @Input()
-    public view!: ItemView;
+    public readonly view!: ItemView;
+
+    @Input()
+    public readonly header!: string;
+
+    public items: Array<IItem> = [];
+
+    public _items: Array<IItem> = [];
 
     public pagedItems: Array<IItem> = [];
 
-    public viewMode: string = 'grid';
+    public viewMode: ItemView = ItemView.Grid;
 
-    public orderBy: string = 'asc';
+    public orderBy: OrderBy = OrderBy.Asc;
 
     public queryParams!: Params;
 
@@ -97,11 +114,11 @@ export class ItemsListComponent implements OnInit, OnChanges {
     }
 
     @HostListener('window:resize', ['$event'])
-    public calculateItemsOnGrid(event?: Event): void {
+    public calculateItemsOnGrid(): void {
         this.resize$.next();
     }
 
-    public changeViewMode(view: string): void {
+    public changeViewMode(view: ItemView): void {
         this.viewMode = view;
         this.router.navigate(
             [this.router.url.split('?')[0] ],
@@ -114,7 +131,7 @@ export class ItemsListComponent implements OnInit, OnChanges {
         this.selectPage(1);
     }
 
-    public orderItems(orderBy: string): void {
+    public orderItems(orderBy: OrderBy): void {
         this.orderBy = orderBy;
         this.router.navigate(
             [this.router.url.split('?')[0] ],
@@ -124,7 +141,7 @@ export class ItemsListComponent implements OnInit, OnChanges {
             }
         );
 
-        this.selectPage(1, this.orderBy === 'asc'
+        this.selectPage(1, this.orderBy === OrderBy.Asc
             ? this.items.sort((a: IItem, b: IItem) => a.price - b.price)
             : this.items.sort((a: IItem, b: IItem) => b.price - a.price)
         );

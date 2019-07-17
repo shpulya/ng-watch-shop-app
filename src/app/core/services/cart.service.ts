@@ -2,10 +2,15 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { CookiesService } from './cookies.service';
-import { ICart, IItem, IShortItemInfo, ItemType, IType } from '../../app.models';
+import { IItem, IShortItemInfo, ItemType, IType } from '../../app.models';
 import { WatchesService } from '../../features/watches/services/watches.service';
 import { WristbandsService } from '../../features/wristbands/services/wristbands.service';
 import { ItemsFactoryService } from './items-factory.service';
+
+export interface ICart {
+    item: IItem;
+    count: number;
+}
 
 type TCartMap = Map<string, ICart> ;
 
@@ -13,17 +18,6 @@ type TCartMap = Map<string, ICart> ;
     providedIn: 'root'
 })
 export class CartService {
-
-    public types: Array<IType> = [
-        {
-            type: 'wristband',
-            pluralType: 'watches'
-        },
-        {
-            type: 'wristband',
-            pluralType: 'wristbands'
-        }
-    ];
 
     public opened$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -38,45 +32,48 @@ export class CartService {
         this.receiveCookiesItems();
     }
 
-    public addItem(item: IItem): void {
+    public generateItemId(item: IShortItemInfo): string {
         const {id, type} = item;
+
+        return `${id}#${type}`;
+    }
+
+    public addItem(item: IItem): void {
         const items: TCartMap = this.items$.getValue();
-        const searchedItem = items.get(`${id}#${type}`);
+        const searchedItem = items.get(this.generateItemId(item));
         const count = (searchedItem) ? searchedItem.count : 0;
 
-        items.delete(`${id}#${type}`);
+        items.delete(this.generateItemId(item));
 
-        this.items$.next(items.set(`${id}#${type}`, {
+        this.items$.next(items.set(this.generateItemId(item), {
             item: item,
             count: count + 1
         }));
 
-        this.countItemsInCart();
         this.setItemsToCookies(items);
     }
 
     public deleteItem(i: IShortItemInfo): void {
         const items: TCartMap = this.items$.getValue();
 
-        items.delete(`${i.id}#${i.type}`);
+        items.delete(this.generateItemId(i));
 
         this.items$.next(items);
-        this.countItemsInCart();
         this.setItemsToCookies(items);
     }
 
     public reduceCountItem(i: IShortItemInfo): void {
         const items: TCartMap = this.items$.getValue();
-        const item = items.get(`${i.id}#${i.type}`);
+        const item = items.get(this.generateItemId(i));
 
         if (!item) {
             return;
         }
 
-        items.delete(`${i.id}#${i.type}`);
+        items.delete(this.generateItemId(i));
 
         if (item.count > 1) {
-            items.set(`${i.id}#${i.type}`, {
+            items.set(this.generateItemId(i), {
                 item: item.item,
                 count: item.count - 1
             });
@@ -84,27 +81,25 @@ export class CartService {
 
         this.items$.next(items);
 
-        this.countItemsInCart();
         this.setItemsToCookies(items);
     }
 
     public increaseCountItem(i: IShortItemInfo): void {
         const items: TCartMap = this.items$.getValue();
-        const item = items.get(`${i.id}#${i.type}`);
+        const item = items.get(this.generateItemId(i));
 
         if (!item) {
             return;
         }
 
-        items.delete(`${i.id}#${i.type}`);
-        items.set(`${i.id}#${i.type}`, {
+        items.delete(this.generateItemId(i));
+        items.set(this.generateItemId(i), {
             item: item.item,
             count: item.count + 1
         });
 
         this.items$.next(items);
 
-        this.countItemsInCart();
         this.setItemsToCookies(items);
     }
 
@@ -114,10 +109,10 @@ export class CartService {
         ;
     }
 
-    public deleteCart(): void {
+    public clear(): void {
         const newCart: TCartMap = new Map();
+
         this.items$.next(newCart);
-        this.countItemsInCart();
         this.setItemsToCookies(this.items$.getValue());
     }
 
@@ -162,7 +157,7 @@ export class CartService {
                 .getItemById(parsedId.id)
                 .subscribe((i: IItem | null) => {
                     if (i) {
-                        itemsMap.set(`${i.id}#${i.type}`, {
+                        itemsMap.set(this.generateItemId(i), {
                             item: i,
                             count: items[1]
                         });

@@ -1,13 +1,14 @@
 <div class="body">
     <app-sidenav
-        (priceUpdateEvent)="onPriceFilter($event)"
+        (onpriceupdate)="onPriceFilter($event)"
         [showFilterCategories]="false">
     </app-sidenav>
 
     <div class="main-content">
         <app-items-list
-            [items]="filteredItems"
-            [itemTemplate]="itemTemplate">
+            [Items]="itemsFiltered"
+            [itemTemplate]="itemTemplate"
+            [header]="header">
 
             <ng-template #itemTemplate let-view="view" let-item let-queryParams="queryParams">
                 <app-item-view
@@ -21,5 +22,5 @@
         </app-items-list>
     </div>
 </div>
-<div [ngClass]="{'overlay': overlay}"></div>
+<div [ngClass]="{'overlay': overlayShown}"></div>
 

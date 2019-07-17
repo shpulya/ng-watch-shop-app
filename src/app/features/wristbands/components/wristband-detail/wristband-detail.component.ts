@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { IWristband } from '../../../../app.models';
 import { CookiesService } from '../../../../core/services/cookies.service';
+import { IWristband } from '../../wristbands.models';
 
 @Component({
     selector: 'app-wristband-detail',
@@ -14,8 +14,6 @@ export class WristbandDetailComponent implements OnInit, OnDestroy {
 
     public wristband!: IWristband | null;
 
-    public queryParams!: Params;
-
     private destroy$: Subject<void> = new Subject();
 
     constructor(
@@ -24,22 +22,13 @@ export class WristbandDetailComponent implements OnInit, OnDestroy {
     ) {}
 
     public ngOnInit(): void {
-        this.route.data.subscribe((data) => {
-            this.wristband = data.item;
-            this.cookiesService.setViewedItemToCookie('wristband', data.item.id);
-
-            this.route.queryParams
-                .pipe(takeUntil(this.destroy$))
-                .subscribe(
-                    (queryParams: Params) => {
-                        this.queryParams = queryParams;
-                    },
-                    () => {
-                        alert(`Can't get query params!`);
-                    }
-                )
-            ;
-        });
+        this.route.data
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((data) => {
+                this.wristband = data.item;
+                this.cookiesService.setViewedItemToCookie('wristband', data.item.id);
+            })
+        ;
     }
 
     public ngOnDestroy(): void {

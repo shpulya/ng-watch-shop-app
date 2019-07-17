@@ -1,4 +1,5 @@
 import { Inject, Injectable, InjectionToken, Type } from '@angular/core';
+
 import { ItemType, ItemView } from '../../app.models';
 
 export const ITEMS_VIEW_COMPONENTS = new InjectionToken<Array<IItemView>>('ITEMS_VIEW_COMPONENTS');

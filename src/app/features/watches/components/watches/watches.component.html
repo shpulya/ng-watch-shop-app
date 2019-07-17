@@ -1,19 +1,20 @@
 <div class="body">
     <app-sidenav
-        (categoriesUpdateEvent)="onCategoriesFilter($event)"
-        (priceUpdateEvent)="onPriceFilter($event)"
-        [config]="config"
-    >
+        (oncategoriesupdate)="onCategoriesFilter($event)"
+        (onpriceupdate)="onPriceFilter($event)"
+        [config]="config">
     </app-sidenav>
 
     <div class="main-content">
-        <app-items-list [items]="filteredItems"
-                        [itemTemplate]="itemTemplate">
-            <ng-template #itemTemplate let-watch let-view="view" let-queryParams="queryParams">
+        <app-items-list
+            [Items]="filteredItems"
+            [itemTemplate]="itemTemplate"
+            [header]="header">
+            <ng-template #itemTemplate let-item let-view="view" let-queryParams="queryParams">
                 <app-item-view
-                    [item]="watch"
+                    [item]="item"
                     [queryURLParams]="queryParams"
-                    [type]="watch.type"
+                    [type]="item.type"
                     [view]="view"
                     class="empty">
                 </app-item-view>

@@ -1,20 +1,11 @@
 import { Injectable } from '@angular/core';
-import { IItem, IShortItemInfo, ItemType } from '../../app.models';
-import { ItemsFactoryService } from './items-factory.service';
-import { BehaviorSubject } from 'rxjs';
+
+import { IShortItemInfo } from '../../app.models';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CookiesService {
-
-    public viewedItems$: BehaviorSubject<Array<IItem>> = new BehaviorSubject<Array<IItem>>([]);
-
-    constructor(
-        private itemsFactoryService: ItemsFactoryService
-    ) {
-        this.receiveViewedItems();
-    }
 
     public setCookie(name: string, value: string, expireDays: number, path: string = ''): void {
         const date: Date = new Date();
@@ -51,28 +42,6 @@ export class CookiesService {
         }
     }
 
-    public receiveViewedItems(): void {
-        if (!this.getCookie('viewedItems')) {
-            return;
-        }
-
-        const itemsId = this.getCookie('viewedItems').split(',');
-        const items: Array<IItem> = [];
-
-        itemsId.forEach((id: string) => {
-            const parsedId = this.parseUniqueId(id);
-            const itemsService = this.itemsFactoryService.getService(<ItemType>parsedId.type);
-
-            itemsService
-                .getItemById(parsedId.id)
-                .subscribe((i: IItem | null) => {
-                    if (i) {
-                        items.push(i);
-                        this.viewedItems$.next(items);
-                    }
-                });
-        });
-    }
 
     public parseUniqueId(uniqueId: string): IShortItemInfo {
 

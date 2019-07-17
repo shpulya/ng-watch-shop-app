@@ -1,6 +1,6 @@
 <app-header></app-header>
 <router-outlet></router-outlet>
-<app-cart *ngIf="isShowCart"></app-cart>
+<app-cart *ngIf="cartService.opened$ | async"></app-cart>
 <app-loading></app-loading>
 
 

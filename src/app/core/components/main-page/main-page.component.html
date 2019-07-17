@@ -3,7 +3,7 @@
 
     <div class="categories">
         <div class="categories__dir" *ngFor="let category of categories" [routerLink]="category">
-            <img src="../../../../assets/img/{{category}}/main.jpg" alt="category">
+            <img src="/assets/img/{{category}}/main.jpg" alt="category">
             <div class="categories__header">{{category | uppercase}}</div>
         </div>
     </div>

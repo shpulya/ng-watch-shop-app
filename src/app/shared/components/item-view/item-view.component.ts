@@ -12,16 +12,16 @@ import { ItemViewController } from './item-view.controller';
 export class ItemViewComponent implements OnChanges {
 
     @Input()
-    private type!: ItemType;
+    public readonly type!: ItemType;
 
     @Input()
-    private view!: ItemView;
+    public readonly view!: ItemView;
 
     @Input()
-    private item!: IItem;
+    public readonly item!: IItem;
 
     @Input()
-    private queryURLParams!: Params;
+    public readonly queryURLParams!: Params;
 
     private viewComponentRef!: ComponentRef<ItemViewController<any>>;
 
@@ -33,9 +33,12 @@ export class ItemViewComponent implements OnChanges {
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
+
         const {type, view, item, queryURLParams} = changes;
         const setComponentBindings = () => {
+            // @ts-ignore
             this.viewComponentRef.instance.item = this.item;
+            // @ts-ignore
             this.viewComponentRef.instance.queryURLParams = this.queryURLParams;
         };
 

@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { IItem, ItemCategories } from '../../../app.models';
+import { IItem } from '../../../app.models';
 import { CartService } from '../../../core/services/cart.service';
-import { CookiesService } from '../../../core/services/cookies.service';
+import { ViewedItemsService } from '../../../core/services/viewed-items.service';
 
 @Component({
     selector: 'app-item-detail',
@@ -13,28 +13,29 @@ import { CookiesService } from '../../../core/services/cookies.service';
 export class ItemDetailComponent implements OnInit {
 
     @Input()
-    public item!: IItem | null;
+    public readonly item!: IItem | null;
 
     public items: Array<IItem> = [];
 
     public queryParams!: Params;
 
+    public categories: {} = {
+        watch: 'watches',
+        wristband: 'wristbands'
+    };
+
     constructor(
         private route: ActivatedRoute,
         private cartService: CartService,
-        private cookiesService: CookiesService,
+        private viewedItemsService: ViewedItemsService
     ) {}
 
     public ngOnInit(): void {
-        this.cookiesService.receiveViewedItems();
-        this.items = this.cookiesService.viewedItems$.getValue();
+        this.viewedItemsService.receiveViewedItems();
+        this.items = this.viewedItemsService.viewedItems$.getValue();
     }
 
     public addItemToCart(item: IItem): void {
         this.cartService.addItem(item);
-    }
-
-    public getCategories(type: any): string {
-        return ItemCategories[type];
     }
 }

@@ -10,7 +10,7 @@ export const ITEMS_SERVICES = new InjectionToken<Array<ItemsService>>('ITEMS_SER
 })
 export class ItemsFactoryService {
 
-    private services: {[type: string]: ItemsService} = {};
+    public services: {[type: string]: ItemsService} = {};
 
     constructor(
         @Inject(ITEMS_SERVICES) services: Array<ItemsService>,
@@ -26,6 +26,16 @@ export class ItemsFactoryService {
         }
 
         return <ServiceT>this.services[type];
+    }
+
+    public getServices(): Array<ItemsService> {
+        const services: Array<ItemsService> = [];
+
+        for (const type of Object.keys(this.services)) {
+            services.push(this.services[type]);
+        }
+
+        return services;
     }
 
     public hasService(type: ItemType): boolean {

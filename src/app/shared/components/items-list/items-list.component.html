@@ -1,10 +1,11 @@
 <app-mode-view-menu
-    (sorting)="orderItems($event)"
-    (view)="changeViewMode($event)">
+    (onsortchange)="orderItems($event)"
+    (onviewchange)="changeViewMode($event)"
+    [header]="header">
 </app-mode-view-menu>
 
 <div *ngIf="!pagedItems.length" class="container">
-    No items...
+    No Items...
 </div>
 
 <ng-container *ngIf="pagedItems.length">
@@ -28,5 +29,5 @@
     [currentPage]="currentPage"
     [itemsCount]="itemsCount"
     [countOnPage]="countOnPage"
-    (pageUpdateEvent)="selectPage($event)">
+    (onpageupdate)="selectPage($event)">
 </app-pagination>

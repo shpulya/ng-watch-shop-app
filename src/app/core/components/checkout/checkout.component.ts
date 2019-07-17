@@ -5,9 +5,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { ICart, IContacts, IItem } from '../../../app.models';
-import { CartService } from '../../services/cart.service';
-import { CheckoutService } from '../../services/checkout.service';
+import { IItem } from '../../../app.models';
+import { CartService, ICart } from '../../services/cart.service';
+import { CheckoutService } from './checkout.service';
+import { IContacts } from './checkout.models';
 
 
 @Component({
@@ -38,11 +39,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     public itemsList: Array<IItem> = [];
 
-    public is: boolean = true;
-
     public deliveryForm!: FormGroup;
 
-    public isSure: boolean = false;
+    public sureChecked: boolean = false;
 
     public cities: Array<any> = [];
 
@@ -52,7 +51,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     public searchedCities: Array<string> = [];
 
-    public overlay: boolean = false;
+    public overlayShown: boolean = false;
 
     private destroy$: Subject<void> = new Subject<void>();
 
@@ -74,7 +73,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
         this.checkoutService.getRegions().subscribe((result: any) => {
             this.regions = result.data;
-            console.log(this.regions);
         });
 
         this.initForm();
@@ -91,7 +89,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     public onDeliverySubmit(): void {
         this.deliveryFilled = !this.deliveryFilled;
-        this.cartService.deleteCart();
+        this.cartService.clear();
         this.router.navigateByUrl('thanks-page');
     }
 
@@ -104,14 +102,19 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
 
     public searchRegions(search: string): void {
-        this.overlay = true;
         const pattern = new RegExp(`\^` + search, 'i');
-        this.searchedRegions = this.regions.map((region: any) => region.Description).filter((region: any) => region.match(pattern));
+
+        this.overlayShown = true;
+        this.searchedRegions = this.regions.map((region: any) =>
+            region.Description).filter((region: any) =>
+                region.match(pattern)
+        );
     }
 
     public searchCities(search: string): void {
-        this.overlay = true;
         const pattern = new RegExp(`\^` + search, 'i');
+
+        this.overlayShown = true;
         this.searchedCities = this.cities.filter((city: any, pos: number) =>
             (city.match(pattern) && this.cities.indexOf(city) === pos)
         );
@@ -122,7 +125,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         this.searchedRegions = [];
         this.checkoutService.getCities(region).subscribe((result: any) => {
             this.cities = result.data.map((city: any) => city.Description);
-            console.log(result.data);
         });
     }
 
@@ -134,7 +136,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     public closeSelection(): void {
         this.searchedRegions = [];
         this.searchedCities = [];
-        this.overlay = false;
+        this.overlayShown = false;
     }
 
     public checkRegion(region: string): void {

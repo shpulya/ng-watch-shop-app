@@ -3,11 +3,11 @@
     <div class="prev" [ngClass]="{'hidden': activeIndex === 0}"></div>
     <div [@slide]="activeIndex" class="container">
         <ng-container *ngFor="let item of items; let i = index" >
-            <div *ngIf="i >= activeIndex && i <= activeIndex + carouselItemsCount - 1" class="container__item" [ngClass]="{'noResize': !resize}">
+            <div *ngIf="i >= activeIndex && i <= activeIndex + itemsVisibleCount - 1" class="container__item" [ngClass]="{'noResize': !resize}">
                 <app-carousel-item  [item]="item" class="carousel__item"></app-carousel-item>
             </div>
         </ng-container>
     </div>
-    <button class="carousel__next" #btnNext [ngClass]="{ 'hidden': activeIndex === items.length - carouselItemsCount}"></button>
-    <div class="next" [ngClass]="{ 'hidden': activeIndex === items.length - carouselItemsCount}"></div>
+    <button class="carousel__next" #btnNext [ngClass]="{ 'hidden': hideNextBtn()}"></button>
+    <div class="next" [ngClass]="{'hidden': hideNextBtn()}"></div>
 </div>

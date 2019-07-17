@@ -31,17 +31,17 @@ import { IItem } from '../../../app.models';
 export class CarouselComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @Input()
-    public items: Array<IItem> = [];
+    public readonly items: Array<IItem> = [];
 
     @Input()
     public readonly itemTemplate!: TemplateRef<any>;
 
+    @Input()
+    public readonly resize!: boolean;
+
     public activeIndex: number = 0;
 
-    public carouselItemsCount: number = 1;
-
-    @Input()
-    private resize!: boolean;
+    public itemsVisibleCount: number = 1;
 
     @ViewChild('btnPrev')
     private btnPrev!: ElementRef;
@@ -65,10 +65,10 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnDestroy {
             )
             .subscribe(() => {
                 if (window.innerWidth > 1300) {
-                    this.carouselItemsCount = 4;
+                    this.itemsVisibleCount = 4;
                 }
                 if (window.innerWidth < 1300) {
-                    this.carouselItemsCount = 3;
+                    this.itemsVisibleCount = 3;
                 }
             });
 
@@ -96,20 +96,17 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnDestroy {
                 takeUntil(this.destroy$)
             )
             .subscribe(event => {
-                if (event instanceof KeyboardEvent) {
-                    (event.key === 'Left' || event.key === 'ArrowLeft')
-                        ? this.reduceActiveIndex()
-                        : this.increaseActiveIndex()
-                    ;
-
-                    return;
+                if ((event.target === this.btnPrev.nativeElement)
+                    || (event instanceof KeyboardEvent && (event.key === 'Left' || event.key === 'ArrowLeft'))
+                ) {
+                    this.reduceActiveIndex();
                 }
 
-                (event.target === this.btnNext.nativeElement)
-                    ? this.increaseActiveIndex()
-                    : this.reduceActiveIndex()
-                ;
-
+                if ((event.target === this.btnNext.nativeElement)
+                    || (event instanceof KeyboardEvent && (event.key === 'Right' || event.key === 'ArrowRight'))
+                ) {
+                    this.increaseActiveIndex();
+                }
             });
     }
 
@@ -132,8 +129,12 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnDestroy {
         ;
     }
 
+    public hideNextBtn(): boolean {
+        return (this.activeIndex === this.items.length - this.itemsVisibleCount || this.items.length <= this.itemsVisibleCount);
+    }
+
     @HostListener('window:resize', ['$event'])
-    private calculateItems(event?: Event): void {
+    private calculateItems(): void {
         this.resize$.next();
     }
 }

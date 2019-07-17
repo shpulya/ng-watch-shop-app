@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import { CartService } from '../../services/cart.service';
-import { ICart, IItem, IShortItemInfo, IType } from '../../../app.models';
+import { CartService, ICart } from '../../services/cart.service';
+import { IItem, IShortItemInfo, IType } from '../../../app.models';
 
 @Component({
     selector: 'app-cart',
@@ -17,8 +17,6 @@ export class CartComponent implements OnInit, OnDestroy {
     public itemsList: Array<IItem> = [];
 
     private destroy$: Subject<void> = new Subject();
-
-    private types: Array<IType> = this.cartService.types;
 
     constructor(
         private cartService: CartService
@@ -44,9 +42,7 @@ export class CartComponent implements OnInit, OnDestroy {
     }
 
     public reduceItemsCount(item: IShortItemInfo): void {
-        const {id, type} = item;
-
-        this.cartService.reduceCountItem({id, type});
+        this.cartService.reduceCountItem(item);
     }
 
     public increaseItemsCount(item: IShortItemInfo): void {
@@ -54,14 +50,11 @@ export class CartComponent implements OnInit, OnDestroy {
     }
 
     public deleteItem(item: IShortItemInfo): void {
-        const {id, type} = item;
-
-        this.cartService.deleteItem({id, type});
+        this.cartService.deleteItem(item);
     }
 
     public getItemsCount(i: IItem): number {
-        const {id, type} = i;
-        const item = this.items.get(`${id}#${type}`);
+        const item = this.items.get(this.cartService.generateItemId(i));
 
         if (!item) {
             return 0;

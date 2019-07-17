@@ -3,10 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import { IItem, IPrice, ItemView } from '../../../app.models';
+import { IItem, ItemView } from '../../../app.models';
 import { ItemsListComponent } from '../../../shared/components/items-list/items-list.component';
-import { ITEMS_SERVICES } from '../../services/items-factory.service';
+import {ITEMS_SERVICES, ItemsFactoryService} from '../../services/items-factory.service';
 import { ItemsService } from '../../services/items.service';
+import { IPrice } from '../../../shared/components/sidenav/sidenav.models';
 
 @Component({
     selector: 'app-searched-watches',
@@ -20,13 +21,11 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
 
     public searchedText: string = '';
 
-    public destroy$: Subject<void> = new Subject();
-
     public items: Array<IItem> = [];
 
-    public filteredItems: Array<IItem> = [];
+    public itemsFiltered: Array<IItem> = [];
 
-    public overlay: boolean = false;
+    public overlayShown: boolean = false;
 
     public priceFilter!: IPrice;
 
@@ -34,16 +33,14 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
 
     public line: ItemView = ItemView.List;
 
-    private services: Array<ItemsService> = [];
+    public header: string = 'Searched Items';
+
+    private destroy$: Subject<void> = new Subject();
 
     constructor(
-        @Inject(ITEMS_SERVICES) services: Array<ItemsService>,
+        private itemsFactoryService: ItemsFactoryService,
         private route: ActivatedRoute
-    ) {
-        for (const service of services) {
-            this.services.push(service);
-        }
-    }
+    ) {}
 
     public ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
@@ -51,13 +48,13 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
                 this.searchedText = params.searchedText;
                 this.items = [];
 
-                for (const service of this.services) {
+                for (const service of this.itemsFactoryService.getServices()) {
                     service.findItemsByName(this.searchedText)
                         .pipe(takeUntil(this.destroy$))
                         .subscribe((searchedItem: Array<IItem>) => {
                             this.items = this.items.concat(searchedItem);
-                            this.filteredItems = [...this.items];
-                            this.itemsListRef.selectPage(1, this.filteredItems);
+                            this.itemsFiltered = [...this.items];
+                            this.itemsListRef.selectPage(1, this.itemsFiltered);
                             if (!!params.price) {
                                 if (this.priceFilter !== JSON.parse(params.price)) {
                                     this.onPriceFilter(JSON.parse(params.price));
@@ -78,10 +75,10 @@ export class SearchedItemsComponent implements OnInit, OnDestroy {
     public onPriceFilter(priceFilter: IPrice): void {
         console.log(priceFilter);
         this.priceFilter = priceFilter;
-        this.filteredItems = [...this.items];
-        this.filteredItems = this.filteredItems.filter((item: IItem) =>
+        this.itemsFiltered = [...this.items];
+        this.itemsFiltered = this.itemsFiltered.filter((item: IItem) =>
             (item.price >= (this.priceFilter.from || 0) && item.price <= (this.priceFilter.to || 99999))
         );
-        this.itemsListRef.selectPage(1, this.filteredItems);
+        this.itemsListRef.selectPage(1, this.itemsFiltered);
     }
 }

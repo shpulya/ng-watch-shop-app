@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { ItemType, IWristband } from '../../../app.models';
+import { ItemType } from '../../../app.models';
+import { IWristband } from '../wristbands.models';
 import { ItemDetailsResolver } from '../../../core/resolvers/item-details.resolver';
 
 @Injectable({

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ItemType, IWatch } from '../../../app.models';
+import { ItemType } from '../../../app.models';
 import { ItemsService } from '../../../core/services/items.service';
+import { IWatch } from '../watches.models';
 
 @Injectable()
 export class WatchesService extends ItemsService<IWatch> {

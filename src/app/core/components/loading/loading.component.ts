@@ -11,7 +11,7 @@ import { LoaderService } from '../../services/loader.service';
 })
 export class LoadingComponent implements OnInit, OnDestroy {
 
-    public hideLoading: boolean = false;
+    public loading: boolean = false;
 
     private destroy$: Subject<void> = new Subject();
 
@@ -23,7 +23,7 @@ export class LoadingComponent implements OnInit, OnDestroy {
         this.loaderService.loading$
             .pipe(takeUntil(this.destroy$))
             .subscribe((loading: boolean) => {
-                this.hideLoading = !loading;
+                this.loading = !loading;
             })
         ;
     }

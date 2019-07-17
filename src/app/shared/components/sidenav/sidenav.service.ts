@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 @Injectable({
     providedIn: 'root'
 })
-export abstract class FiltersService {
+export class SidenavService {
 
     constructor(
         private router: Router

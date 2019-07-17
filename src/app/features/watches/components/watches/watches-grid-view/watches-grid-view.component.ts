@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 
-import { ItemType, ItemView, IWatch } from '../../../../../app.models';
+import { ItemType, ItemView } from '../../../../../app.models';
 import { ItemViewController } from '../../../../../shared/components/item-view/item-view.controller';
+import { IWatch } from '../../../watches.models';
 
 @Component({
     selector: 'app-watches-grid-view',

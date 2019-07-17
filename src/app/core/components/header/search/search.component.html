@@ -1,0 +1,39 @@
+<div class="search">
+    <div class="search__input">
+        <input
+            type="text"
+            placeholder="Enter your search text"
+            class="search__input__text"
+            [ngClass]="{'search__input__text_open': items.length}"
+            (input)="showHint($event.target.value)"
+            [value]="inputText"
+            #searchInput>
+        <button
+            class="search__input__submit"
+            (click)="cancelSearching('searched')">
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+    <div class="search__hints" *ngIf="items.length">
+        <ul>
+            <li *ngFor="let item of items; let i = index">
+                <div class="search__hints__item" *ngIf="i < 5">
+                    <a (click)="cancelSearching(item.type + '/' + item.id)">{{item.name}}</a>
+                </div>
+            </li>
+            <li *ngIf="!showExtraItems && items.length > 5; else extraSearchedItems">
+                <div class="search__hints__item search__hints__item-extra"  (click)="showExtraItems = true">
+                    Show more ({{items.length - 5}})
+                </div>
+            </li>
+            <ng-template #extraSearchedItems>
+                <li *ngFor="let item of items; let i = index" (click)="cancelSearching('searched')">
+                    <div class="search__hints__item" *ngIf="i >= 5 && showExtraItems" (click)="navigate(item)">
+                        <a [routerLink]="['/' + item.type + '/' + item.id]">{{item.name}}</a>
+                    </div>
+                </li>
+            </ng-template>
+        </ul>
+    </div>
+</div>
+<div [ngClass]="{'overlay': overlay}" (click)="cancelSearching(router.url)"></div>
