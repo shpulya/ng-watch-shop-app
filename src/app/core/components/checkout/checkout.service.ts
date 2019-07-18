@@ -9,6 +9,8 @@ import { LoaderService } from '../../services/loader.service';
 })
 export class CheckoutService {
 
+    private cache: Map<string, any> = new Map();
+
     constructor(
         private http: HttpClient,
         private loaderService: LoaderService
@@ -16,6 +18,10 @@ export class CheckoutService {
 
     public getRegions(): Observable<Response> {
         const url = 'http://api.novaposhta.ua/v2.0/json/';
+
+        if (this.cache.has('regions')) {
+            return of(this.cache.get('regions'));
+        }
 
         this.loaderService.startLoading();
 
@@ -31,6 +37,9 @@ export class CheckoutService {
             })
             .pipe(
                 catchError(error => of(error)),
+                tap((data: any) => {
+                    this.cache.set('regions', data);
+                }),
                 finalize(() => this.loaderService.stopLoading())
             )
         ;
@@ -38,6 +47,10 @@ export class CheckoutService {
 
     public getCities(regionRef: string): Observable<Response> {
         const url = 'http://api.novaposhta.ua/v2.0/json/';
+
+        if (this.cache.has(regionRef)) {
+            return of(this.cache.get(regionRef));
+        }
 
         this.loaderService.startLoading();
 
@@ -51,6 +64,9 @@ export class CheckoutService {
             }
         })
             .pipe(
+                tap((data: any) => {
+                    this.cache.set(regionRef, data);
+                }),
                 finalize(() => this.loaderService.stopLoading())
             );
     }
